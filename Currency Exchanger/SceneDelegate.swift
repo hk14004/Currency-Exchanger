@@ -62,7 +62,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let db = try! Realm()
         prepareCurrencies(dataBase: db)
         let user = prepareUser(dataBase: db)
-        let vm = ConverterSceneVM(database: db, user: user)
+        let vm = ConverterSceneVM()
         let view = ConverterSceneView(viewModel: vm)
         let vc = UIHostingController(rootView: view)
         window?.rootViewController = UINavigationController(rootViewController: vc)

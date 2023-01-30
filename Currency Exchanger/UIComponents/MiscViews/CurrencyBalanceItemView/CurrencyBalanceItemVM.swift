@@ -23,9 +23,9 @@ class CurrencyBalanceItemVM: ObservableObject {
     }()
     private let bag = Bag()
     
-    @Published var currencyBalanceItem: CurrencyBalance_DB
+    @Published var currencyBalanceItem: CurrencyBalance
     
-    init(currencyBalanceItem: CurrencyBalance_DB) {
+    init(currencyBalanceItem: CurrencyBalance) {
         self.currencyBalanceItem = currencyBalanceItem
         subscribeToNotifications()
     }
@@ -44,10 +44,10 @@ extension CurrencyBalanceItemVM {
 
 extension CurrencyBalanceItemVM {
     private func subscribeToNotifications() {
-        bag.balanceHandle = currencyBalanceItem.observe({ [unowned self] change in
-            withAnimation {
-                objectWillChange.send()
-            }
-        })
+//        bag.balanceHandle = currencyBalanceItem.observe({ [unowned self] change in
+//            withAnimation {
+//                objectWillChange.send()
+//            }
+//        })
     }
 }

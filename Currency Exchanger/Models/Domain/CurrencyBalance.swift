@@ -11,3 +11,7 @@ struct CurrencyBalance {
     let id: String
     let balance: Double
 }
+
+extension CurrencyBalance: Equatable, Hashable {
+    
+}

@@ -148,7 +148,7 @@
 			children = (
 				D42845E5296C084C00B97ADE /* UIComponents */,
 				D42845E4296C083A00B97ADE /* Models */,
-				D42845DE296C074900B97ADE /* Scenes */,
+				D42845DE296C074900B97ADE /* Screens */,
 				D42845CA296C03FE00B97ADE /* AppDelegate.swift */,
 				D42845CC296C03FE00B97ADE /* SceneDelegate.swift */,
 				D42845D3296C03FF00B97ADE /* Assets.xcassets */,
@@ -158,12 +158,12 @@
 			path = "Currency Exchanger";
 			sourceTree = "<group>";
 		};
-		D42845DE296C074900B97ADE /* Scenes */ = {
+		D42845DE296C074900B97ADE /* Screens */ = {
 			isa = PBXGroup;
 			children = (
 				D42845DF296C075900B97ADE /* Converter */,
 			);
-			path = Scenes;
+			path = Screens;
 			sourceTree = "<group>";
 		};
 		D42845DF296C075900B97ADE /* Converter */ = {
