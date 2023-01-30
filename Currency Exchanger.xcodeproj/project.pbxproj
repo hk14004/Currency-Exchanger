@@ -7,14 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8656EDA02988764E0055722A /* DevTools in Frameworks */ = {isa = PBXBuildFile; productRef = 8656ED9F2988764E0055722A /* DevTools */; };
-		8656EDA22988764E0055722A /* DevToolsNavigation in Frameworks */ = {isa = PBXBuildFile; productRef = 8656EDA12988764E0055722A /* DevToolsNavigation */; };
-		8656EDA42988764E0055722A /* DevToolsNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = 8656EDA32988764E0055722A /* DevToolsNetworking */; };
-		8656EDA62988764E0055722A /* DevToolsRealm in Frameworks */ = {isa = PBXBuildFile; productRef = 8656EDA52988764E0055722A /* DevToolsRealm */; };
-		8656EDA82988764E0055722A /* DevToolsUI in Frameworks */ = {isa = PBXBuildFile; productRef = 8656EDA72988764E0055722A /* DevToolsUI */; };
 		8656EDAB298878980055722A /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8656EDAA298878980055722A /* Currency.swift */; };
 		8656EDAD29887B5B0055722A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8656EDAC29887B5B0055722A /* User.swift */; };
 		8656EDAF29887DA20055722A /* CurrencyBalance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8656EDAE29887DA20055722A /* CurrencyBalance.swift */; };
+		86615788298882CB00AAC56A /* DevTools in Frameworks */ = {isa = PBXBuildFile; productRef = 86615787298882CB00AAC56A /* DevTools */; };
+		8661578A298882CB00AAC56A /* DevToolsNavigation in Frameworks */ = {isa = PBXBuildFile; productRef = 86615789298882CB00AAC56A /* DevToolsNavigation */; };
+		8661578C298882CB00AAC56A /* DevToolsNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = 8661578B298882CB00AAC56A /* DevToolsNetworking */; };
+		8661578E298882CB00AAC56A /* DevToolsRealm in Frameworks */ = {isa = PBXBuildFile; productRef = 8661578D298882CB00AAC56A /* DevToolsRealm */; };
+		86615790298882CB00AAC56A /* DevToolsUI in Frameworks */ = {isa = PBXBuildFile; productRef = 8661578F298882CB00AAC56A /* DevToolsUI */; };
+		86894F6F29887F7C00A41E10 /* Currency + PersistableDomainModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86894F6E29887F7C00A41E10 /* Currency + PersistableDomainModelProtocol.swift */; };
+		86894F712988801A00A41E10 /* Currency_DB + PersistedModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86894F702988801A00A41E10 /* Currency_DB + PersistedModelProtocol.swift */; };
 		D417843F296C4C4C00A92A80 /* CurrencyBalanceItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D417843E296C4C4C00A92A80 /* CurrencyBalanceItemView.swift */; };
 		D4178441296C4C6200A92A80 /* CurrencyBalanceItemVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4178440296C4C6200A92A80 /* CurrencyBalanceItemVM.swift */; };
 		D4178444296C5AB400A92A80 /* ExchangeCurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4178443296C5AB400A92A80 /* ExchangeCurrencyView.swift */; };
@@ -39,6 +41,8 @@
 		8656EDAA298878980055722A /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		8656EDAC29887B5B0055722A /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		8656EDAE29887DA20055722A /* CurrencyBalance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyBalance.swift; sourceTree = "<group>"; };
+		86894F6E29887F7C00A41E10 /* Currency + PersistableDomainModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Currency + PersistableDomainModelProtocol.swift"; sourceTree = "<group>"; };
+		86894F702988801A00A41E10 /* Currency_DB + PersistedModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Currency_DB + PersistedModelProtocol.swift"; sourceTree = "<group>"; };
 		D417843E296C4C4C00A92A80 /* CurrencyBalanceItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyBalanceItemView.swift; sourceTree = "<group>"; };
 		D4178440296C4C6200A92A80 /* CurrencyBalanceItemVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyBalanceItemVM.swift; sourceTree = "<group>"; };
 		D4178443296C5AB400A92A80 /* ExchangeCurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeCurrencyView.swift; sourceTree = "<group>"; };
@@ -66,11 +70,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8656EDA22988764E0055722A /* DevToolsNavigation in Frameworks */,
-				8656EDA82988764E0055722A /* DevToolsUI in Frameworks */,
-				8656EDA42988764E0055722A /* DevToolsNetworking in Frameworks */,
-				8656EDA62988764E0055722A /* DevToolsRealm in Frameworks */,
-				8656EDA02988764E0055722A /* DevTools in Frameworks */,
+				8661578A298882CB00AAC56A /* DevToolsNavigation in Frameworks */,
+				86615790298882CB00AAC56A /* DevToolsUI in Frameworks */,
+				8661578C298882CB00AAC56A /* DevToolsNetworking in Frameworks */,
+				8661578E298882CB00AAC56A /* DevToolsRealm in Frameworks */,
+				86615788298882CB00AAC56A /* DevTools in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,11 +84,20 @@
 		8656EDA9298876A10055722A /* Domain */ = {
 			isa = PBXGroup;
 			children = (
-				8656EDAA298878980055722A /* Currency.swift */,
+				86894F6D29887F4A00A41E10 /* Currency */,
 				8656EDAC29887B5B0055722A /* User.swift */,
 				8656EDAE29887DA20055722A /* CurrencyBalance.swift */,
 			);
 			path = Domain;
+			sourceTree = "<group>";
+		};
+		86894F6D29887F4A00A41E10 /* Currency */ = {
+			isa = PBXGroup;
+			children = (
+				8656EDAA298878980055722A /* Currency.swift */,
+				86894F6E29887F7C00A41E10 /* Currency + PersistableDomainModelProtocol.swift */,
+			);
+			path = Currency;
 			sourceTree = "<group>";
 		};
 		D417843D296C4C2900A92A80 /* CurrencyBalanceItemView */ = {
@@ -109,6 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				D4178448296C612200A92A80 /* Currency_DB.swift */,
+				86894F702988801A00A41E10 /* Currency_DB + PersistedModelProtocol.swift */,
 			);
 			path = Currency;
 			sourceTree = "<group>";
@@ -267,11 +281,11 @@
 			);
 			name = "Currency Exchanger";
 			packageProductDependencies = (
-				8656ED9F2988764E0055722A /* DevTools */,
-				8656EDA12988764E0055722A /* DevToolsNavigation */,
-				8656EDA32988764E0055722A /* DevToolsNetworking */,
-				8656EDA52988764E0055722A /* DevToolsRealm */,
-				8656EDA72988764E0055722A /* DevToolsUI */,
+				86615787298882CB00AAC56A /* DevTools */,
+				86615789298882CB00AAC56A /* DevToolsNavigation */,
+				8661578B298882CB00AAC56A /* DevToolsNetworking */,
+				8661578D298882CB00AAC56A /* DevToolsRealm */,
+				8661578F298882CB00AAC56A /* DevToolsUI */,
 			);
 			productName = "Currency Exchanger";
 			productReference = D42845C7296C03FE00B97ADE /* Currency Exchanger.app */;
@@ -302,7 +316,7 @@
 			);
 			mainGroup = D42845BE296C03FE00B97ADE;
 			packageReferences = (
-				8656ED9E2988764E0055722A /* XCRemoteSwiftPackageReference "DevTools-Swift" */,
+				86615786298882CB00AAC56A /* XCRemoteSwiftPackageReference "DevTools-Swift" */,
 			);
 			productRefGroup = D42845C8296C03FE00B97ADE /* Products */;
 			projectDirPath = "";
@@ -343,9 +357,11 @@
 				D42845E3296C081400B97ADE /* ConverterSceneVM.swift in Sources */,
 				D4178446296C5ABE00A92A80 /* ExchangeCurrencyVM.swift in Sources */,
 				D42845CD296C03FE00B97ADE /* SceneDelegate.swift in Sources */,
+				86894F6F29887F7C00A41E10 /* Currency + PersistableDomainModelProtocol.swift in Sources */,
 				8656EDAB298878980055722A /* Currency.swift in Sources */,
 				8656EDAD29887B5B0055722A /* User.swift in Sources */,
 				D4178444296C5AB400A92A80 /* ExchangeCurrencyView.swift in Sources */,
+				86894F712988801A00A41E10 /* Currency_DB + PersistedModelProtocol.swift in Sources */,
 				D48A9B12296C240F007F45F2 /* User_DB.swift in Sources */,
 				D48A9B08296C1382007F45F2 /* CurrencyPickerView.swift in Sources */,
 				8656EDAF29887DA20055722A /* CurrencyBalance.swift in Sources */,
@@ -556,7 +572,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		8656ED9E2988764E0055722A /* XCRemoteSwiftPackageReference "DevTools-Swift" */ = {
+		86615786298882CB00AAC56A /* XCRemoteSwiftPackageReference "DevTools-Swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hk14004/DevTools-Swift";
 			requirement = {
@@ -567,29 +583,29 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		8656ED9F2988764E0055722A /* DevTools */ = {
+		86615787298882CB00AAC56A /* DevTools */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 8656ED9E2988764E0055722A /* XCRemoteSwiftPackageReference "DevTools-Swift" */;
+			package = 86615786298882CB00AAC56A /* XCRemoteSwiftPackageReference "DevTools-Swift" */;
 			productName = DevTools;
 		};
-		8656EDA12988764E0055722A /* DevToolsNavigation */ = {
+		86615789298882CB00AAC56A /* DevToolsNavigation */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 8656ED9E2988764E0055722A /* XCRemoteSwiftPackageReference "DevTools-Swift" */;
+			package = 86615786298882CB00AAC56A /* XCRemoteSwiftPackageReference "DevTools-Swift" */;
 			productName = DevToolsNavigation;
 		};
-		8656EDA32988764E0055722A /* DevToolsNetworking */ = {
+		8661578B298882CB00AAC56A /* DevToolsNetworking */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 8656ED9E2988764E0055722A /* XCRemoteSwiftPackageReference "DevTools-Swift" */;
+			package = 86615786298882CB00AAC56A /* XCRemoteSwiftPackageReference "DevTools-Swift" */;
 			productName = DevToolsNetworking;
 		};
-		8656EDA52988764E0055722A /* DevToolsRealm */ = {
+		8661578D298882CB00AAC56A /* DevToolsRealm */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 8656ED9E2988764E0055722A /* XCRemoteSwiftPackageReference "DevTools-Swift" */;
+			package = 86615786298882CB00AAC56A /* XCRemoteSwiftPackageReference "DevTools-Swift" */;
 			productName = DevToolsRealm;
 		};
-		8656EDA72988764E0055722A /* DevToolsUI */ = {
+		8661578F298882CB00AAC56A /* DevToolsUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 8656ED9E2988764E0055722A /* XCRemoteSwiftPackageReference "DevTools-Swift" */;
+			package = 86615786298882CB00AAC56A /* XCRemoteSwiftPackageReference "DevTools-Swift" */;
 			productName = DevToolsUI;
 		};
 /* End XCSwiftPackageProductDependency section */
