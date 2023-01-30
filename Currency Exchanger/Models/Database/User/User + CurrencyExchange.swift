@@ -7,10 +7,10 @@
 
 import Foundation
 
-extension User {
+extension User_DB {
     // TODO: Add commission fee
     func hasEnoughCurrency(currencyID: String, amount: Double) -> Bool {
-        guard let currencyBalance: CurrencyBalance = currencyBalance.first(where: {$0.id == currencyID}) else {
+        guard let currencyBalance: CurrencyBalance_DB = currencyBalance.first(where: {$0.id == currencyID}) else {
             return false
         }
         return currencyBalance.balance >= amount
@@ -21,15 +21,15 @@ extension User {
         guard hasEnoughCurrency(currencyID: fromCurrencyID, amount: amount) else {
             return false
         }
-        guard let foundBalance: CurrencyBalance = currencyBalance.first(where: {$0.id == fromCurrencyID}) else {
+        guard let foundBalance: CurrencyBalance_DB = currencyBalance.first(where: {$0.id == fromCurrencyID}) else {
             return false
         }
         
         realm?.bulkWrite(writeOperation: {
-            if let existingBalance = realm!.object(ofType: CurrencyBalance.self, forPrimaryKey: toCurrencyID) {
+            if let existingBalance = realm!.object(ofType: CurrencyBalance_DB.self, forPrimaryKey: toCurrencyID) {
                 existingBalance.balance += amount * 1
             } else {
-                let new = CurrencyBalance()
+                let new = CurrencyBalance_DB()
                 new.id = toCurrencyID
                 new.balance = Double(amount * 1)
                 currencyBalance.append(objectsIn: [new])

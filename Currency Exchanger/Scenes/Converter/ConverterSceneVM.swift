@@ -23,7 +23,7 @@ class ConverterSceneVM: ObservableObject {
     }
     
     enum Cell: Hashable {
-        case currencyAmount(CurrencyBalance) // Preferably store VM of a cell
+        case currencyAmount(CurrencyBalance_DB) // Preferably store VM of a cell
         case exchangeCurrency(ExchangeCurrencyVM)
         case performExchange
     }
@@ -49,11 +49,11 @@ class ConverterSceneVM: ObservableObject {
     @Published var alertType: AlertType = .notEnoughMoney
     
     let database: Realm
-    private let user: User
+    private let user: User_DB
     
     private let bag = Bag()
     
-    init(database: Realm, user: User) {
+    init(database: Realm, user: User_DB) {
         self.database = database
         self.user = user
         sections = createSections()
@@ -128,7 +128,7 @@ extension ConverterSceneVM {
         ]
     }
     
-    private func createMyBalanceSection(items: [CurrencyBalance]) -> Section {
+    private func createMyBalanceSection(items: [CurrencyBalance_DB]) -> Section {
         let cells: [Cell] = items.compactMap { balance in
             if balance.isArchived || balance.balance <= 0 {
                 return nil

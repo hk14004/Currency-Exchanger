@@ -8,8 +8,9 @@
 import Foundation
 import DevTools
 import RealmSwift
+import DevToolsRealm
 
-class CurrencyBalance: Object {
+class CurrencyBalance_DB: Object {
     
     @Persisted(primaryKey: true) var id: String = UUID().uuidString
     @Persisted var balance: Double
@@ -34,15 +35,15 @@ class CurrencyBalance: Object {
     }
 }
 
-extension CurrencyBalance: Archivable {
+extension CurrencyBalance_DB: Archivable {
     func archive(_ archive: Bool) {
         isArchived = archive
     }
 }
 
-extension CurrencyBalance: PartialyUpdateable {
+extension CurrencyBalance_DB: PartialyJSONUpdateable {
     
-    enum Field: MappedField {
+    enum Field: JSONMappedField {
         case balance
         
         func getKnownJSONKeys() -> [String] {

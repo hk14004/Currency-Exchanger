@@ -6,10 +6,10 @@
 //
 
 import Foundation
-import DevTools
+import DevToolsRealm
 import RealmSwift
 
-class Currency: Object {
+class Currency_DB: Object {
     
     @Persisted(primaryKey: true) var id: String
     
@@ -18,7 +18,7 @@ class Currency: Object {
     
 }
 
-extension Currency: Archivable {
+extension Currency_DB: Archivable {
     func archive(_ archive: Bool) {
         isArchived = archive
     }

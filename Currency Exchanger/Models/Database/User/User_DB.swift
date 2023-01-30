@@ -8,26 +8,28 @@
 import Foundation
 import DevTools
 import RealmSwift
+import DevToolsRealm
+import DevTools
 
-class User: Object {
+class User_DB: Object {
     
     @Persisted(primaryKey: true) var id: String
-    @Persisted var currencyBalance = List<CurrencyBalance>()
+    @Persisted var currencyBalance = List<CurrencyBalance_DB>()
     
     // Archivable
     var isArchived: Bool = false
     
 }
 
-extension User: Archivable {
+extension User_DB: Archivable {
     func archive(_ archive: Bool) {
         isArchived = archive
     }
 }
 
-extension User: PartialyUpdateable {
+extension User_DB: PartialyJSONUpdateable {
     
-    enum Field: String, MappedField, OservableField {
+    enum Field: String, JSONMappedField, OservableField {
         case currencyBalance
         
         func getKnownJSONKeys() -> [String] {
@@ -44,13 +46,13 @@ extension User: PartialyUpdateable {
             case .currencyBalance:
                 currencyBalance.removeAll()
                 let data = field.getFieldValue(fromJSON: json) as? [NSDictionary] ?? []
-                let list = data.map({ CurrencyBalance(json: $0, fields: .init(CurrencyBalance.Field.allCases), updateOnlyWhenFieldDataExists: false)})
+                let list = data.map({ CurrencyBalance_DB(json: $0, fields: .init(CurrencyBalance_DB.Field.allCases), updateOnlyWhenFieldDataExists: false)})
                 currencyBalance.append(objectsIn: list)
             }
         }
     }
 }
 
-extension User: PartialyObservable {
+extension User_DB: PartialyObservable {
     typealias FieldType = Field
 }

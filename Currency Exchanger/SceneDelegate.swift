@@ -20,12 +20,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             ["id": "USD"],
             ["id": "GPB"]
         ]
-        guard dataBase.objects(Currency.self).isEmpty else {
+        guard dataBase.objects(Currency_DB.self).isEmpty else {
             return
         }
         dataBase.bulkWrite(writeOperation: {
-            let items: [Currency] = data.map { itemData in
-                let item = Currency()
+            let items: [Currency_DB] = data.map { itemData in
+                let item = Currency_DB()
                 item.id = itemData["id"] ?? ""
                 return item
             }
@@ -33,24 +33,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         })
     }
     
-    private func prepareUser(dataBase: Realm) -> User {
+    private func prepareUser(dataBase: Realm) -> User_DB {
         dataBase.bulkWrite(writeOperation: {
-            let user = User()
+            let user = User_DB()
             user.id = "MAIN"
-            let initialBalance: [CurrencyBalance] = {
-                let eur = CurrencyBalance()
+            let initialBalance: [CurrencyBalance_DB] = {
+                let eur = CurrencyBalance_DB()
                 eur.id = "EUR"
                 eur.balance = 1000
                 return [eur]
             }()
             user.currencyBalance.append(objectsIn: initialBalance)
-            let existing = dataBase.object(ofType: User.self, forPrimaryKey: "MAIN")
+            let existing = dataBase.object(ofType: User_DB.self, forPrimaryKey: "MAIN")
             if existing == nil {
                 dataBase.add(user)
             }
         })
         
-        return dataBase.object(ofType: User.self, forPrimaryKey: "MAIN")!
+        return dataBase.object(ofType: User_DB.self, forPrimaryKey: "MAIN")!
     }
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {

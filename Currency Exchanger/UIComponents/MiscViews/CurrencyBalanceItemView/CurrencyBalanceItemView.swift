@@ -21,8 +21,8 @@ struct CurrencyBalanceItemView: View {
 
 struct CurrencyBalanceItemView_Previews: PreviewProvider {
     static var previews: some View {
-        let balance: CurrencyBalance = {
-           let b = CurrencyBalance()
+        let balance: CurrencyBalance_DB = {
+           let b = CurrencyBalance_DB()
             b.balance = 666
             b.id = "EUR"
             return b

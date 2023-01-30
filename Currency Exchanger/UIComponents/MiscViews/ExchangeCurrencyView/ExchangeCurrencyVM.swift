@@ -24,13 +24,13 @@ class ExchangeCurrencyVM: ObservableObject {
     let option: Option
     private let bag = Bag()
     @Published var amount: Double
-    @Published var selectedCurrency: Currency!
-    @Published var availableCurrencies: [Currency]
+    @Published var selectedCurrency: Currency_DB!
+    @Published var availableCurrencies: [Currency_DB]
     
     private let database: Realm
     
-    private lazy var storedCurrencies: Results<Currency> = {
-        return database.objects(Currency.self).filterUnarchived()
+    private lazy var storedCurrencies: Results<Currency_DB> = {
+        return database.objects(Currency_DB.self).filterUnarchived()
     }()
     
     init(option: Option, amount: Double, database: Realm) {

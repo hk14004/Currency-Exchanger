@@ -23,9 +23,9 @@ class CurrencyBalanceItemVM: ObservableObject {
     }()
     private let bag = Bag()
     
-    @Published var currencyBalanceItem: CurrencyBalance
+    @Published var currencyBalanceItem: CurrencyBalance_DB
     
-    init(currencyBalanceItem: CurrencyBalance) {
+    init(currencyBalanceItem: CurrencyBalance_DB) {
         self.currencyBalanceItem = currencyBalanceItem
         subscribeToNotifications()
     }

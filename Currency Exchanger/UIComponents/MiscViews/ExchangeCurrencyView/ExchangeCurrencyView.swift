@@ -21,7 +21,7 @@ struct ExchangeCurrencyView: View {
                 .multilineTextAlignment(.trailing)
             Picker("", selection: $viewModel.selectedCurrency) {
                 ForEach(viewModel.availableCurrencies, id: \.id) { item in
-                    Text(item.id).tag(item as Currency?)
+                    Text(item.id).tag(item as Currency_DB?)
                 }
             }
             .pickerStyle(.menu)
