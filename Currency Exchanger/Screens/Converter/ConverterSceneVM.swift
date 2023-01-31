@@ -53,7 +53,8 @@ class ConverterSceneVM: ObservableObject {
     
     private let bag = Bag()
     
-    init() {
+    
+    init(userID: String) {
 //        self.database = database
 //        self.user = user
         sections = createSections()

@@ -53,6 +53,6 @@ extension User_DB: PartialyJSONUpdateable {
     }
 }
 
-extension User_DB: PartialyObservable {
-    typealias FieldType = Field
-}
+//extension User_DB: PartialyObservable {
+//    typealias FieldType = Field
+//}
