@@ -12,6 +12,7 @@ import Combine
 
 protocol UserRepositoryProtocol {
     func getUser(id: String) -> User?
+    func addOrUpdate(user: User)
 }
 
 class UserRepository {
@@ -31,5 +32,9 @@ class UserRepository {
 extension UserRepository: UserRepositoryProtocol {
     func getUser(id: String) -> User? {
         return userStore.getSingle(id: id)
+    }
+    
+    func addOrUpdate(user: User) {
+        userStore.addOrUpdate([user])
     }
 }

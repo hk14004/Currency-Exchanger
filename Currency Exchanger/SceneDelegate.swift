@@ -28,6 +28,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         container.register(UserRepositoryProtocol.self) { resolver in
             UserRepository(userStore: resolver.resolve(PersistentRealmStore<User>.self)!)
         }
+        container.register(PersistentRealmStore<CurrencyBalance>.self) { resolver in
+            PersistentRealmStore(realm: resolver.resolve(Realm.self)!)
+        }
+        container.register(CurrencyBalanceRepositoryProtocol.self) { resolver in
+            CurrencyBalanceRepository(currencyBalanceStore: resolver.resolve(PersistentRealmStore<CurrencyBalance>.self)!)
+        }
         return container
      }()
     
@@ -37,9 +43,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let wScene = (scene as? UIWindowScene) else { return }
         self.window = UIWindow(windowScene: wScene)
-//        let db = try! Realm()
-//        prepareCurrencies(dataBase: db)
-//        let user = prepareUser(dataBase: db)
+        prepareInitialData()
+        check()
         let vm = ConverterSceneVM(userID: "MAIN",
                                   userRepository: container.resolve(UserRepositoryProtocol.self)!)
         let view = ConverterSceneView(viewModel: vm)
@@ -76,45 +81,34 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
     }
     
+    private func check() {
+        sanityCheck {
+            // Check user
+            let user = container.resolve(User.self)!
+            let userRepo = container.resolve(UserRepositoryProtocol.self)!
+            print("User:")
+            print(userRepo.getUser(id: user.id))
+            
+            // Check balance
+            let curBalanceRepo = container.resolve(CurrencyBalanceRepositoryProtocol.self)!
+            print("Balance:")
+            print(curBalanceRepo.getBalance())
+        }
+    }
     
-//    private func prepareCurrencies(dataBase: Realm) {
-//        let data: [[String: String]] = [
-//            ["id": "EUR"],
-//            ["id": "USD"],
-//            ["id": "GPB"]
-//        ]
-//        guard dataBase.objects(Currency_DB.self).isEmpty else {
-//            return
-//        }
-//        dataBase.bulkWrite(writeOperation: {
-//            let items: [Currency_DB] = data.map { itemData in
-//                let item = Currency_DB()
-//                item.id = itemData["id"] ?? ""
-//                return item
-//            }
-//            dataBase.add(items)
-//        })
-//    }
-    
-//    private func prepareUser(dataBase: Realm) -> User_DB {
-//        dataBase.bulkWrite(writeOperation: {
-//            let user = User_DB()
-//            user.id = "MAIN"
-//            let initialBalance: [CurrencyBalance_DB] = {
-//                let eur = CurrencyBalance_DB()
-//                eur.id = "EUR"
-//                eur.balance = 1000
-//                return [eur]
-//            }()
-//            user.currencyBalance.append(objectsIn: initialBalance)
-//            let existing = dataBase.object(ofType: User_DB.self, forPrimaryKey: "MAIN")
-//            if existing == nil {
-//                dataBase.add(user)
-//            }
-//        })
-//
-//        return dataBase.object(ofType: User_DB.self, forPrimaryKey: "MAIN")!
-//    }
-    
+    private func prepareInitialData() {
+        let user = container.resolve(User.self)!
+        let userRepo = container.resolve(UserRepositoryProtocol.self)!
+        guard userRepo.getUser(id: user.id) == nil else {
+            // User already created
+            return
+        }
+        // Add main user
+        userRepo.addOrUpdate(user: user)
+        
+        // Add initial balance
+        let curBalanceRepo = container.resolve(CurrencyBalanceRepositoryProtocol.self)!
+        curBalanceRepo.setBalance([.init(id: "EUR", balance: 1000)])
+    }
 }
 

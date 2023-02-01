@@ -11,8 +11,9 @@ import RealmSwift
 import Combine
 
 protocol CurrencyBalanceRepositoryProtocol {
-    func refreshBalance(completion: ()->())
+    func setBalance(_ balance: [CurrencyBalance])
     func observeBalance() -> AnyPublisher<[CurrencyBalance], Never>
+    func getBalance() -> [CurrencyBalance]
 }
 
 class CurrencyBalanceRepository {
@@ -30,8 +31,12 @@ class CurrencyBalanceRepository {
 }
 
 extension CurrencyBalanceRepository: CurrencyBalanceRepositoryProtocol {
-    func refreshBalance(completion: () -> ()) {
-        completion()
+    func getBalance() -> [CurrencyBalance] {
+        currencyBalanceStore.getList()
+    }
+    
+    func setBalance(_ balance: [CurrencyBalance]) {
+        currencyBalanceStore.replace(with: balance)
     }
     
     func observeBalance() -> AnyPublisher<[CurrencyBalance], Never> {

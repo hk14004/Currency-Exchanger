@@ -37,7 +37,7 @@ extension CurrencyRepository: CurrencyRepositoryProtocol {
             switch result {
             case .success(let success):
                 // Store into DB
-                currencyStore.replace(with: [])
+                currencyStore.replace(with: success)
                 completion()
             case .failure(let failure):
                 completion()

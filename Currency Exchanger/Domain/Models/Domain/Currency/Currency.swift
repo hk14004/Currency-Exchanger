@@ -10,3 +10,5 @@ import Foundation
 struct Currency {
     let id: String
 }
+
+extension Currency: Codable {}

@@ -18,6 +18,7 @@ extension CurrencyBalance_DB: PersistedModelProtocol {
     }
     
     func update(with model: CurrencyBalance, fields: Set<PersistedField>) {
-        
+        self.id = model.id
+        self.balance = model.balance
     }
 }

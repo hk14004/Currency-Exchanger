@@ -13,11 +13,13 @@ extension User_DB: PersistedModelProtocol {
     }
     
     func toDomain(fields: Set<UserField>) throws -> User {
-        return .init(id: self.id, name: "TODO", surname: "TODO")
+        return .init(id: self.id, name: self.name, surname: self.surname)
     }
     
     func update(with model: User, fields: Set<UserField>) {
-        
+        self.id = model.id
+        self.name = model.name
+        self.surname = model.surname
     }
 }
 
