@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let container = Container()
         container.register(Realm.self) { _ in try! Realm() }
         container.register(User.self) { _ in
-            User(id: "MAIN", name: "James", surname: "Bond", currencyBalanceIDs: Set<String>())
+            User(id: "MAIN", name: "James", surname: "Bond")
         }
         container.register(PersistentRealmStore<User>.self) { resolver in
             PersistentRealmStore(realm: resolver.resolve(Realm.self)!)
@@ -77,44 +77,44 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     
-    private func prepareCurrencies(dataBase: Realm) {
-        let data: [[String: String]] = [
-            ["id": "EUR"],
-            ["id": "USD"],
-            ["id": "GPB"]
-        ]
-        guard dataBase.objects(Currency_DB.self).isEmpty else {
-            return
-        }
-        dataBase.bulkWrite(writeOperation: {
-            let items: [Currency_DB] = data.map { itemData in
-                let item = Currency_DB()
-                item.id = itemData["id"] ?? ""
-                return item
-            }
-            dataBase.add(items)
-        })
-    }
+//    private func prepareCurrencies(dataBase: Realm) {
+//        let data: [[String: String]] = [
+//            ["id": "EUR"],
+//            ["id": "USD"],
+//            ["id": "GPB"]
+//        ]
+//        guard dataBase.objects(Currency_DB.self).isEmpty else {
+//            return
+//        }
+//        dataBase.bulkWrite(writeOperation: {
+//            let items: [Currency_DB] = data.map { itemData in
+//                let item = Currency_DB()
+//                item.id = itemData["id"] ?? ""
+//                return item
+//            }
+//            dataBase.add(items)
+//        })
+//    }
     
-    private func prepareUser(dataBase: Realm) -> User_DB {
-        dataBase.bulkWrite(writeOperation: {
-            let user = User_DB()
-            user.id = "MAIN"
-            let initialBalance: [CurrencyBalance_DB] = {
-                let eur = CurrencyBalance_DB()
-                eur.id = "EUR"
-                eur.balance = 1000
-                return [eur]
-            }()
-            user.currencyBalance.append(objectsIn: initialBalance)
-            let existing = dataBase.object(ofType: User_DB.self, forPrimaryKey: "MAIN")
-            if existing == nil {
-                dataBase.add(user)
-            }
-        })
-        
-        return dataBase.object(ofType: User_DB.self, forPrimaryKey: "MAIN")!
-    }
+//    private func prepareUser(dataBase: Realm) -> User_DB {
+//        dataBase.bulkWrite(writeOperation: {
+//            let user = User_DB()
+//            user.id = "MAIN"
+//            let initialBalance: [CurrencyBalance_DB] = {
+//                let eur = CurrencyBalance_DB()
+//                eur.id = "EUR"
+//                eur.balance = 1000
+//                return [eur]
+//            }()
+//            user.currencyBalance.append(objectsIn: initialBalance)
+//            let existing = dataBase.object(ofType: User_DB.self, forPrimaryKey: "MAIN")
+//            if existing == nil {
+//                dataBase.add(user)
+//            }
+//        })
+//
+//        return dataBase.object(ofType: User_DB.self, forPrimaryKey: "MAIN")!
+//    }
     
 }
 

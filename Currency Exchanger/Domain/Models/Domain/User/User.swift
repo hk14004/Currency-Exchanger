@@ -11,5 +11,4 @@ struct User {
     let id: String
     let name: String
     let surname: String
-    let currencyBalanceIDs: Set<String>
 }
