@@ -53,12 +53,18 @@ class ConverterSceneVM: ObservableObject {
     
     private let bag = Bag()
     
+    private let userID: String
+    private let userRepository: UserRepositoryProtocol
     
-    init(userID: String) {
+    init(userID: String, userRepository: UserRepositoryProtocol) {
+        self.userID = userID
+        self.userRepository = userRepository
+        let u = userRepository.getUser(id: userID)
+        print(u)
 //        self.database = database
 //        self.user = user
-        sections = createSections()
-        subscribeToNotifications()
+//        sections = createSections()
+//        subscribeToNotifications()
     }
     
     private var sellAmountCellVM: ExchangeCurrencyVM?

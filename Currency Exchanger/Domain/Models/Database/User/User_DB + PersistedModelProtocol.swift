@@ -13,7 +13,7 @@ extension User_DB: PersistedModelProtocol {
     }
     
     func toDomain(fields: Set<UserField>) throws -> User {
-        return .init(id: "", name: "", surname: "", currencyBalanceIDs: Set<String>())
+        return .init(id: self.id, name: "TODO", surname: "TODO", currencyBalanceIDs: Set<String>())
     }
     
     func update(with model: User, fields: Set<UserField>) {

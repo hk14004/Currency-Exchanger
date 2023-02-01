@@ -10,6 +10,7 @@ import SwiftUI
 import RealmSwift
 import DevTools
 import Swinject
+import DevToolsRealm
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
@@ -20,6 +21,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         container.register(Realm.self) { _ in try! Realm() }
         container.register(User.self) { _ in
             User(id: "MAIN", name: "James", surname: "Bond", currencyBalanceIDs: Set<String>())
+        }
+        container.register(PersistentRealmStore<User>.self) { resolver in
+            PersistentRealmStore(realm: resolver.resolve(Realm.self)!)
+        }
+        container.register(UserRepositoryProtocol.self) { resolver in
+            UserRepository(userStore: resolver.resolve(PersistentRealmStore<User>.self)!)
         }
         return container
      }()
@@ -33,7 +40,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        let db = try! Realm()
 //        prepareCurrencies(dataBase: db)
 //        let user = prepareUser(dataBase: db)
-        let vm = ConverterSceneVM(userID: "MAIN")
+        let vm = ConverterSceneVM(userID: "MAIN",
+                                  userRepository: container.resolve(UserRepositoryProtocol.self)!)
         let view = ConverterSceneView(viewModel: vm)
         let vc = UIHostingController(rootView: view)
         window?.rootViewController = UINavigationController(rootViewController: vc)

@@ -14,6 +14,8 @@
 		862FC1192989A1BD007A2A88 /* User + PersistableDomainModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862FC1182989A1BD007A2A88 /* User + PersistableDomainModelProtocol.swift */; };
 		862FC11B2989A1EF007A2A88 /* User_DB + PersistedModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862FC11A2989A1EF007A2A88 /* User_DB + PersistedModelProtocol.swift */; };
 		862FC11D2989A4D5007A2A88 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862FC11C2989A4D5007A2A88 /* UserRepository.swift */; };
+		862FC1202989E7CD007A2A88 /* CurrencyBalance + PersistableDomainModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862FC11F2989E7CD007A2A88 /* CurrencyBalance + PersistableDomainModelProtocol.swift */; };
+		862FC1222989E80D007A2A88 /* CurrencyBalance_DB + PersistedModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862FC1212989E80D007A2A88 /* CurrencyBalance_DB + PersistedModelProtocol.swift */; };
 		8656EDAB298878980055722A /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8656EDAA298878980055722A /* Currency.swift */; };
 		8656EDAD29887B5B0055722A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8656EDAC29887B5B0055722A /* User.swift */; };
 		8656EDAF29887DA20055722A /* CurrencyBalance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8656EDAE29887DA20055722A /* CurrencyBalance.swift */; };
@@ -51,6 +53,8 @@
 		862FC1182989A1BD007A2A88 /* User + PersistableDomainModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User + PersistableDomainModelProtocol.swift"; sourceTree = "<group>"; };
 		862FC11A2989A1EF007A2A88 /* User_DB + PersistedModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User_DB + PersistedModelProtocol.swift"; sourceTree = "<group>"; };
 		862FC11C2989A4D5007A2A88 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
+		862FC11F2989E7CD007A2A88 /* CurrencyBalance + PersistableDomainModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CurrencyBalance + PersistableDomainModelProtocol.swift"; sourceTree = "<group>"; };
+		862FC1212989E80D007A2A88 /* CurrencyBalance_DB + PersistedModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CurrencyBalance_DB + PersistedModelProtocol.swift"; sourceTree = "<group>"; };
 		8656EDAA298878980055722A /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		8656EDAC29887B5B0055722A /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		8656EDAE29887DA20055722A /* CurrencyBalance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyBalance.swift; sourceTree = "<group>"; };
@@ -145,12 +149,21 @@
 			path = User;
 			sourceTree = "<group>";
 		};
+		862FC11E2989E7B1007A2A88 /* CurrencyBalance */ = {
+			isa = PBXGroup;
+			children = (
+				8656EDAE29887DA20055722A /* CurrencyBalance.swift */,
+				862FC11F2989E7CD007A2A88 /* CurrencyBalance + PersistableDomainModelProtocol.swift */,
+			);
+			path = CurrencyBalance;
+			sourceTree = "<group>";
+		};
 		8656EDA9298876A10055722A /* Domain */ = {
 			isa = PBXGroup;
 			children = (
 				862FC1172989A1AD007A2A88 /* User */,
 				86894F6D29887F4A00A41E10 /* Currency */,
-				8656EDAE29887DA20055722A /* CurrencyBalance.swift */,
+				862FC11E2989E7B1007A2A88 /* CurrencyBalance */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -318,6 +331,7 @@
 			isa = PBXGroup;
 			children = (
 				D48A9B0B296C185E007F45F2 /* CurrencyBalance_DB.swift */,
+				862FC1212989E80D007A2A88 /* CurrencyBalance_DB + PersistedModelProtocol.swift */,
 			);
 			path = CurrencyBalance;
 			sourceTree = "<group>";
@@ -420,6 +434,8 @@
 				D417843F296C4C4C00A92A80 /* CurrencyBalanceItemView.swift in Sources */,
 				D42845EF296C0C0600B97ADE /* BuySellIndicatorView.swift in Sources */,
 				D42845EB296C09C500B97ADE /* Colors.swift in Sources */,
+				862FC1222989E80D007A2A88 /* CurrencyBalance_DB + PersistedModelProtocol.swift in Sources */,
+				862FC1202989E7CD007A2A88 /* CurrencyBalance + PersistableDomainModelProtocol.swift in Sources */,
 				D48A9B0C296C185E007F45F2 /* CurrencyBalance_DB.swift in Sources */,
 				D4178449296C612200A92A80 /* Currency_DB.swift in Sources */,
 				D42845CB296C03FE00B97ADE /* AppDelegate.swift in Sources */,
