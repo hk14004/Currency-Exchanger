@@ -46,7 +46,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         prepareInitialData()
         check()
         let vm = ConverterSceneVM(userID: "MAIN",
-                                  userRepository: container.resolve(UserRepositoryProtocol.self)!)
+                                  userRepository: container.resolve(UserRepositoryProtocol.self)!,
+                                  balanaceRepository:  container.resolve(CurrencyBalanceRepositoryProtocol.self)!)
         let view = ConverterSceneView(viewModel: vm)
         let vc = UIHostingController(rootView: view)
         window?.rootViewController = UINavigationController(rootViewController: vc)

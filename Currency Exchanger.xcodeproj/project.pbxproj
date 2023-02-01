@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		862FC10729897706007A2A88 /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862FC10629897706007A2A88 /* DIContainer.swift */; };
 		862FC10A298978C9007A2A88 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 862FC109298978C9007A2A88 /* Swinject */; };
 		862FC10F29897DBF007A2A88 /* CurrencyRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862FC10E29897DBF007A2A88 /* CurrencyRepository.swift */; };
 		862FC11629899D71007A2A88 /* CurrencyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862FC11529899D71007A2A88 /* CurrencyService.swift */; };
@@ -48,7 +47,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		862FC10629897706007A2A88 /* DIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
 		862FC10E29897DBF007A2A88 /* CurrencyRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyRepository.swift; sourceTree = "<group>"; };
 		862FC11529899D71007A2A88 /* CurrencyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyService.swift; sourceTree = "<group>"; };
 		862FC1182989A1BD007A2A88 /* User + PersistableDomainModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User + PersistableDomainModelProtocol.swift"; sourceTree = "<group>"; };
@@ -101,14 +99,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		862FC105298976F0007A2A88 /* DIContainer */ = {
-			isa = PBXGroup;
-			children = (
-				862FC10629897706007A2A88 /* DIContainer.swift */,
-			);
-			path = DIContainer;
-			sourceTree = "<group>";
-		};
 		862FC10B29897D91007A2A88 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
@@ -237,7 +227,6 @@
 				862FC125298A6877007A2A88 /* JSON */,
 				862FC11329899D3B007A2A88 /* Services */,
 				862FC10B29897D91007A2A88 /* Domain */,
-				862FC105298976F0007A2A88 /* DIContainer */,
 				D42845E5296C084C00B97ADE /* UIComponents */,
 				D42845DE296C074900B97ADE /* Screens */,
 				D42845CA296C03FE00B97ADE /* AppDelegate.swift */,
@@ -455,7 +444,6 @@
 				862FC11D2989A4D5007A2A88 /* UserRepository.swift in Sources */,
 				D4178446296C5ABE00A92A80 /* ExchangeCurrencyVM.swift in Sources */,
 				862FC1192989A1BD007A2A88 /* User + PersistableDomainModelProtocol.swift in Sources */,
-				862FC10729897706007A2A88 /* DIContainer.swift in Sources */,
 				862FC10F29897DBF007A2A88 /* CurrencyRepository.swift in Sources */,
 				D42845CD296C03FE00B97ADE /* SceneDelegate.swift in Sources */,
 				86894F6F29887F7C00A41E10 /* Currency + PersistableDomainModelProtocol.swift in Sources */,

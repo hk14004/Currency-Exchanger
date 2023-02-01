@@ -46,6 +46,8 @@ extension ConverterSceneView {
                                 Spacer()
                             }
                         }.buttonStyle(MainButtonStyle())
+                    case .emptyWallet:
+                        Text("Your wallet is empty")
                     }
                 }
             } header: {

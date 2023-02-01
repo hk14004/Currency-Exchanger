@@ -8,6 +8,7 @@
 import SwiftUI
 import RealmSwift
 import DevTools
+import Combine
 
 class ConverterSceneVM: ObservableObject {
     
@@ -23,13 +24,14 @@ class ConverterSceneVM: ObservableObject {
     }
     
     enum Cell: Hashable {
-        case currencyAmount(CurrencyBalance) // Preferably store VM of a cell
+        case emptyWallet
+        case currencyAmount(CurrencyBalance)
         case exchangeCurrency(ExchangeCurrencyVM)
         case performExchange
     }
     
     class Bag {
-//        var itemsHandle: NotificationToken?
+        var balanceHandle: AnyCancellable?
     }
     
     struct Section {
@@ -48,60 +50,33 @@ class ConverterSceneVM: ObservableObject {
     @Published var showAlert: Bool = false
     @Published var alertType: AlertType = .notEnoughMoney
     
-//    let database: Realm
-//    private let user: User_DB
-    
+
     private let bag = Bag()
     
+    // Input
     private let userID: String
     private let userRepository: UserRepositoryProtocol
+    private let balanaceRepository: CurrencyBalanceRepositoryProtocol
     
-    init(userID: String, userRepository: UserRepositoryProtocol) {
+    init(userID: String, userRepository: UserRepositoryProtocol, balanaceRepository: CurrencyBalanceRepositoryProtocol) {
         self.userID = userID
         self.userRepository = userRepository
-        let u = userRepository.getUser(id: userID)
-        print(u)
-//        self.database = database
-//        self.user = user
-//        sections = createSections()
-//        subscribeToNotifications()
+        self.balanaceRepository = balanaceRepository
+        subscribeToNotifications()
+        sections = createSections()
     }
     
     private var sellAmountCellVM: ExchangeCurrencyVM?
     private var buyAmountCellVM: ExchangeCurrencyVM?
     
+    private var fetchedBalanace: [CurrencyBalance]?
 }
 
-// MARK: Private
+// MARK: Public
 
 extension ConverterSceneVM {
     func onExchangeCurrencyTapped() {
-//        guard let sellAmountCellVM = sellAmountCellVM, let buyAmountCellVM = buyAmountCellVM else {
-//            return
-//        }
-//        guard user.hasEnoughCurrency(currencyID: sellAmountCellVM.selectedCurrency.id, amount: sellAmountCellVM.amount) else {
-//            // Show alert
-//            alertType = .notEnoughMoney
-//            showAlert = true
-//            return
-//        }
-//
-//        user.exchange(fromCurrencyID: sellAmountCellVM.selectedCurrency.id, amount: sellAmountCellVM.amount, toCurrencyID: buyAmountCellVM.selectedCurrency.id)
-//        print(sellAmountCellVM.amount, sellAmountCellVM.selectedCurrency.id)
-//        print(buyAmountCellVM.amount, buyAmountCellVM.selectedCurrency.id)
-        
-        //dddddddddddddd
-//        database.bulkWrite(writeOperation: {
-////            let item = database.object(ofType: CurrencyBalance.self, forPrimaryKey: "EUR")
-////            item?.balance = 1001
-////
-//            let new = CurrencyBalance()
-//            new.id = "USD"
-//            new.balance = 451
-//            user.currencyBalance.append(objectsIn: [new])
-//
-////            user.currencyBalance.remove(at: 1)
-//        })
+
     }
 }
 
@@ -109,40 +84,54 @@ extension ConverterSceneVM {
 
 extension ConverterSceneVM {
     private func subscribeToNotifications() {
-//        bag.itemsHandle = user.observe(fields: .init([.currencyBalance]), closure: { [unowned self] change in
-//            switch change {
-//            case .change:
-//                guard let sectionIndex = sections.firstIndex(where: {$0.uuid == SectionIdentifiers.myBallances.rawValue}) else {
-//                    return
-//                }
-//                var temp = sections
-//                temp.remove(at: sectionIndex)
-//                let newSection =  createMyBalanceSection(items: Array(user.currencyBalance))
-//                temp.insert(newSection, at: sectionIndex)
-//                withAnimation {
-//                    sections = temp
-//                }
-//            case .error(let error):
-//                print("An error occurred: \(error)")
-//            case .deleted:
-//                print("The object was deleted.")
-//            }
-//        })
+        
+        bag.balanceHandle = balanaceRepository.observeBalance().sink { [unowned self] balance in
+            // TODO: Update section only better
+            let animate: Bool = fetchedBalanace != nil
+            fetchedBalanace = balance
+            guard let sectionIndex = sections.firstIndex(where: {$0.uuid == SectionIdentifiers.myBallances.rawValue}) else {
+                return
+            }
+            var temp = sections
+            temp.remove(at: sectionIndex)
+            let newSection =  createMyBalanceSection(items: balance)
+            temp.insert(newSection, at: sectionIndex)
+            
+            // Update UI
+            if animate {
+                withAnimation {
+                    sections = temp
+                }
+            } else {
+                sections = temp
+            }
+        }
+        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [unowned self] in
+//            self.balanaceRepository.setBalance([.init(id: "EUR", balance: 1000)])
+//        }
     }
     
     private func createSections() -> [Section] {
-        [
-            //createCurrencyExchangeSection(),
-//            createMyBalanceSection(items: Array(user.currencyBalance)),
-        ]
+        var sections: [Section] = []
+        //createCurrencyExchangeSection()
+        let section = createMyBalanceSection(items: fetchedBalanace ?? [])
+        sections.append(section)
+        return sections
     }
     
     private func createMyBalanceSection(items: [CurrencyBalance]) -> Section {
-        let cells: [Cell] = items.compactMap { balance -> Cell? in
+        let balanceCells: [Cell] = items.compactMap { balance -> Cell? in
             if balance.balance <= 0 {
                 return nil
             }
             return Cell.currencyAmount(balance)
+        }
+        var cells: [Cell] = []
+        if balanceCells.isEmpty {
+            cells.append(.emptyWallet)
+        } else {
+            cells = balanceCells
         }
         return Section(uuid: SectionIdentifiers.myBallances.rawValue, title: "MY BALANCES", cells: cells)
     }
