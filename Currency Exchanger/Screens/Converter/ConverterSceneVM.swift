@@ -21,6 +21,7 @@ class ConverterSceneVM: ObservableObject {
     
     enum AlertType {
         case notEnoughMoney
+        case cannotExchangeSameCurrency
     }
     
     enum Cell: Hashable {
@@ -53,18 +54,16 @@ class ConverterSceneVM: ObservableObject {
     private let bag = Bag()
     
     // Input
-    private let userID: String
-    private let userRepository: UserRepositoryProtocol
     private let balanaceRepository: CurrencyBalanceRepositoryProtocol
     private let currencyRepository: CurrencyRepositoryProtocol
+    private let currencyConverter: CurrencyCoverterProtocol
     
-    init(userID: String, userRepository: UserRepositoryProtocol,
-         balanaceRepository: CurrencyBalanceRepositoryProtocol,
-         currencyRepository: CurrencyRepositoryProtocol) {
-        self.userID = userID
-        self.userRepository = userRepository
+    init(balanaceRepository: CurrencyBalanceRepositoryProtocol,
+         currencyRepository: CurrencyRepositoryProtocol,
+         currencyConverter: CurrencyCoverterProtocol) {
         self.balanaceRepository = balanaceRepository
         self.currencyRepository = currencyRepository
+        self.currencyConverter = currencyConverter
         subscribeToNotifications()
         sections = createSections()
     }
@@ -79,7 +78,47 @@ class ConverterSceneVM: ObservableObject {
 
 extension ConverterSceneVM {
     func onExchangeCurrencyTapped() {
-
+        guard let sellVM = sellAmountCellVM else {
+            return
+        }
+        guard let buyVM = buyAmountCellVM else {
+            return
+        }
+        
+        // TODO: Buy and sell not just sell
+        guard let sellCurrency = sellVM.selectedCurrency else {
+            return
+        }
+        guard let buyCurrency = buyVM.selectedCurrency else {
+            return
+        }
+        guard let balance = balanaceRepository.getBalance(forCurrency: sellCurrency) else {
+            return
+        }
+        
+        do {
+            let result = try currencyConverter.convert(balance: balance, amount: sellVM.amount,
+                                                       intoCurrency: buyCurrency, rate: 1.0)
+            print(result)
+            // Update db with new balance
+            if let previousBuyCurrency: CurrencyBalance = balanaceRepository.getBalance(forCurrency: buyCurrency) {
+                balanaceRepository.addOrUpdate(currencyBalance: [result.from,  .init(id: result.to.id, balance: result.to.balance + previousBuyCurrency.balance)])
+            } else {
+                balanaceRepository.addOrUpdate(currencyBalance: [result.from, result.to])
+            }
+            
+            
+        } catch (let err) {
+            let error = err as! CurrencyConversionError
+            switch error {
+            case .notEnough:
+                alertType = .notEnoughMoney
+            case .cannotExchangeSameCurrency:
+                alertType = .cannotExchangeSameCurrency
+            }
+            showAlert = true
+        }
+        
     }
 }
 

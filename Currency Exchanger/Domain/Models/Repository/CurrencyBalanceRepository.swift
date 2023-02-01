@@ -14,6 +14,8 @@ protocol CurrencyBalanceRepositoryProtocol {
     func setBalance(_ balance: [CurrencyBalance])
     func observeBalance() -> AnyPublisher<[CurrencyBalance], Never>
     func getBalance() -> [CurrencyBalance]
+    func getBalance(forCurrency: Currency) -> CurrencyBalance?
+    func addOrUpdate(currencyBalance: [CurrencyBalance])
 }
 
 class CurrencyBalanceRepository {
@@ -31,6 +33,14 @@ class CurrencyBalanceRepository {
 }
 
 extension CurrencyBalanceRepository: CurrencyBalanceRepositoryProtocol {
+    func addOrUpdate(currencyBalance: [CurrencyBalance]) {
+        currencyBalanceStore.addOrUpdate(currencyBalance)
+    }
+    
+    func getBalance(forCurrency: Currency) -> CurrencyBalance? {
+        currencyBalanceStore.getSingle(id: forCurrency.id)
+    }
+    
     func getBalance() -> [CurrencyBalance] {
         currencyBalanceStore.getList()
     }

@@ -44,6 +44,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             CurrencyRepository(currencyStore: resolver.resolve(PersistentRealmStore<Currency>.self)!,
                                currencyAPIService: resolver.resolve(CurrencyServiceProtocol.self)!)
         }
+        container.register(CurrencyCoverterProtocol.self) { resolver in
+            CurrencyCoverter()
+        }
         return container
      }()
     
@@ -55,10 +58,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = UIWindow(windowScene: wScene)
         prepareInitialData()
         check()
-        let vm = ConverterSceneVM(userID: "MAIN",
-                                  userRepository: container.resolve(UserRepositoryProtocol.self)!,
-                                  balanaceRepository:  container.resolve(CurrencyBalanceRepositoryProtocol.self)!,
-                                  currencyRepository: container.resolve(CurrencyRepositoryProtocol.self)!)
+        let vm = ConverterSceneVM(balanaceRepository:  container.resolve(CurrencyBalanceRepositoryProtocol.self)!,
+                                  currencyRepository: container.resolve(CurrencyRepositoryProtocol.self)!,
+                                  currencyConverter: container.resolve(CurrencyCoverterProtocol.self)!)
         let view = ConverterSceneView(viewModel: vm)
         let vc = UIHostingController(rootView: view)
         window?.rootViewController = UINavigationController(rootViewController: vc)
