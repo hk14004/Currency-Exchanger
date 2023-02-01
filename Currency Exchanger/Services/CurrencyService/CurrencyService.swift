@@ -6,9 +6,10 @@
 //
 
 import Foundation
+import DevTools
 
 protocol CurrencyServiceProtocol {
-    func fetchCurrencies(completion: (Result<[Currency], Error>)->())
+    func fetchCurrencies(completion: @escaping (Result<[Currency], Error>)->())
 }
 
 class CurrencyService {
@@ -16,10 +17,12 @@ class CurrencyService {
 }
 
 extension CurrencyService: CurrencyServiceProtocol {
-    func fetchCurrencies(completion: (Result<[Currency], Error>) -> ()) {
+    func fetchCurrencies(completion: @escaping (Result<[Currency], Error>) -> ()) {
         // TODO: Network request
-        let result = loadCurrenciesJson(fileName: "currencies")
-        completion(.success(result))
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            let result = self!.loadCurrenciesJson(fileName: "currencies")
+            completion(.success(result))
+        }
     }
 }
 
@@ -28,14 +31,20 @@ extension CurrencyService: CurrencyServiceProtocol {
 extension CurrencyService {
     private func loadCurrenciesJson(fileName: String) -> [Currency] {
         let decoder = JSONDecoder()
-        guard
-            let url = Bundle.main.url(forResource: fileName, withExtension: "json"),
-            let data = try? Data(contentsOf: url),
-            let parsed = try? decoder.decode([Currency].self, from: data)
-        else {
+        guard let url = Bundle.main.url(forResource: fileName, withExtension: "json") else {
             return []
         }
-        
-        return parsed
+        do {
+            let data = try Data(contentsOf: url)
+            let parsed = try decoder.decode(CurrencyResponse.self, from: data)
+            return parsed.currencies
+        } catch( let err) {
+            printError(err)
+            return []
+        }
     }
+}
+
+struct CurrencyResponse: Codable {
+    let currencies: [Currency]
 }

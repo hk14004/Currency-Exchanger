@@ -11,8 +11,9 @@ import RealmSwift
 import Combine
 
 protocol CurrencyRepositoryProtocol {
-    func refreshCurrencies(completion: ()->())
+    func refreshCurrencies(completion: @escaping ()->())
     func observeCurrencies() -> AnyPublisher<[Currency], Never>
+    func getCurrencies() -> [Currency]
 }
 
 class CurrencyRepository {
@@ -32,12 +33,15 @@ class CurrencyRepository {
 }
 
 extension CurrencyRepository: CurrencyRepositoryProtocol {
-    func refreshCurrencies(completion: () -> ()) {
+    func getCurrencies() -> [Currency] {
+        currencyStore.getList()
+    }
+    func refreshCurrencies(completion: @escaping () -> ()) {
         currencyAPIService.fetchCurrencies { result in
             switch result {
             case .success(let success):
                 // Store into DB
-                currencyStore.replace(with: success)
+                self.currencyStore.replace(with: success)
                 completion()
             case .failure(let failure):
                 completion()

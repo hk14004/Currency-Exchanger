@@ -12,3 +12,4 @@ struct Currency {
 }
 
 extension Currency: Codable {}
+extension Currency: Hashable {}

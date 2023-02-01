@@ -50,18 +50,21 @@ class ConverterSceneVM: ObservableObject {
     @Published var showAlert: Bool = false
     @Published var alertType: AlertType = .notEnoughMoney
     
-
     private let bag = Bag()
     
     // Input
     private let userID: String
     private let userRepository: UserRepositoryProtocol
     private let balanaceRepository: CurrencyBalanceRepositoryProtocol
+    private let currencyRepository: CurrencyRepositoryProtocol
     
-    init(userID: String, userRepository: UserRepositoryProtocol, balanaceRepository: CurrencyBalanceRepositoryProtocol) {
+    init(userID: String, userRepository: UserRepositoryProtocol,
+         balanaceRepository: CurrencyBalanceRepositoryProtocol,
+         currencyRepository: CurrencyRepositoryProtocol) {
         self.userID = userID
         self.userRepository = userRepository
         self.balanaceRepository = balanaceRepository
+        self.currencyRepository = currencyRepository
         subscribeToNotifications()
         sections = createSections()
     }
@@ -84,7 +87,9 @@ extension ConverterSceneVM {
 
 extension ConverterSceneVM {
     private func subscribeToNotifications() {
-        
+        currencyRepository.refreshCurrencies {
+            print("Refreshed")
+        }
         bag.balanceHandle = balanaceRepository.observeBalance().sink { [unowned self] balance in
             // TODO: Update section only better
             let animate: Bool = fetchedBalanace != nil
@@ -114,9 +119,8 @@ extension ConverterSceneVM {
     
     private func createSections() -> [Section] {
         var sections: [Section] = []
-        //createCurrencyExchangeSection()
-        let section = createMyBalanceSection(items: fetchedBalanace ?? [])
-        sections.append(section)
+        sections.append(createCurrencyExchangeSection())
+        sections.append(createMyBalanceSection(items: fetchedBalanace ?? []))
         return sections
     }
     
@@ -137,16 +141,16 @@ extension ConverterSceneVM {
     }
     
     private func createCurrencyExchangeSection() -> Section {
-//        let sellVM = ExchangeCurrencyVM(option: .sell, amount: 0, database: database)
-//        self.sellAmountCellVM = sellVM
-//        let buyVM = ExchangeCurrencyVM(option: .buy, amount: 0, database: database)
-//        self.buyAmountCellVM = buyVM
-//
-//        let cells: [Cell] = [
-//            .exchangeCurrency(sellVM),
-//            .exchangeCurrency(buyVM),
-//            .performExchange
-//        ]
-        return Section(uuid: SectionIdentifiers.currencyExchange.rawValue, title: "CURRENCY EXCHANGE", cells: [])
+        let sellVM = ExchangeCurrencyVM(option: .sell, amount: 0, currencyRepository: currencyRepository)
+        self.sellAmountCellVM = sellVM
+        let buyVM = ExchangeCurrencyVM(option: .buy, amount: 0, currencyRepository: currencyRepository)
+        self.buyAmountCellVM = buyVM
+
+        let cells: [Cell] = [
+            .exchangeCurrency(sellVM),
+            .exchangeCurrency(buyVM),
+            .performExchange
+        ]
+        return Section(uuid: SectionIdentifiers.currencyExchange.rawValue, title: "CURRENCY EXCHANGE", cells: cells)
     }
 }

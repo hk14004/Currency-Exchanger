@@ -1,1 +1,5 @@
-{[{"id":"EUR"},{"id":"USD"},{"id":"GBP"}]}
+{
+    "currencies" : [
+        {"id":"EUR"},{"id":"USD"},{"id":"GBP"}
+    ]
+}

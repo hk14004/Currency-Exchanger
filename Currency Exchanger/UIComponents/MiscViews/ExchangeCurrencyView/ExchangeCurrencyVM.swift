@@ -8,6 +8,7 @@
 import SwiftUI
 import Foundation
 import RealmSwift
+import Combine
 
 class ExchangeCurrencyVM: ObservableObject {
     
@@ -17,38 +18,41 @@ class ExchangeCurrencyVM: ObservableObject {
     }
     
     class Bag {
-        var currenciesHandle: NotificationToken?
+        var currenciesHandle: AnyCancellable?
     }
     
     let uuid: String = UUID().uuidString
     let option: Option
     private let bag = Bag()
     @Published var amount: Double
-    @Published var selectedCurrency: Currency_DB!
-    @Published var availableCurrencies: [Currency_DB]
+    @Published var selectedCurrency: Currency?
+    @Published var availableCurrencies: [Currency] = []
     
-    private let database: Realm
+    private var fetchedCurrencies: [Currency]?
+    private let currencyRepository: CurrencyRepositoryProtocol
     
-    private lazy var storedCurrencies: Results<Currency_DB> = {
-        return database.objects(Currency_DB.self).filterUnarchived()
-    }()
-    
-    init(option: Option, amount: Double, database: Realm) {
+    init(option: Option, amount: Double, currencyRepository: CurrencyRepositoryProtocol) {
         self.option = option
         self.amount = amount
-        self.database = database
-        self.availableCurrencies = []
-        self.availableCurrencies = Array(storedCurrencies)
-        self.selectedCurrency = availableCurrencies.first!
+        self.currencyRepository = currencyRepository
         subscribeToNotifications()
     }
 }
 
 extension ExchangeCurrencyVM {
     private func subscribeToNotifications() {
-        bag.currenciesHandle = storedCurrencies.observe({ [unowned self] change in
-            withAnimation {
-                availableCurrencies = Array(storedCurrencies)
+        bag.currenciesHandle = currencyRepository.observeCurrencies().sink(receiveValue: { [unowned self] currencies in
+            let animate = fetchedCurrencies != nil
+            fetchedCurrencies = currencies
+            
+            if animate {
+                withAnimation {
+                    availableCurrencies = currencies
+                    selectedCurrency = currencies.first
+                }
+            } else {
+                availableCurrencies = currencies
+                selectedCurrency = currencies.first
             }
         })
     }
@@ -62,5 +66,4 @@ extension ExchangeCurrencyVM: Hashable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(uuid)
     }
-    
 }

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import RealmSwift
+import Swinject
 
 struct ExchangeCurrencyView: View {
     
@@ -21,7 +22,7 @@ struct ExchangeCurrencyView: View {
                 .multilineTextAlignment(.trailing)
             Picker("", selection: $viewModel.selectedCurrency) {
                 ForEach(viewModel.availableCurrencies, id: \.id) { item in
-                    Text(item.id).tag(item as Currency_DB?)
+                    Text(item.id).tag(item as Currency?)
                 }
             }
             .pickerStyle(.menu)
@@ -31,8 +32,8 @@ struct ExchangeCurrencyView: View {
     }
 }
 
-struct SellCurrencyView_Previews: PreviewProvider {
-    static var previews: some View {
-        ExchangeCurrencyView(viewModel: .init(option: .sell, amount: 0, database: try! Realm()))
-    }
-}
+//struct SellCurrencyView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ExchangeCurrencyView(viewModel: .init(option: .sell, amount: 0, database: try! Realm()))
+//    }
+//}

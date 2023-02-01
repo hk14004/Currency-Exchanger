@@ -34,6 +34,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         container.register(CurrencyBalanceRepositoryProtocol.self) { resolver in
             CurrencyBalanceRepository(currencyBalanceStore: resolver.resolve(PersistentRealmStore<CurrencyBalance>.self)!)
         }
+        container.register(PersistentRealmStore<Currency>.self) { resolver in
+            PersistentRealmStore(realm: resolver.resolve(Realm.self)!)
+        }
+        container.register(CurrencyServiceProtocol.self) { resolver in
+            CurrencyService()
+        }
+        container.register(CurrencyRepositoryProtocol.self) { resolver in
+            CurrencyRepository(currencyStore: resolver.resolve(PersistentRealmStore<Currency>.self)!,
+                               currencyAPIService: resolver.resolve(CurrencyServiceProtocol.self)!)
+        }
         return container
      }()
     
@@ -47,7 +57,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         check()
         let vm = ConverterSceneVM(userID: "MAIN",
                                   userRepository: container.resolve(UserRepositoryProtocol.self)!,
-                                  balanaceRepository:  container.resolve(CurrencyBalanceRepositoryProtocol.self)!)
+                                  balanaceRepository:  container.resolve(CurrencyBalanceRepositoryProtocol.self)!,
+                                  currencyRepository: container.resolve(CurrencyRepositoryProtocol.self)!)
         let view = ConverterSceneView(viewModel: vm)
         let vc = UIHostingController(rootView: view)
         window?.rootViewController = UINavigationController(rootViewController: vc)
@@ -94,6 +105,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let curBalanceRepo = container.resolve(CurrencyBalanceRepositoryProtocol.self)!
             print("Balance:")
             print(curBalanceRepo.getBalance())
+            
+            // Check currencies
+            let currencyRepo = container.resolve(CurrencyRepositoryProtocol.self)!
+            print("Currencies:")
+            print(currencyRepo.getCurrencies())
         }
     }
     

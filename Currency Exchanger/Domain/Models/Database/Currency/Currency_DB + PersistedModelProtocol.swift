@@ -18,6 +18,6 @@ extension Currency_DB: PersistedModelProtocol {
     }
     
     func update(with model: Currency, fields: Set<PersistedField>) {
-        
+        self.id = model.id
     }
 }
