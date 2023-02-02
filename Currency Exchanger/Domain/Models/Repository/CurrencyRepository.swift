@@ -12,6 +12,7 @@ import Combine
 
 protocol CurrencyRepositoryProtocol {
     func refreshCurrencies(completion: @escaping ()->())
+    func refreshCurrencyRate(completion: @escaping () -> ())
     func observeCurrencies() -> AnyPublisher<[Currency], Never>
     func getCurrencies() -> [Currency]
 }
@@ -33,6 +34,20 @@ class CurrencyRepository {
 }
 
 extension CurrencyRepository: CurrencyRepositoryProtocol {
+    func refreshCurrencyRate(completion: @escaping () -> ()) {
+        currencyAPIService.fetchExchangeRatesData { result in
+            switch result {
+            case .success(let success):
+                print(success)
+                // TODO: Store rates into DB
+                completion()
+            case .failure(let failure):
+                printError(failure)
+                completion()
+            }
+        }
+    }
+    
     func getCurrencies() -> [Currency] {
         currencyStore.getList()
     }
@@ -40,10 +55,12 @@ extension CurrencyRepository: CurrencyRepositoryProtocol {
         currencyAPIService.fetchCurrencies { result in
             switch result {
             case .success(let success):
-                // Store into DB
-                self.currencyStore.replace(with: success)
+                print(success)
+                // TODO: Add mappers
+                self.currencyStore.addOrUpdate([.init(id: "EUR"), .init(id: "USD"), .init(id: "GBP")]) 
                 completion()
             case .failure(let failure):
+                printError(failure)
                 completion()
             }
         }

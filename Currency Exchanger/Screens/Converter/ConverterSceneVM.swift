@@ -127,7 +127,10 @@ extension ConverterSceneVM {
 extension ConverterSceneVM {
     private func subscribeToNotifications() {
         currencyRepository.refreshCurrencies {
-            print("Refreshed")
+            print("Refreshed currencies")
+        }
+        currencyRepository.refreshCurrencyRate {
+            print("Refreshed currency rate")
         }
         bag.balanceHandle = balanaceRepository.observeBalance().sink { [unowned self] balance in
             // TODO: Update section only better

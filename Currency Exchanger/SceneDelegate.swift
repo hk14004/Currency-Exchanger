@@ -11,6 +11,8 @@ import RealmSwift
 import DevTools
 import Swinject
 import DevToolsRealm
+import Moya
+import DevToolsNetworking
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
@@ -37,8 +39,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         container.register(PersistentRealmStore<Currency>.self) { resolver in
             PersistentRealmStore(realm: resolver.resolve(Realm.self)!)
         }
+        container.register(MoyaProvider<CurrencyAPITarget>.self) { resolver in
+            MoyaProvider<CurrencyAPITarget>()
+        }
+        container.register(RequestManager<CurrencyAPITarget>.self) { resolver in
+            RequestManager<CurrencyAPITarget>()
+        }
         container.register(CurrencyServiceProtocol.self) { resolver in
-            CurrencyService()
+            CurrencyService(provider: resolver.resolve(MoyaProvider<CurrencyAPITarget>.self)!,
+                            requestManager: resolver.resolve(RequestManager<CurrencyAPITarget>.self)!)
         }
         container.register(CurrencyRepositoryProtocol.self) { resolver in
             CurrencyRepository(currencyStore: resolver.resolve(PersistentRealmStore<Currency>.self)!,
