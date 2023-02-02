@@ -20,6 +20,10 @@
 		862FC12A298A95D3007A2A88 /* CurrencyConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862FC129298A95D3007A2A88 /* CurrencyConverter.swift */; };
 		862FC12D298AD88F007A2A88 /* CurrencyAPITarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862FC12C298AD88F007A2A88 /* CurrencyAPITarget.swift */; };
 		862FC130298BCF25007A2A88 /* APP_Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862FC12F298BCF25007A2A88 /* APP_Errors.swift */; };
+		862FC133298C66FE007A2A88 /* CurrencyRate_DB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862FC132298C66FE007A2A88 /* CurrencyRate_DB.swift */; };
+		862FC135298C680F007A2A88 /* CurrencyRate_DB + PersistedModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862FC134298C680F007A2A88 /* CurrencyRate_DB + PersistedModelProtocol.swift */; };
+		862FC138298C6A3E007A2A88 /* CurrencyRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862FC137298C6A3E007A2A88 /* CurrencyRate.swift */; };
+		862FC13A298C6AA1007A2A88 /* CurrencyRate + PersistableDomainModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862FC139298C6AA1007A2A88 /* CurrencyRate + PersistableDomainModelProtocol.swift */; };
 		8656EDAB298878980055722A /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8656EDAA298878980055722A /* Currency.swift */; };
 		8656EDAD29887B5B0055722A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8656EDAC29887B5B0055722A /* User.swift */; };
 		8656EDAF29887DA20055722A /* CurrencyBalance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8656EDAE29887DA20055722A /* CurrencyBalance.swift */; };
@@ -62,6 +66,10 @@
 		862FC129298A95D3007A2A88 /* CurrencyConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyConverter.swift; sourceTree = "<group>"; };
 		862FC12C298AD88F007A2A88 /* CurrencyAPITarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyAPITarget.swift; sourceTree = "<group>"; };
 		862FC12F298BCF25007A2A88 /* APP_Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APP_Errors.swift; sourceTree = "<group>"; };
+		862FC132298C66FE007A2A88 /* CurrencyRate_DB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyRate_DB.swift; sourceTree = "<group>"; };
+		862FC134298C680F007A2A88 /* CurrencyRate_DB + PersistedModelProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CurrencyRate_DB + PersistedModelProtocol.swift"; sourceTree = "<group>"; };
+		862FC137298C6A3E007A2A88 /* CurrencyRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyRate.swift; sourceTree = "<group>"; };
+		862FC139298C6AA1007A2A88 /* CurrencyRate + PersistableDomainModelProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CurrencyRate + PersistableDomainModelProtocol.swift"; sourceTree = "<group>"; };
 		8656EDAA298878980055722A /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		8656EDAC29887B5B0055722A /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		8656EDAE29887DA20055722A /* CurrencyBalance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyBalance.swift; sourceTree = "<group>"; };
@@ -184,9 +192,28 @@
 			path = Errors;
 			sourceTree = "<group>";
 		};
+		862FC131298C66E6007A2A88 /* CurrencyRate */ = {
+			isa = PBXGroup;
+			children = (
+				862FC132298C66FE007A2A88 /* CurrencyRate_DB.swift */,
+				862FC134298C680F007A2A88 /* CurrencyRate_DB + PersistedModelProtocol.swift */,
+			);
+			path = CurrencyRate;
+			sourceTree = "<group>";
+		};
+		862FC136298C6A30007A2A88 /* CurrencyRate */ = {
+			isa = PBXGroup;
+			children = (
+				862FC137298C6A3E007A2A88 /* CurrencyRate.swift */,
+				862FC139298C6AA1007A2A88 /* CurrencyRate + PersistableDomainModelProtocol.swift */,
+			);
+			path = CurrencyRate;
+			sourceTree = "<group>";
+		};
 		8656EDA9298876A10055722A /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				862FC136298C6A30007A2A88 /* CurrencyRate */,
 				862FC1172989A1AD007A2A88 /* User */,
 				86894F6D29887F4A00A41E10 /* Currency */,
 				862FC11E2989E7B1007A2A88 /* CurrencyBalance */,
@@ -346,6 +373,7 @@
 		D48A9B09296C17FD007F45F2 /* Database */ = {
 			isa = PBXGroup;
 			children = (
+				862FC131298C66E6007A2A88 /* CurrencyRate */,
 				D4178447296C610D00A92A80 /* Currency */,
 				D48A9B10296C23FE007F45F2 /* User */,
 				D48A9B0A296C180A007F45F2 /* CurrencyBalance */,
@@ -458,6 +486,8 @@
 				D4178441296C4C6200A92A80 /* CurrencyBalanceItemVM.swift in Sources */,
 				D417843F296C4C4C00A92A80 /* CurrencyBalanceItemView.swift in Sources */,
 				D42845EF296C0C0600B97ADE /* BuySellIndicatorView.swift in Sources */,
+				862FC13A298C6AA1007A2A88 /* CurrencyRate + PersistableDomainModelProtocol.swift in Sources */,
+				862FC133298C66FE007A2A88 /* CurrencyRate_DB.swift in Sources */,
 				D42845EB296C09C500B97ADE /* Colors.swift in Sources */,
 				862FC1222989E80D007A2A88 /* CurrencyBalance_DB + PersistedModelProtocol.swift in Sources */,
 				862FC12D298AD88F007A2A88 /* CurrencyAPITarget.swift in Sources */,
@@ -467,6 +497,7 @@
 				D42845CB296C03FE00B97ADE /* AppDelegate.swift in Sources */,
 				D42845E1296C079B00B97ADE /* ConverterSceneView.swift in Sources */,
 				D42845E3296C081400B97ADE /* ConverterSceneVM.swift in Sources */,
+				862FC138298C6A3E007A2A88 /* CurrencyRate.swift in Sources */,
 				862FC11D2989A4D5007A2A88 /* UserRepository.swift in Sources */,
 				D4178446296C5ABE00A92A80 /* ExchangeCurrencyVM.swift in Sources */,
 				862FC1192989A1BD007A2A88 /* User + PersistableDomainModelProtocol.swift in Sources */,
@@ -483,6 +514,7 @@
 				862FC124298A66C5007A2A88 /* CurrencyBalanceRepository.swift in Sources */,
 				862FC11629899D71007A2A88 /* CurrencyService.swift in Sources */,
 				D48A9B12296C240F007F45F2 /* User_DB.swift in Sources */,
+				862FC135298C680F007A2A88 /* CurrencyRate_DB + PersistedModelProtocol.swift in Sources */,
 				D48A9B08296C1382007F45F2 /* CurrencyPickerView.swift in Sources */,
 				8656EDAF29887DA20055722A /* CurrencyBalance.swift in Sources */,
 			);

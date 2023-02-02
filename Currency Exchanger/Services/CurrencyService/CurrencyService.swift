@@ -32,7 +32,7 @@ class CurrencyService {
 
 extension CurrencyService: CurrencyServiceProtocol {
     func fetchExchangeRatesData(completion: @escaping (Result<ExchangeRatesDataResponse, Error>) -> ()) {
-        let target = CurrencyAPITarget(endpoint: .getRates, headers: ["apiKey":"i1PMfVUbzM×WJlyZ80NvqnjbdMZnbKYF"])
+        let target = CurrencyAPITarget(endpoint: .getRates, headers: ["apiKey":"Klj35WgKR2kP7rexFaHmVEig0ozzt2bv"])
         let launched = requestManager.launchSingleUniqueRequest(requestID: target.defaultUUID, target: target,
                                                                 provider: provider, hookRunning: true,
                                                                 retryMethod: .default) { result in
@@ -97,5 +97,4 @@ struct CurrencyResponse: Codable {
 struct ExchangeRatesDataResponse: Codable {
     let rates: [String: Double]
     let base: String
-    let date: String
 }

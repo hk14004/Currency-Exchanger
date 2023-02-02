@@ -36,6 +36,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         container.register(CurrencyBalanceRepositoryProtocol.self) { resolver in
             CurrencyBalanceRepository(currencyBalanceStore: resolver.resolve(PersistentRealmStore<CurrencyBalance>.self)!)
         }
+        container.register(PersistentRealmStore<CurrencyRate>.self) { resolver in
+            PersistentRealmStore(realm: resolver.resolve(Realm.self)!)
+        }
         container.register(PersistentRealmStore<Currency>.self) { resolver in
             PersistentRealmStore(realm: resolver.resolve(Realm.self)!)
         }
@@ -51,7 +54,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         container.register(CurrencyRepositoryProtocol.self) { resolver in
             CurrencyRepository(currencyStore: resolver.resolve(PersistentRealmStore<Currency>.self)!,
-                               currencyAPIService: resolver.resolve(CurrencyServiceProtocol.self)!)
+                               currencyAPIService: resolver.resolve(CurrencyServiceProtocol.self)!,
+                               currencyRateStore: resolver.resolve(PersistentRealmStore<CurrencyRate>.self)!)
         }
         container.register(CurrencyCoverterProtocol.self) { resolver in
             CurrencyCoverter()
@@ -110,7 +114,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let user = container.resolve(User.self)!
             let userRepo = container.resolve(UserRepositoryProtocol.self)!
             print("User:")
-            print(userRepo.getUser(id: user.id))
+            print(userRepo.getUser(id: user.id)!)
             
             // Check balance
             let curBalanceRepo = container.resolve(CurrencyBalanceRepositoryProtocol.self)!
@@ -121,6 +125,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let currencyRepo = container.resolve(CurrencyRepositoryProtocol.self)!
             print("Currencies:")
             print(currencyRepo.getCurrencies())
+            
+            // Check rates
+            print("Rates:")
+            print(currencyRepo.getRates().count)
         }
     }
     
