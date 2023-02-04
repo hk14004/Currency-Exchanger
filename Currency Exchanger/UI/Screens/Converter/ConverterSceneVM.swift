@@ -49,16 +49,25 @@ class ConverterSceneVM: ObservableObject {
         }
     }
     
+    // MARK: Properties
+    
+    // Output
     @Published var sections: [Section] = []
     @Published var showAlert: Bool = false
     @Published var alertType: AlertType = .notEnoughMoney
-    
-    private let bag = Bag()
     
     // Input
     private let balanaceRepository: CurrencyBalanceRepositoryProtocol
     private let currencyRepository: CurrencyRepositoryProtocol
     private let currencyConverter: CurrencyCoverterProtocol
+    
+    // Other
+    private var sellAmountCellVM: ExchangeCurrencyVM?
+    private var buyAmountCellVM: ExchangeCurrencyVM?
+    private var fetchedBalanace: [CurrencyBalance]?
+    private let bag = Bag()
+    
+    // MARK: Init
     
     init(balanaceRepository: CurrencyBalanceRepositoryProtocol,
          currencyRepository: CurrencyRepositoryProtocol,
@@ -69,11 +78,7 @@ class ConverterSceneVM: ObservableObject {
         subscribeToNotifications()
         sections = createSections()
     }
-    
-    private var sellAmountCellVM: ExchangeCurrencyVM?
-    private var buyAmountCellVM: ExchangeCurrencyVM?
-    
-    private var fetchedBalanace: [CurrencyBalance]?
+
 }
 
 // MARK: Public
@@ -160,10 +165,6 @@ extension ConverterSceneVM {
                 sections = temp
             }
         }
-        
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [unowned self] in
-//            self.balanaceRepository.setBalance([.init(id: "EUR", balance: 1000)])
-//        }
     }
     
     private func createSections() -> [Section] {
