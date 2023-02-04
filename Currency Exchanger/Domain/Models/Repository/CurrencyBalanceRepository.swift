@@ -38,11 +38,17 @@ extension CurrencyBalanceRepository: CurrencyBalanceRepositoryProtocol {
     }
     
     func getBalance(forCurrency: Currency) -> CurrencyBalance? {
-        currencyBalanceStore.getSingle(id: forCurrency.id)
+        guard let cBalance = currencyBalanceStore.getSingle(id: forCurrency.id) else {
+            return nil
+        }
+        guard cBalance.balance > 0 else {
+            return nil
+        }
+        return cBalance
     }
     
     func getBalance() -> [CurrencyBalance] {
-        currencyBalanceStore.getList()
+        currencyBalanceStore.getList(predicate: .init(format: "balance > 0"))
     }
     
     func setBalance(_ balance: [CurrencyBalance]) {
@@ -50,6 +56,6 @@ extension CurrencyBalanceRepository: CurrencyBalanceRepositoryProtocol {
     }
     
     func observeBalance() -> AnyPublisher<[CurrencyBalance], Never> {
-        currencyBalanceStore.observeList()
+        currencyBalanceStore.observeList(predicate: .init(format: "balance > 0"))
     }
 }

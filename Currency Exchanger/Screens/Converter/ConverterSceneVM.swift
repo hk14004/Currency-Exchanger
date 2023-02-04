@@ -23,6 +23,7 @@ class ConverterSceneVM: ObservableObject {
         case notEnoughMoney
         case cannotExchangeSameCurrency
         case unknownRate
+        case providePositiveNumber
     }
     
     enum Cell: Hashable {
@@ -119,6 +120,8 @@ extension ConverterSceneVM {
                 alertType = .cannotExchangeSameCurrency
             case .rateUnknown:
                 alertType = .unknownRate
+            case .amountMustBePositive:
+                alertType = .providePositiveNumber
             }
             showAlert = true
         }

@@ -42,18 +42,9 @@ class ExchangeCurrencyVM: ObservableObject {
 extension ExchangeCurrencyVM {
     private func subscribeToNotifications() {
         bag.currenciesHandle = currencyRepository.observeCurrencies().sink(receiveValue: { [unowned self] currencies in
-            let animate = fetchedCurrencies != nil
             fetchedCurrencies = currencies
-            
-            if animate {
-                withAnimation {
-                    availableCurrencies = currencies
-                    selectedCurrency = currencies.first
-                }
-            } else {
-                availableCurrencies = currencies
-                selectedCurrency = currencies.first
-            }
+            availableCurrencies = currencies
+            selectedCurrency = currencies.first
         })
     }
 }

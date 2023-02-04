@@ -24,7 +24,8 @@ struct ConverterSceneView: View {
                 return Alert(title: Text("Cannot exchange same currency"))
             case .unknownRate:
                 return Alert(title: Text("Exchange rate unknown"))
-
+            case .providePositiveNumber:
+                return Alert(title: Text("Provide positive number"))
             }
         }
     }
