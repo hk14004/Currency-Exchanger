@@ -17,52 +17,7 @@ import DevToolsNetworking
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
-    
-    let container: Container = {
-        let container = Container()
-        container.register(Realm.self) { _ in try! Realm() }
-        container.register(User.self) { _ in
-            User(id: "MAIN", name: "James", surname: "Bond")
-        }
-        container.register(PersistentRealmStore<User>.self) { resolver in
-            PersistentRealmStore(realm: resolver.resolve(Realm.self)!)
-        }
-        container.register(UserRepositoryProtocol.self) { resolver in
-            UserRepository(userStore: resolver.resolve(PersistentRealmStore<User>.self)!)
-        }
-        container.register(PersistentRealmStore<CurrencyBalance>.self) { resolver in
-            PersistentRealmStore(realm: resolver.resolve(Realm.self)!)
-        }
-        container.register(CurrencyBalanceRepositoryProtocol.self) { resolver in
-            CurrencyBalanceRepository(currencyBalanceStore: resolver.resolve(PersistentRealmStore<CurrencyBalance>.self)!)
-        }
-        container.register(PersistentRealmStore<CurrencyRate>.self) { resolver in
-            PersistentRealmStore(realm: resolver.resolve(Realm.self)!)
-        }
-        container.register(PersistentRealmStore<Currency>.self) { resolver in
-            PersistentRealmStore(realm: resolver.resolve(Realm.self)!)
-        }
-        container.register(MoyaProvider<CurrencyAPITarget>.self) { resolver in
-            MoyaProvider<CurrencyAPITarget>()
-        }
-        container.register(RequestManager<CurrencyAPITarget>.self) { resolver in
-            RequestManager<CurrencyAPITarget>()
-        }
-        container.register(CurrencyServiceProtocol.self) { resolver in
-            CurrencyService(provider: resolver.resolve(MoyaProvider<CurrencyAPITarget>.self)!,
-                            requestManager: resolver.resolve(RequestManager<CurrencyAPITarget>.self)!)
-        }
-        container.register(CurrencyRepositoryProtocol.self) { resolver in
-            CurrencyRepository(currencyStore: resolver.resolve(PersistentRealmStore<Currency>.self)!,
-                               currencyAPIService: resolver.resolve(CurrencyServiceProtocol.self)!,
-                               currencyRateStore: resolver.resolve(PersistentRealmStore<CurrencyRate>.self)!)
-        }
-        container.register(CurrencyCoverterProtocol.self) { resolver in
-            CurrencyCoverter()
-        }
-        return container
-     }()
-    
+        
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
@@ -71,6 +26,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = UIWindow(windowScene: wScene)
         prepareInitialData()
         check()
+        let container = DependencyManager.mainContainer
         let vm = ConverterSceneVM(balanaceRepository:  container.resolve(CurrencyBalanceRepositoryProtocol.self)!,
                                   currencyRepository: container.resolve(CurrencyRepositoryProtocol.self)!,
                                   currencyConverter: container.resolve(CurrencyCoverterProtocol.self)!)
@@ -109,6 +65,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     private func check() {
+        let container = DependencyManager.mainContainer
         sanityCheck {
             // Check user
             let user = container.resolve(User.self)!
@@ -133,6 +90,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     private func prepareInitialData() {
+        let container = DependencyManager.mainContainer
         let user = container.resolve(User.self)!
         let userRepo = container.resolve(UserRepositoryProtocol.self)!
         guard userRepo.getUser(id: user.id) == nil else {
