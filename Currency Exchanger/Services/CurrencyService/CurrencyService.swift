@@ -39,7 +39,6 @@ extension CurrencyService: CurrencyServiceProtocol {
             switch result {
             case .success(let success):
                 do {
-                    let delete = try? success.mapJSON()
                     let response = try JSONDecoder().decode(ExchangeRatesDataResponse.self, from: success.data)
                     completion(.success(response))
                 } catch (let decodeError) {
@@ -56,14 +55,11 @@ extension CurrencyService: CurrencyServiceProtocol {
     }
     
     func fetchCurrencies(completion: @escaping (Result<CurrencyResponse, Error>) -> ()) {
-        // TODO: Network request
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
-            guard let result = self!.loadCurrenciesJson(fileName: "currencies") else {
-                completion(.failure(APP_Errors.networkRequestDataIssue))
-                return
-            }
-            completion(.success(result))
+        guard let result = loadCurrenciesJson(fileName: "currencies") else {
+            completion(.failure(APP_Errors.networkRequestDataIssue))
+            return
         }
+        completion(.success(result))
     }
 }
 
@@ -84,17 +80,4 @@ extension CurrencyService {
             return nil
         }
     }
-}
-
-struct CurrencyResponse: Codable {
-    let currencies: [Currency]
-    
-    struct Currency: Codable {
-        let id: String
-    }
-}
-
-struct ExchangeRatesDataResponse: Codable {
-    let rates: [String: Double]
-    let base: String
 }
