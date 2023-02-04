@@ -10,6 +10,7 @@ import Foundation
 enum CurrencyConversionError: Error {
     case notEnough
     case cannotExchangeSameCurrency
+    case rateUnknown
 }
 
 struct CurrencyConversionResult {
@@ -18,7 +19,8 @@ struct CurrencyConversionResult {
 }
 
 protocol CurrencyCoverterProtocol {
-    func convert(balance: CurrencyBalance, amount: Double, intoCurrency: Currency, rate: Double) throws -> CurrencyConversionResult
+    func convert(fromCurrency: Currency, toCurrency: Currency, amount: Double,
+                 balance: Double, rates: [CurrencyRate]) throws -> CurrencyConversionResult
 }
 
 class CurrencyCoverter {
@@ -26,17 +28,26 @@ class CurrencyCoverter {
 }
 
 extension CurrencyCoverter: CurrencyCoverterProtocol {
-    func convert(balance: CurrencyBalance, amount: Double, intoCurrency: Currency, rate: Double) throws -> CurrencyConversionResult {
-        guard balance.id != intoCurrency.id else {
+    func convert(fromCurrency: Currency, toCurrency: Currency, amount: Double, balance: Double, rates: [CurrencyRate]) throws -> CurrencyConversionResult {
+        guard fromCurrency.id != toCurrency.id else {
             throw CurrencyConversionError.cannotExchangeSameCurrency
         }
-        let left = balance.balance - amount
-        guard left >= 0.0 else {
+        
+        let left = balance - amount
+        guard left > 0.0 else {
             throw CurrencyConversionError.notEnough
         }
-        let updatedFromBalanace: CurrencyBalance = .init(id: balance.id, balance: left)
-        let newCurrencyBalance: CurrencyBalance = .init(id: intoCurrency.id, balance: amount * rate)
         
-        return .init(from: updatedFromBalanace, to: newCurrencyBalance)
+        guard let exchangeRateFrom = rates.first(where: { $0.id == fromCurrency.id }) else {
+            throw CurrencyConversionError.rateUnknown
+        }
+        guard let exchangeRateTo = rates.first(where: { $0.id == toCurrency.id }) else {
+            throw CurrencyConversionError.rateUnknown
+        }
+        
+        let fromCurrencyBalance: CurrencyBalance = .init(id: fromCurrency.id, balance: left)
+        let toCurrencyBalance: CurrencyBalance = .init(id: toCurrency.id, balance: (amount / exchangeRateFrom.rate) * exchangeRateTo.rate)
+        
+        return .init(from: fromCurrencyBalance, to: toCurrencyBalance)
     }
 }

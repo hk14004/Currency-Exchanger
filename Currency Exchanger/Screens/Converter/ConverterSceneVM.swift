@@ -22,6 +22,7 @@ class ConverterSceneVM: ObservableObject {
     enum AlertType {
         case notEnoughMoney
         case cannotExchangeSameCurrency
+        case unknownRate
     }
     
     enum Cell: Hashable {
@@ -95,10 +96,11 @@ extension ConverterSceneVM {
         guard let balance = balanaceRepository.getBalance(forCurrency: sellCurrency) else {
             return
         }
+        let rates = currencyRepository.getRates()
         
         do {
-            let result = try currencyConverter.convert(balance: balance, amount: sellVM.amount,
-                                                       intoCurrency: buyCurrency, rate: 1.0)
+            let result = try currencyConverter.convert(fromCurrency: sellCurrency, toCurrency: buyCurrency,
+                                                       amount: sellVM.amount, balance: balance.balance, rates: rates)
             print(result)
             // Update db with new balance
             if let previousBuyCurrency: CurrencyBalance = balanaceRepository.getBalance(forCurrency: buyCurrency) {
@@ -115,6 +117,8 @@ extension ConverterSceneVM {
                 alertType = .notEnoughMoney
             case .cannotExchangeSameCurrency:
                 alertType = .cannotExchangeSameCurrency
+            case .rateUnknown:
+                alertType = .unknownRate
             }
             showAlert = true
         }
