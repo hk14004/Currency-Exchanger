@@ -9,6 +9,7 @@ import SwiftUI
 import RealmSwift
 import DevTools
 import Combine
+import DevToolsUI
 
 class ConverterSceneVM: ObservableObject {
     
@@ -37,12 +38,13 @@ class ConverterSceneVM: ObservableObject {
         var balanceHandle: AnyCancellable?
     }
     
-    struct Section {
+    struct Section: UISectionModelProtocol {
+        
         let uuid: String
-        let title: String?
+        var title: String
         var cells: [Cell]
         
-        init(uuid: String, title: String?, cells: [Cell]) {
+        init(uuid: String, title: String, cells: [Cell]) {
             self.uuid = uuid
             self.title = title
             self.cells = cells
@@ -144,26 +146,28 @@ extension ConverterSceneVM {
         currencyRepository.refreshCurrencyRate {
             print("Refreshed currency rate")
         }
-        bag.balanceHandle = balanaceRepository.observeBalance().sink { [unowned self] balance in
-            // TODO: Update section only better
-            let animate: Bool = fetchedBalanace != nil
-            fetchedBalanace = balance
-            guard let sectionIndex = sections.firstIndex(where: {$0.uuid == SectionIdentifiers.myBallances.rawValue}) else {
-                return
+        bag.balanceHandle = balanaceRepository.observeBalance().sink { [weak self] balance in
+            self?.onBalanceChanged(balance: balance)
+        }
+    }
+    
+    private func onBalanceChanged(balance: [CurrencyBalance]) {
+        func onUpdateUI() {
+            let updatedSection = createMyBalanceSection(items: balance)
+            sections.update(section: updatedSection)
+        }
+        
+        let animate: Bool = fetchedBalanace != nil
+        fetchedBalanace = balance
+        
+        // Update UI
+        
+        if animate {
+            withAnimation {
+                onUpdateUI()
             }
-            var temp = sections
-            temp.remove(at: sectionIndex)
-            let newSection =  createMyBalanceSection(items: balance)
-            temp.insert(newSection, at: sectionIndex)
-            
-            // Update UI
-            if animate {
-                withAnimation {
-                    sections = temp
-                }
-            } else {
-                sections = temp
-            }
+        } else {
+            onUpdateUI()
         }
     }
     
