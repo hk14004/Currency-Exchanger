@@ -321,13 +321,13 @@
 		D42845C9296C03FE00B97ADE /* Currency Exchanger */ = {
 			isa = PBXGroup;
 			children = (
+				D42845CA296C03FE00B97ADE /* AppDelegate.swift */,
+				D42845CC296C03FE00B97ADE /* SceneDelegate.swift */,
 				861F1618298EF57600C59DF5 /* UI */,
 				862FC10B29897D91007A2A88 /* Data */,
 				862FC125298A6877007A2A88 /* Resources */,
 				862FC128298A95B9007A2A88 /* BusinessLogic */,
 				861F1619298EF6C400C59DF5 /* Utils */,
-				D42845CA296C03FE00B97ADE /* AppDelegate.swift */,
-				D42845CC296C03FE00B97ADE /* SceneDelegate.swift */,
 				D42845D3296C03FF00B97ADE /* Assets.xcassets */,
 				D42845D5296C03FF00B97ADE /* LaunchScreen.storyboard */,
 				D42845D8296C03FF00B97ADE /* Info.plist */,
