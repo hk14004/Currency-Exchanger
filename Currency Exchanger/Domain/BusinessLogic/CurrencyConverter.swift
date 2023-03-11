@@ -57,6 +57,7 @@ extension CurrencyCoverter: CurrencyCoverterProtocol {
             throw CurrencyConversionError.rateUnknown
         }
         
+        // TODO: Fix rounding
         let fromCurrencyBalance: CurrencyBalance = .init(id: fromCurrency.id, balance: left)
         let toCurrencyBalance: CurrencyBalance = .init(id: toCurrency.id, balance: ((amount / exchangeRateFrom.rate) * exchangeRateTo.rate).rounded(toPlaces: 2))
         
@@ -92,6 +93,7 @@ extension CurrencyCoverter: CurrencyCoverterProtocol {
         let exchangeRateFrom = rates.first(where: { $0.id == getFromCurrency().id })!
         let exchangeRateTo = rates.first(where: { $0.id == getToCurrency().id })!
         
+        // TODO: Fix rounding
         let fromCurrencyBalance: CurrencyBalance = .init(id: getFromCurrency().id, balance: amount)
         let toCurrencyBalance: CurrencyBalance = .init(id: getToCurrency().id, balance: ((amount / exchangeRateFrom.rate) * exchangeRateTo.rate).rounded(toPlaces: 2))
         
