@@ -1,0 +1,5 @@
+{
+    "currencies" : [
+        {"id":"EUR"},{"id":"USD"},{"id":"GBP"},{"id":"JPY"},{"id":"CHF"},{"id":"CAD"}
+    ]
+}

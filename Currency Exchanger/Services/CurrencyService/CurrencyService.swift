@@ -55,7 +55,7 @@ extension CurrencyService: CurrencyServiceProtocol {
     }
     
     func fetchCurrencies(completion: @escaping (Result<CurrencyResponse, Error>) -> ()) {
-        guard let result = loadCurrenciesJson(fileName: "currencies") else {
+        guard let result = loadCurrenciesJson(fileName: "supported_currencies") else {
             completion(.failure(APP_Errors.networkRequestDataIssue))
             return
         }

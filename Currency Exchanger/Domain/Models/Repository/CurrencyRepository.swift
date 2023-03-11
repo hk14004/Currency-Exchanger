@@ -72,7 +72,10 @@ extension CurrencyRepository: CurrencyRepositoryProtocol {
             case .success(let success):
                 print(success)
                 // TODO: Add mappers
-                self?.currencyStore.addOrUpdate([.init(id: "EUR"), .init(id: "USD"), .init(id: "GBP")])
+                let mapped: [Currency] = success.currencies.compactMap { responseCurrency in
+                        .init(id: responseCurrency.id)
+                }
+                self?.currencyStore.addOrUpdate(mapped)
                 completion()
             case .failure(let failure):
                 printError(failure)
