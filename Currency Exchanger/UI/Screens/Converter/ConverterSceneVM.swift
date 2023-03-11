@@ -87,7 +87,6 @@ class ConverterSceneVM: ObservableObject {
 
 extension ConverterSceneVM {
     func onExchangeCurrencyTapped() {
-        // TODO: Buy and sell not just sell
         do {
             guard
                 let sellVM = sellAmountCellVM,
@@ -104,7 +103,6 @@ extension ConverterSceneVM {
             let rates = currencyRepository.getRates()
             let result = try currencyConverter.convert(fromCurrency: sellCurrency, toCurrency: buyCurrency,
                                                        amount: sellVM.amountInput, balance: balance.balance, rates: rates)
-            print(result)
             // Update db with new balance
             if let previousBuyCurrency: CurrencyBalance = balanaceRepository.getBalance(forCurrency: buyCurrency) {
                 balanaceRepository.addOrUpdate(currencyBalance: [result.from,  .init(id: result.to.id, balance: result.to.balance + previousBuyCurrency.balance)])

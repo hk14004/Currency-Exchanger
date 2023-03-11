@@ -38,7 +38,11 @@ class ExchangeCurrencyVM: ObservableObject {
             onAmountInputChanged()
         }
     }
-    @Published var selectedCurrency: Currency?
+    @Published var selectedCurrency: Currency? {
+        didSet {
+            onAmountInputChanged()
+        }
+    }
     @Published var availableCurrencies: [Currency] = []
     @Published var fieldType: FieldType = .inputAmount
     
