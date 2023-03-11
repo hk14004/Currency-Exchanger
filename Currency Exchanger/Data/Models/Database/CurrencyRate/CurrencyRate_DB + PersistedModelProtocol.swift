@@ -10,7 +10,7 @@ import DevTools
 extension CurrencyRate_DB: PersistedModelProtocol {
         
     enum PersistedField: PersistedModelFieldProtocol {
-        case name
+        case rate
     }
     
     func toDomain(fields: Set<PersistedField>) throws -> CurrencyRate {

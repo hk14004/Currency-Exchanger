@@ -10,7 +10,7 @@ import DevTools
 extension CurrencyBalance_DB: PersistedModelProtocol {
         
     enum PersistedField: PersistedModelFieldProtocol {
-        case name
+        case balance
     }
     
     func toDomain(fields: Set<PersistedField>) throws -> CurrencyBalance {

@@ -10,6 +10,7 @@ import DevTools
 extension User_DB: PersistedModelProtocol {
     enum UserField: PersistedModelFieldProtocol {
         case name
+        case surname
     }
     
     func toDomain(fields: Set<UserField>) throws -> User {
