@@ -153,14 +153,15 @@
 			path = Managers;
 			sourceTree = "<group>";
 		};
-		862FC10B29897D91007A2A88 /* Domain */ = {
+		862FC10B29897D91007A2A88 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				862FC12E298BCF19007A2A88 /* Errors */,
-				862FC128298A95B9007A2A88 /* BusinessLogic */,
+				862FC11329899D3B007A2A88 /* Services */,
+				862FC10D29897DA9007A2A88 /* Repository */,
 				D42845E4296C083A00B97ADE /* Models */,
+				862FC12E298BCF19007A2A88 /* Errors */,
 			);
-			path = Domain;
+			path = Data;
 			sourceTree = "<group>";
 		};
 		862FC10D29897DA9007A2A88 /* Repository */ = {
@@ -317,11 +318,11 @@
 		D42845C9296C03FE00B97ADE /* Currency Exchanger */ = {
 			isa = PBXGroup;
 			children = (
-				861F1619298EF6C400C59DF5 /* Managers */,
-				862FC11329899D3B007A2A88 /* Services */,
-				862FC10B29897D91007A2A88 /* Domain */,
 				861F1618298EF57600C59DF5 /* UI */,
+				862FC10B29897D91007A2A88 /* Data */,
 				862FC125298A6877007A2A88 /* Resources */,
+				862FC128298A95B9007A2A88 /* BusinessLogic */,
+				861F1619298EF6C400C59DF5 /* Managers */,
 				D42845CA296C03FE00B97ADE /* AppDelegate.swift */,
 				D42845CC296C03FE00B97ADE /* SceneDelegate.swift */,
 				D42845D3296C03FF00B97ADE /* Assets.xcassets */,
@@ -351,7 +352,6 @@
 		D42845E4296C083A00B97ADE /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				862FC10D29897DA9007A2A88 /* Repository */,
 				8656EDA9298876A10055722A /* Domain */,
 				D48A9B09296C17FD007F45F2 /* Database */,
 			);
