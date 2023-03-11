@@ -17,15 +17,12 @@ import DevToolsNetworking
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
-        
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let wScene = (scene as? UIWindowScene) else { return }
         self.window = UIWindow(windowScene: wScene)
-        prepareInitialData()
-        check()
+        Globals.prepareTestUser()
+        Globals.printAppsState()
         let container = DependencyManager.mainContainer
         let vm = ConverterSceneVM(balanaceRepository:  container.resolve(CurrencyBalanceRepositoryProtocol.self)!,
                                   currencyRepository: container.resolve(CurrencyRepositoryProtocol.self)!,
@@ -64,45 +61,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
     }
     
-    private func check() {
-        let container = DependencyManager.mainContainer
-        sanityCheck {
-            // Check user
-            let user = container.resolve(User.self)!
-            let userRepo = container.resolve(UserRepositoryProtocol.self)!
-            print("User:")
-            print(userRepo.getUser(id: user.id)!)
-            
-            // Check balance
-            let curBalanceRepo = container.resolve(CurrencyBalanceRepositoryProtocol.self)!
-            print("Balance:")
-            print(curBalanceRepo.getBalance())
-            
-            // Check currencies
-            let currencyRepo = container.resolve(CurrencyRepositoryProtocol.self)!
-            print("Currencies:")
-            print(currencyRepo.getCurrencies())
-            
-            // Check rates
-            print("Rates:")
-            print(currencyRepo.getRates().count)
-        }
-    }
-    
-    private func prepareInitialData() {
-        let container = DependencyManager.mainContainer
-        let user = container.resolve(User.self)!
-        let userRepo = container.resolve(UserRepositoryProtocol.self)!
-        guard userRepo.getUser(id: user.id) == nil else {
-            // User already created
-            return
-        }
-        // Add main user
-        userRepo.addOrUpdate(user: user)
-        
-        // Add initial balance
-        let curBalanceRepo = container.resolve(CurrencyBalanceRepositoryProtocol.self)!
-        curBalanceRepo.setBalance([.init(id: "EUR", balance: 1000)])
-    }
 }
-
