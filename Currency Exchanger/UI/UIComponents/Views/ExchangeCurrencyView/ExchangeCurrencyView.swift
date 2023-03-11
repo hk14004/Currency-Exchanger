@@ -17,9 +17,10 @@ struct ExchangeCurrencyView: View {
         HStack {
             BuySellIndicatorView(option: .init(rawValue: viewModel.option.rawValue)!)
             Text(viewModel.option == .buy ? "Buy" : "Sell")
-            TextField("Enter amount", value: $viewModel.amount, format: .number)
+            TextField("Enter amount", value: $viewModel.amountInput, format: .number)
                 .keyboardType(.decimalPad)
                 .multilineTextAlignment(.trailing)
+                .textFieldStyle(.plain)
             Picker("", selection: $viewModel.selectedCurrency) {
                 ForEach(viewModel.availableCurrencies, id: \.id) { item in
                     Text(item.id).tag(item as Currency?)

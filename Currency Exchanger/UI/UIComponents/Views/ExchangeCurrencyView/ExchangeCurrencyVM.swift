@@ -10,11 +10,20 @@ import Foundation
 import RealmSwift
 import Combine
 
+protocol ExchangeCurrencyVMDelegate: AnyObject {
+    func exchangeCurrencyVM(vm: ExchangeCurrencyVM, amountChanged amount: Double)
+}
+
 class ExchangeCurrencyVM: ObservableObject {
     
     enum Option: Int {
         case buy
         case sell
+    }
+    
+    enum FieldType {
+        case inputAmount
+        case calculatedAmount
     }
     
     class Bag {
@@ -24,18 +33,35 @@ class ExchangeCurrencyVM: ObservableObject {
     let uuid: String = UUID().uuidString
     let option: Option
     private let bag = Bag()
-    @Published var amount: Double
+    @Published var amountInput: Double {
+        didSet {
+            onAmountInputChanged()
+        }
+    }
     @Published var selectedCurrency: Currency?
     @Published var availableCurrencies: [Currency] = []
+    @Published var fieldType: FieldType = .inputAmount
     
     private var fetchedCurrencies: [Currency]?
     private let currencyRepository: CurrencyRepositoryProtocol
+    private(set) var amountChangedDate: Date?
+    weak var delegate: ExchangeCurrencyVMDelegate?
+    private var skip = false
     
     init(option: Option, amount: Double, currencyRepository: CurrencyRepositoryProtocol) {
         self.option = option
-        self.amount = amount
+        self.amountInput = amount
         self.currencyRepository = currencyRepository
         subscribeToNotifications()
+    }
+}
+
+
+extension ExchangeCurrencyVM {
+    func onReplaceInput(withPreCalculatedAmount amount: Double) {
+        fieldType = .calculatedAmount
+        skip = true
+        amountInput = amount
     }
 }
 
@@ -46,6 +72,14 @@ extension ExchangeCurrencyVM {
             availableCurrencies = currencies
             selectedCurrency = currencies.first
         })
+    }
+    
+    private func onAmountInputChanged() {
+        amountChangedDate = Date()
+        if !skip {
+            delegate?.exchangeCurrencyVM(vm: self, amountChanged: amountInput)
+        }
+        skip = false
     }
 }
 

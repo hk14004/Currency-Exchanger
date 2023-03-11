@@ -103,7 +103,7 @@ extension ConverterSceneVM {
             }
             let rates = currencyRepository.getRates()
             let result = try currencyConverter.convert(fromCurrency: sellCurrency, toCurrency: buyCurrency,
-                                                       amount: sellVM.amount, balance: balance.balance, rates: rates)
+                                                       amount: sellVM.amountInput, balance: balance.balance, rates: rates)
             print(result)
             // Update db with new balance
             if let previousBuyCurrency: CurrencyBalance = balanaceRepository.getBalance(forCurrency: buyCurrency) {
@@ -191,14 +191,63 @@ extension ConverterSceneVM {
     private func createCurrencyExchangeSection() -> Section {
         let sellVM = ExchangeCurrencyVM(option: .sell, amount: 0, currencyRepository: currencyRepository)
         self.sellAmountCellVM = sellVM
+        sellVM.delegate = self
         let buyVM = ExchangeCurrencyVM(option: .buy, amount: 0, currencyRepository: currencyRepository)
         self.buyAmountCellVM = buyVM
-
+        buyVM.delegate = self
+        
         let cells: [Cell] = [
             .exchangeCurrency(sellVM),
             .exchangeCurrency(buyVM),
             .performExchange
         ]
         return Section(uuid: SectionIdentifiers.currencyExchange.rawValue, title: "CURRENCY EXCHANGE", cells: cells)
+    }
+    
+    private func onSellAmountInputChanged(amount: Double) {
+        guard
+            let sellVM = sellAmountCellVM,
+            let buyVM = buyAmountCellVM,
+            let sellCurrency = sellVM.selectedCurrency,
+            let buyCurrency = buyVM.selectedCurrency
+        else {
+            return
+        }
+        
+        let rates = currencyRepository.getRates()
+        let result = currencyConverter.estimate(sellCurrency: sellCurrency, buyCurrency: buyCurrency, action: .sell,
+                                                amount: amount, rates: rates)
+        
+        
+        buyVM.onReplaceInput(withPreCalculatedAmount: result.to.balance)
+    }
+    
+    private func onBuyAmountInputChanged(amount: Double) {
+        guard
+            let sellVM = sellAmountCellVM,
+            let buyVM = buyAmountCellVM,
+            let sellCurrency = sellVM.selectedCurrency,
+            let buyCurrency = buyVM.selectedCurrency
+        else {
+            return
+        }
+        
+        let rates = currencyRepository.getRates()
+        let result = currencyConverter.estimate(sellCurrency: sellCurrency, buyCurrency: buyCurrency, action: .buy,
+                                                amount: amount, rates: rates)
+        
+        
+        sellVM.onReplaceInput(withPreCalculatedAmount: result.to.balance)
+    }
+}
+
+extension ConverterSceneVM: ExchangeCurrencyVMDelegate {
+    func exchangeCurrencyVM(vm: ExchangeCurrencyVM, amountChanged amount: Double) {
+        switch vm.option {
+        case .buy:
+            onBuyAmountInputChanged(amount: amount)
+        case .sell:
+            onSellAmountInputChanged(amount: amount)
+        }
     }
 }
