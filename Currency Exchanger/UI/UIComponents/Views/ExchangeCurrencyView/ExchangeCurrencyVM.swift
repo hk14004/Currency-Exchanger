@@ -23,7 +23,7 @@ class ExchangeCurrencyVM: ObservableObject {
     
     enum FieldType {
         case inputAmount
-        case calculatedAmount
+        case calculatedAmount // TODO: Implement
     }
     
     class Bag {
