@@ -37,6 +37,7 @@ class ConverterSceneVM: ObservableObject {
     
     class Bag {
         var balanceHandle: AnyCancellable?
+        var rateHandle: AnyCancellable?
     }
     
     struct Section: UISectionModelProtocol {
@@ -68,7 +69,10 @@ class ConverterSceneVM: ObservableObject {
     private var sellAmountCellVM: ExchangeCurrencyVM?
     private var buyAmountCellVM: ExchangeCurrencyVM?
     private var fetchedBalanace: [CurrencyBalance]?
+    private var fetchedRates: [CurrencyRate]?
     private let bag = Bag()
+    private var currencyRateRefreshTimer: Timer
+    private let currencyRateInterval: TimeInterval = 60
     
     // MARK: Init
     
@@ -78,10 +82,18 @@ class ConverterSceneVM: ObservableObject {
         self.balanaceRepository = balanaceRepository
         self.currencyRepository = currencyRepository
         self.currencyConverter = currencyConverter
+        currencyRateRefreshTimer = .scheduledTimer(withTimeInterval: currencyRateInterval, repeats: true, block: {_ in
+            currencyRepository.refreshCurrencyRate {}
+        })
         subscribeToNotifications()
+        refreshRemoteData()
         sections = createSections()
     }
 
+    deinit {
+        currencyRateRefreshTimer.invalidate()
+    }
+    
 }
 
 // MARK: Public
@@ -95,7 +107,7 @@ extension ConverterSceneVM {
                 let sellCurrency = sellVM.selectedCurrency,
                 let buyCurrency = buyVM.selectedCurrency
             else {
-                return
+                throw CurrencyConversionError.currencyNotFound
             }
 
             guard let balance = balanaceRepository.getBalance(forCurrency: sellCurrency) else {
@@ -106,8 +118,11 @@ extension ConverterSceneVM {
                                                        amount: sellVM.amountInput, balance: balance.balance, rates: rates)
             // Update db with new balance
             if let previousBuyCurrency: CurrencyBalance = balanaceRepository.getBalance(forCurrency: buyCurrency) {
-                balanaceRepository.addOrUpdate(currencyBalance: [result.from,  .init(id: result.to.id, balance: result.to.balance + previousBuyCurrency.balance)])
+                // Add new balance + previous
+                let newToBalance: CurrencyBalance = .init(id: result.to.id, balance: result.to.balance + previousBuyCurrency.balance)
+                balanaceRepository.addOrUpdate(currencyBalance: [result.from,  newToBalance])
             } else {
+                // New balance
                 balanaceRepository.addOrUpdate(currencyBalance: [result.from, result.to])
             }
             let message = makeConversionMessage(fromAmount: sellVM.amountInput, fromCurrency: sellCurrency,
@@ -121,7 +136,7 @@ extension ConverterSceneVM {
                 alertType = .notEnoughMoney
             case .cannotExchangeSameCurrency:
                 alertType = .cannotExchangeSameCurrency
-            case .rateUnknown:
+            case .rateUnknown, .currencyNotFound:
                 alertType = .unknownRate
             case .amountMustBePositive:
                 alertType = .providePositiveNumber
@@ -135,15 +150,22 @@ extension ConverterSceneVM {
 // MARK: Private
 
 extension ConverterSceneVM {
-    private func subscribeToNotifications() {
+    
+    private func refreshRemoteData() {
         currencyRepository.refreshCurrencies {
             print("Refreshed currencies")
         }
         currencyRepository.refreshCurrencyRate {
             print("Refreshed currency rate")
         }
+    }
+    
+    private func subscribeToNotifications() {
         bag.balanceHandle = balanaceRepository.observeBalance().sink { [weak self] balance in
             self?.onBalanceChanged(balance: balance)
+        }
+        bag.rateHandle = currencyRepository.observeRates().sink { [weak self] rates in
+            self?.onRatesChanged(rates: rates)
         }
     }
     
@@ -165,6 +187,11 @@ extension ConverterSceneVM {
         } else {
             onUpdateUI()
         }
+    }
+    
+    private func onRatesChanged(rates: [CurrencyRate]) {
+        fetchedRates = rates
+        // TODO: Optionally update input fields
     }
     
     private func createSections() -> [Section] {
@@ -206,40 +233,20 @@ extension ConverterSceneVM {
         return Section(uuid: SectionIdentifiers.currencyExchange.rawValue, title: "CURRENCY EXCHANGE", cells: cells)
     }
     
-    private func onSellAmountInputChanged(amount: Double) {
+    private func onEstimateConversion(action: ConversionAction, inputAmount: Double) throws -> CurrencyConversionResult {
         guard
             let sellVM = sellAmountCellVM,
             let buyVM = buyAmountCellVM,
             let sellCurrency = sellVM.selectedCurrency,
-            let buyCurrency = buyVM.selectedCurrency
+            let buyCurrency = buyVM.selectedCurrency,
+            let rates = fetchedRates
         else {
-            return
+            throw CurrencyConversionError.rateUnknown
         }
         
-        let rates = currencyRepository.getRates()
-        let result = currencyConverter.estimate(sellCurrency: sellCurrency, buyCurrency: buyCurrency, action: .sell,
-                                                amount: amount, rates: rates)
-        
-        
-        buyVM.onReplaceInput(withPreCalculatedAmount: result.to.balance)
-    }
-    
-    private func onBuyAmountInputChanged(amount: Double) {
-        guard
-            let sellVM = sellAmountCellVM,
-            let buyVM = buyAmountCellVM,
-            let sellCurrency = sellVM.selectedCurrency,
-            let buyCurrency = buyVM.selectedCurrency
-        else {
-            return
-        }
-        
-        let rates = currencyRepository.getRates()
-        let result = currencyConverter.estimate(sellCurrency: sellCurrency, buyCurrency: buyCurrency, action: .buy,
-                                                amount: amount, rates: rates)
-        
-        
-        sellVM.onReplaceInput(withPreCalculatedAmount: result.to.balance)
+        let result = try currencyConverter.estimate(sellCurrency: sellCurrency, buyCurrency: buyCurrency,
+                                                     action: action, amount: inputAmount, rates: rates)
+        return result
     }
     
     private func makeConversionMessage(fromAmount: Double, fromCurrency: Currency,
@@ -250,11 +257,9 @@ extension ConverterSceneVM {
 
 extension ConverterSceneVM: ExchangeCurrencyVMDelegate {
     func exchangeCurrencyVM(vm: ExchangeCurrencyVM, amountChanged amount: Double) {
-        switch vm.option {
-        case .buy:
-            onBuyAmountInputChanged(amount: amount)
-        case .sell:
-            onSellAmountInputChanged(amount: amount)
-        }
+        let action: ConversionAction = vm.option == .buy ? .buy : .sell
+        let estimated = try? onEstimateConversion(action: action, inputAmount: amount)
+        let targetVM: ExchangeCurrencyVM? = vm.option == .buy ? sellAmountCellVM : buyAmountCellVM
+        targetVM?.onReplaceInput(withPreCalculatedAmount: estimated?.to.balance ?? 0.0)
     }
 }

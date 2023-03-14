@@ -12,6 +12,7 @@ enum CurrencyConversionError: Error {
     case cannotExchangeSameCurrency
     case rateUnknown
     case amountMustBePositive
+    case currencyNotFound
 }
 
 struct CurrencyConversionResult {
@@ -28,7 +29,7 @@ protocol CurrencyCoverterProtocol {
     func convert(fromCurrency: Currency, toCurrency: Currency, amount: Double,
                  balance: Double, rates: [CurrencyRate]) throws -> CurrencyConversionResult
     func estimate(sellCurrency: Currency, buyCurrency: Currency, action: ConversionAction,
-                  amount: Double, rates: [CurrencyRate]) -> CurrencyConversionResult
+                  amount: Double, rates: [CurrencyRate]) throws -> CurrencyConversionResult
 }
 
 class CurrencyCoverter {
@@ -65,7 +66,7 @@ extension CurrencyCoverter: CurrencyCoverterProtocol {
     }
     
     
-    func estimate(sellCurrency: Currency, buyCurrency: Currency, action: ConversionAction, amount: Double, rates: [CurrencyRate]) -> CurrencyConversionResult {
+    func estimate(sellCurrency: Currency, buyCurrency: Currency, action: ConversionAction, amount: Double, rates: [CurrencyRate]) throws -> CurrencyConversionResult {
         func getFromCurrency() -> Currency {
             switch action {
             case .buy:
@@ -90,8 +91,12 @@ extension CurrencyCoverter: CurrencyCoverterProtocol {
         }
         
         // TODO: Hash map find
-        let exchangeRateFrom = rates.first(where: { $0.id == getFromCurrency().id })!
-        let exchangeRateTo = rates.first(where: { $0.id == getToCurrency().id })!
+        guard let exchangeRateFrom = rates.first(where: { $0.id == getFromCurrency().id }) else {
+            throw CurrencyConversionError.rateUnknown
+        }
+        guard let exchangeRateTo = rates.first(where: { $0.id == getToCurrency().id }) else {
+            throw CurrencyConversionError.rateUnknown
+        }
         
         // TODO: Fix rounding
         let fromCurrencyBalance: CurrencyBalance = .init(id: getFromCurrency().id, balance: amount)

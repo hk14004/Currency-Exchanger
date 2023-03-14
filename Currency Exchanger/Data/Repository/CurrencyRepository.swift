@@ -19,6 +19,7 @@ protocol CurrencyRepositoryProtocol {
     func observeCurrencies() -> AnyPublisher<[Currency], Never>
     func getCurrencies() -> [Currency]
     func getRates() -> [CurrencyRate]
+    func observeRates() ->  AnyPublisher<[CurrencyRate], Never>
 }
 
 class CurrencyRepository {
@@ -43,6 +44,10 @@ class CurrencyRepository {
 extension CurrencyRepository: CurrencyRepositoryProtocol {
     func getRates() -> [CurrencyRate] {
         currencyRateStore.getList()
+    }
+    
+    func observeRates() ->  AnyPublisher<[CurrencyRate], Never> {
+        currencyRateStore.observeList()
     }
     
     func refreshCurrencyRate(completion: @escaping () -> ()) {
