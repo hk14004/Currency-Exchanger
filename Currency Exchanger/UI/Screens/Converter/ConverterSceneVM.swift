@@ -161,10 +161,10 @@ extension ConverterSceneVM {
     }
     
     private func subscribeToNotifications() {
-        bag.balanceHandle = balanaceRepository.observeBalance().sink { [weak self] balance in
+        bag.balanceHandle = balanaceRepository.observeBalance().removeDuplicates().sink { [weak self] balance in
             self?.onBalanceChanged(balance: balance)
         }
-        bag.rateHandle = currencyRepository.observeRates().sink { [weak self] rates in
+        bag.rateHandle = currencyRepository.observeRates().removeDuplicates().sink { [weak self] rates in
             self?.onRatesChanged(rates: rates)
         }
     }
@@ -191,7 +191,14 @@ extension ConverterSceneVM {
     
     private func onRatesChanged(rates: [CurrencyRate]) {
         fetchedRates = rates
-        // TODO: Optionally update input fields
+        // Update input fields because rates changed
+        // TODO: Implement specific methods to do so
+        if let buyAmountCellVM = buyAmountCellVM {
+            exchangeCurrencyVM(vm: buyAmountCellVM, amountChanged: buyAmountCellVM.amountInput)
+        }
+        if let sellAmountCellVM = sellAmountCellVM {
+            exchangeCurrencyVM(vm: sellAmountCellVM, amountChanged: sellAmountCellVM.amountInput)
+        }
     }
     
     private func createSections() -> [Section] {

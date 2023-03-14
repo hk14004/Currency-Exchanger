@@ -11,3 +11,5 @@ struct CurrencyRate {
     let id: String
     let rate: Double
 }
+
+extension CurrencyRate: Equatable {}

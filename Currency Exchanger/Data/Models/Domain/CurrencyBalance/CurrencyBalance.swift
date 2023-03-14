@@ -12,6 +12,4 @@ struct CurrencyBalance {
     let balance: Double
 }
 
-extension CurrencyBalance: Equatable, Hashable {
-    
-}
+extension CurrencyBalance: Equatable, Hashable {}
