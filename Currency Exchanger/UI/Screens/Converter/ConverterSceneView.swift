@@ -26,6 +26,8 @@ struct ConverterSceneView: View {
                 return Alert(title: Text("Exchange rate unknown"))
             case .providePositiveNumber:
                 return Alert(title: Text("Provide positive number"))
+            case .conversionSuccesful(message: let message):
+                return Alert(title: Text(message))
             }
         }
     }

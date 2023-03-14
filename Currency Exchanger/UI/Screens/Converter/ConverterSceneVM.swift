@@ -25,6 +25,7 @@ class ConverterSceneVM: ObservableObject {
         case cannotExchangeSameCurrency
         case unknownRate
         case providePositiveNumber
+        case conversionSuccesful(message: String)
     }
     
     enum Cell: Hashable {
@@ -109,7 +110,10 @@ extension ConverterSceneVM {
             } else {
                 balanaceRepository.addOrUpdate(currencyBalance: [result.from, result.to])
             }
-            
+            let message = makeConversionMessage(fromAmount: sellVM.amountInput, fromCurrency: sellCurrency,
+                                                toAmount: buyVM.amountInput, toCurrency: buyCurrency)
+            alertType = .conversionSuccesful(message: message)
+            showAlert = true
         } catch (let err) {
             let error = err as! CurrencyConversionError
             switch error {
@@ -236,6 +240,11 @@ extension ConverterSceneVM {
         
         
         sellVM.onReplaceInput(withPreCalculatedAmount: result.to.balance)
+    }
+    
+    private func makeConversionMessage(fromAmount: Double, fromCurrency: Currency,
+                                       toAmount: Double, toCurrency: Currency) -> String {
+        return "You have converted \(fromAmount) \(fromCurrency.id) to \(toAmount) \(toCurrency.id)"
     }
 }
 
