@@ -41,18 +41,17 @@ class Globals {
             let curBalanceRepo = container.resolve(CurrencyBalanceRepositoryProtocol.self)!
             Task {
                 print("Balance:")
-                let balance = await curBalanceRepo.getBalance()
-                print(balance)
+                print(await curBalanceRepo.getBalance())
+                
+                // Check currencies
+                let currencyRepo = container.resolve(CurrencyRepositoryProtocol.self)!
+                print("Currencies:")
+                print(await currencyRepo.getCurrencies())
+                
+                // Check rates
+                print("Rates:")
+                print(await currencyRepo.getRates().count)
             }
-            
-            // Check currencies
-            let currencyRepo = container.resolve(CurrencyRepositoryProtocol.self)!
-            print("Currencies:")
-            print(currencyRepo.getCurrencies())
-            
-            // Check rates
-            print("Rates:")
-            print(currencyRepo.getRates().count)
         }
     }
 }

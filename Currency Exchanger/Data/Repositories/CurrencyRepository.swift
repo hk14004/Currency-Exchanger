@@ -17,9 +17,9 @@ protocol CurrencyRepositoryProtocol {
     
     // Local data
     func observeCurrencies() -> AnyPublisher<[Currency], Never>
-    func getCurrencies() -> [Currency]
-    func getRates() -> [CurrencyRate]
-    func observeRates() ->  AnyPublisher<[CurrencyRate], Never>
+    func getCurrencies() async -> [Currency]
+    func getRates() async -> [CurrencyRate]
+    func observeRates() -> AnyPublisher<[CurrencyRate], Never>
 }
 
 class CurrencyRepository {
@@ -42,11 +42,11 @@ class CurrencyRepository {
 }
 
 extension CurrencyRepository: CurrencyRepositoryProtocol {
-    func getRates() -> [CurrencyRate] {
-        currencyRateStore.getList()
+    func getRates() async -> [CurrencyRate] {
+        await currencyRateStore.getList()
     }
     
-    func observeRates() ->  AnyPublisher<[CurrencyRate], Never> {
+    func observeRates() -> AnyPublisher<[CurrencyRate], Never> {
         currencyRateStore.observeList()
     }
     
@@ -63,8 +63,8 @@ extension CurrencyRepository: CurrencyRepositoryProtocol {
         }
     }
     
-    func getCurrencies() -> [Currency] {
-        currencyStore.getList()
+    func getCurrencies() async -> [Currency] {
+        await currencyStore.getList()
     }
     
     func refreshCurrencies() async {
