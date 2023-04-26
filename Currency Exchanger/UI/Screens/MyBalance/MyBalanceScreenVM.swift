@@ -132,25 +132,17 @@ extension MyBalanceScreenVM {
                 let message = makeConversionMessage(fromAmount: sellAmountCellVM.amountInput, fromCurrency: sellCurrency,
                                                     toAmount: buyAmountCellVM.amountInput, toCurrency: buyCurrency)
                 DispatchQueue.main.async {
+                    self.exchangeInProgress = false
                     self.alertType = .conversionSuccesful(message: message)
                     self.showAlert = true
-                    self.exchangeInProgress = false
                 }
             } catch (let err) {
                 DispatchQueue.main.async {
-                    let error = err as! CurrencyExchangeServiceError
-                    switch error {
-                    case .notEnough:
-                        self.alertType = .notEnoughMoney
-                    case .cannotExchangeSameCurrency:
-                        self.alertType = .cannotExchangeSameCurrency
-                    case .rateUnknown, .currencyNotFound:
-                        self.alertType = .unknownRate
-                    case .amountMustBePositive:
-                        self.alertType = .providePositiveNumber
-                    }
-                    self.showAlert = true
                     self.exchangeInProgress = false
+                    guard let error = err as? CurrencyExchangeServiceError else {
+                        return
+                    }
+                    self.handleConversionError(error)
                 }
             }
         }
@@ -297,6 +289,20 @@ extension MyBalanceScreenVM {
         
         // Update db with new balance
         await balanaceRepository.addOrUpdate(currencyBalance: [result.from,  newToBalance])
+    }
+    
+    private func handleConversionError(_ error: CurrencyExchangeServiceError) {
+        switch error {
+        case .notEnough:
+            alertType = .notEnoughMoney
+        case .cannotExchangeSameCurrency:
+            alertType = .cannotExchangeSameCurrency
+        case .rateUnknown, .currencyNotFound:
+            alertType = .unknownRate
+        case .amountMustBePositive:
+            alertType = .providePositiveNumber
+        }
+        self.showAlert = true
     }
 }
 
