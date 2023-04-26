@@ -12,24 +12,22 @@ struct MyBalanceSceneView: View {
     @ObservedObject var viewModel: MyBalanceSceneVM
     
     var body: some View {
-        VStack {
-            createMyBalancesView()
-        }
-        .navigationTitle("Currency Converter")
-        .alert(isPresented: $viewModel.showAlert) {
-            switch viewModel.alertType {
-            case .notEnoughMoney:
-                return Alert(title: Text("Not enough money"))
-            case .cannotExchangeSameCurrency:
-                return Alert(title: Text("Cannot exchange same currency"))
-            case .unknownRate:
-                return Alert(title: Text("Exchange rate unknown"))
-            case .providePositiveNumber:
-                return Alert(title: Text("Provide positive number"))
-            case .conversionSuccesful(message: let message):
-                return Alert(title: Text(message))
+        createMyBalancesView()
+            .navigationTitle("Currency Converter")
+            .alert(isPresented: $viewModel.showAlert) {
+                switch viewModel.alertType {
+                case .notEnoughMoney:
+                    return Alert(title: Text("Not enough money"))
+                case .cannotExchangeSameCurrency:
+                    return Alert(title: Text("Cannot exchange same currency"))
+                case .unknownRate:
+                    return Alert(title: Text("Exchange rate unknown"))
+                case .providePositiveNumber:
+                    return Alert(title: Text("Provide positive number"))
+                case .conversionSuccesful(message: let message):
+                    return Alert(title: Text(message))
+                }
             }
-        }
     }
     
 }
@@ -56,6 +54,8 @@ extension MyBalanceSceneView {
                         }.buttonStyle(MainButtonStyle())
                     case .emptyWallet:
                         Text("Your wallet is empty")
+                    case .walletPlacehoder:
+                        Text("Loading wallet ...").redacted(reason: .placeholder)
                     }
                 }
             } header: {

@@ -29,6 +29,7 @@ class MyBalanceSceneVM: ObservableObject {
     }
     
     enum Cell: Hashable {
+        case walletPlacehoder
         case emptyWallet
         case currencyAmount(CurrencyBalance)
         case exchangeCurrency(ExchangeCurrencyVM)
@@ -160,40 +161,49 @@ extension MyBalanceSceneVM {
 extension MyBalanceSceneVM {
     
     private func startup() {
-//        currencyRateRefreshTimer = .scheduledTimer(withTimeInterval: currencyRateInterval, repeats: true, block: {_ in
-//            currencyRepository.refreshCurrencyRate {}
-//        })
-        subscribeToNotifications()
-        refreshRemoteData()
-        sections = createSections()
-    }
-    
-    private func refreshRemoteData() {
-        currencyRepository.refreshCurrencies {
-            print("Refreshed currencies")
-        }
-        currencyRepository.refreshCurrencyRate {
-            print("Refreshed currency rate")
+        Task {
+            // TODO: Optionally fetch data in sync mode before creating sections
+            // Create placeholder sections
+            sections = makeSections()
+            // Observe and get data, then update sections
+            observe()
+            await refreshRemoteData()
         }
     }
     
-    private func subscribeToNotifications() {
-        bag.balanceHandle = balanaceRepository.observeBalance().removeDuplicates().sink { [weak self] balance in
-            self?.onBalanceChanged(balance: balance)
+    private func makeSections() -> [Section] {
+        var sections: [Section] = []
+        sections.append(createCurrencyExchangeSection())
+        sections.append(createMyBalanceSection(items: cache.fetchedBalanace))
+        return sections
+    }
+    
+    private func refreshRemoteData() async {
+        await withTaskGroup(of: Void.self, body: { group in
+            group.addTask {
+                await self.currencyRepository.refreshCurrencies()
+            }
+            group.addTask {
+                await self.currencyRepository.refreshCurrencyRate()
+            }
+        })
+    }
+    
+    private func observe() {
+        bag.balanceHandle = balanaceRepository.observeBalance().removeDuplicates().sink { [unowned self] balance in
+            cache.fetchedBalanace = balance
+            updateMyBalanceSection()
         }
         bag.rateHandle = currencyRepository.observeRates().removeDuplicates().sink { [weak self] rates in
             self?.onRatesChanged(rates: rates)
         }
     }
     
-    private func onBalanceChanged(balance: [CurrencyBalance]) {
+    private func updateMyBalanceSection(animate: Bool = true) {
         func onUpdateUI() {
-            let updatedSection = createMyBalanceSection(items: balance)
+            let updatedSection = createMyBalanceSection(items: cache.fetchedBalanace ?? [])
             sections.update(section: updatedSection)
         }
-        
-        let animate: Bool = cache.fetchedBalanace != nil
-        cache.fetchedBalanace = balance
         
         // Update UI
         
@@ -214,26 +224,23 @@ extension MyBalanceSceneVM {
         exchangeCurrencyVM(vm: sellAmountCellVM, amountChanged: sellAmountCellVM.amountInput)
     }
     
-    private func createSections() -> [Section] {
-        var sections: [Section] = []
-        sections.append(createCurrencyExchangeSection())
-        sections.append(createMyBalanceSection(items: cache.fetchedBalanace ?? []))
-        return sections
-    }
-    
-    private func createMyBalanceSection(items: [CurrencyBalance]) -> Section {
-        let balanceCells: [Cell] = items.compactMap { balance -> Cell? in
-            if balance.balance <= 0 {
-                return nil
+    private func createMyBalanceSection(items: [CurrencyBalance]?) -> Section {
+        let cells: [Cell] = {
+            if items == nil {
+                return [.walletPlacehoder]
             }
-            return Cell.currencyAmount(balance)
-        }
-        var cells: [Cell] = []
-        if balanceCells.isEmpty {
-            cells.append(.emptyWallet)
-        } else {
-            cells = balanceCells
-        }
+            var balanceCells: [Cell] = items?.compactMap { balance -> Cell? in
+                if balance.balance <= 0 {
+                    return nil
+                }
+                return Cell.currencyAmount(balance)
+            } ?? []
+            if balanceCells.isEmpty {
+                balanceCells.append(.emptyWallet)
+            }
+            
+            return balanceCells
+        }()
         return Section(uuid: SectionIdentifiers.myBallances.rawValue, title: "MY BALANCES", cells: cells)
     }
     

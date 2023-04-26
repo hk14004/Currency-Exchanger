@@ -12,8 +12,8 @@ import Combine
 
 protocol CurrencyRepositoryProtocol {
     // Remote data
-    func refreshCurrencies(completion: @escaping ()->())
-    func refreshCurrencyRate(completion: @escaping () -> ())
+    func refreshCurrencies() async
+    func refreshCurrencyRate() async
     
     // Local data
     func observeCurrencies() -> AnyPublisher<[Currency], Never>
@@ -50,19 +50,21 @@ extension CurrencyRepository: CurrencyRepositoryProtocol {
         currencyRateStore.observeList()
     }
     
-    func refreshCurrencyRate(completion: @escaping () -> ()) {
-        currencyAPIService.fetchExchangeRatesData { [weak self] result in
-            switch result {
-            case .success(let success):
-                // TODO: Mapper
-                let rates:[CurrencyRate] = success.rates.map { rateAPI in
-                    .init(id: rateAPI.key, rate: rateAPI.value)
+    func refreshCurrencyRate() async {
+        await withCheckedContinuation { continuation in
+            currencyAPIService.fetchExchangeRatesData { [weak self] result in
+                switch result {
+                case .success(let success):
+                    // TODO: Mapper
+                    let rates:[CurrencyRate] = success.rates.map { rateAPI in
+                            .init(id: rateAPI.key, rate: rateAPI.value)
+                    }
+                    self?.currencyRateStore.replace(with: rates)
+                    continuation.resume()
+                case .failure(let failure):
+                    printError(failure)
+                    continuation.resume()
                 }
-                self?.currencyRateStore.replace(with: rates)
-                completion()
-            case .failure(let failure):
-                printError(failure)
-                completion()
             }
         }
     }
@@ -71,20 +73,22 @@ extension CurrencyRepository: CurrencyRepositoryProtocol {
         currencyStore.getList()
     }
     
-    func refreshCurrencies(completion: @escaping () -> ()) {
-        currencyAPIService.fetchCurrencies { [weak self] result in
-            switch result {
-            case .success(let success):
-                print(success)
-                // TODO: Add mappers
-                let mapped: [Currency] = success.currencies.compactMap { responseCurrency in
-                        .init(id: responseCurrency.id)
+    func refreshCurrencies() async {
+        await withCheckedContinuation { continuation in
+            currencyAPIService.fetchCurrencies { [weak self] result in
+                switch result {
+                case .success(let success):
+                    print(success)
+                    // TODO: Add mappers
+                    let mapped: [Currency] = success.currencies.compactMap { responseCurrency in
+                            .init(id: responseCurrency.id)
+                    }
+                    self?.currencyStore.addOrUpdate(mapped)
+                    continuation.resume()
+                case .failure(let failure):
+                    printError(failure)
+                    continuation.resume()
                 }
-                self?.currencyStore.addOrUpdate(mapped)
-                completion()
-            case .failure(let failure):
-                printError(failure)
-                completion()
             }
         }
     }
