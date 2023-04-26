@@ -29,14 +29,20 @@ class CurrencyRepository {
     private var currencyStore: PersistentRealmStore<Currency>
     private var currencyAPIService: CurrencyProviderProtocol
     private var currencyRateStore: PersistentRealmStore<CurrencyRate>
+    private var currencyRateResponseMapper: CurrencyRateResponseMapperProtocol
+    private var currencyResponseMapper: CurrencyResponseMapperProtocol
     
     // MARK: Init
     
     init(currencyStore: PersistentRealmStore<Currency>, currencyAPIService: CurrencyProviderProtocol,
-         currencyRateStore: PersistentRealmStore<CurrencyRate>) {
+         currencyRateStore: PersistentRealmStore<CurrencyRate>,
+         currencyRateResponseMapper: CurrencyRateResponseMapperProtocol,
+         currencyResponseMapper: CurrencyResponseMapperProtocol) {
         self.currencyStore = currencyStore
         self.currencyAPIService = currencyAPIService
         self.currencyRateStore = currencyRateStore
+        self.currencyRateResponseMapper = currencyRateResponseMapper
+        self.currencyResponseMapper = currencyResponseMapper
     }
     
 }
@@ -53,10 +59,7 @@ extension CurrencyRepository: CurrencyRepositoryProtocol {
     func refreshCurrencyRate() async {
         do {
             let response = try await currencyAPIService.fetchExchangeRatesData()
-            // TODO: Mapper
-            let rates:[CurrencyRate] = response.rates.map { rateAPI in
-                    .init(id: rateAPI.key, rate: rateAPI.value)
-            }
+            let rates = currencyRateResponseMapper.map(response: response)
             await currencyRateStore.replace(with: rates)
         } catch( let err) {
             printError(err)
@@ -70,11 +73,8 @@ extension CurrencyRepository: CurrencyRepositoryProtocol {
     func refreshCurrencies() async {
         do {
             let response = try await currencyAPIService.fetchCurrencies()
-            // TODO: Mapper
-            let mapped: [Currency] = response.currencies.compactMap { responseCurrency in
-                    .init(id: responseCurrency.id)
-            }
-            await currencyStore.addOrUpdate(mapped)
+            let items = currencyResponseMapper.map(response: response)
+            await currencyStore.addOrUpdate(items)
         } catch( let err) {
             printError(err)
         }

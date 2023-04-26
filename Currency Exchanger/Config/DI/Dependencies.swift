@@ -48,12 +48,20 @@ let DI: Container = {
     }
     container.register(CurrencyProviderProtocol.self) { resolver in
         CurrencyProvider(provider: resolver.resolve(MoyaProvider<CurrencyAPITarget>.self)!,
-                        requestManager: resolver.resolve(RequestManager<CurrencyAPITarget>.self)!)
+                         requestManager: resolver.resolve(RequestManager<CurrencyAPITarget>.self)!)
+    }
+    container.register(CurrencyResponseMapperProtocol.self) { _ in
+        CurrencyResponseMapper()
+    }
+    container.register(CurrencyRateResponseMapperProtocol.self) { _ in
+        CurrencyRateResponseMapper()
     }
     container.register(CurrencyRepositoryProtocol.self) { resolver in
         CurrencyRepository(currencyStore: resolver.resolve(PersistentRealmStore<Currency>.self)!,
                            currencyAPIService: resolver.resolve(CurrencyProviderProtocol.self)!,
-                           currencyRateStore: resolver.resolve(PersistentRealmStore<CurrencyRate>.self)!)
+                           currencyRateStore: resolver.resolve(PersistentRealmStore<CurrencyRate>.self)!,
+                           currencyRateResponseMapper: resolver.resolve(CurrencyRateResponseMapperProtocol.self)!,
+                           currencyResponseMapper: resolver.resolve(CurrencyResponseMapperProtocol.self)!)
     }
     container.register(CurrencyExchangeServiceProtocol.self) { resolver in
         CurrencyExchangeService()

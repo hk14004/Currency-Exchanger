@@ -48,6 +48,4 @@ extension UserRepository: UserRepositoryProtocol {
     func addOrUpdate(user: User) async {
         await userStore.addOrUpdate([user])
     }
-    
-    
 }

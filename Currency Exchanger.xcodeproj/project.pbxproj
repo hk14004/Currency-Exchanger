@@ -61,6 +61,8 @@
 		D4FE43EB29F93F9C003FDCCD /* PeriodicTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE43EA29F93F9C003FDCCD /* PeriodicTask.swift */; };
 		D4FE43ED29F94B2B003FDCCD /* PeriodicTaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE43EC29F94B2B003FDCCD /* PeriodicTaskManager.swift */; };
 		D4FE43F129F99900003FDCCD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE43F029F998FF003FDCCD /* Constants.swift */; };
+		D4FE43F529F99E4D003FDCCD /* CurrencyRateResponseMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE43F429F99E4D003FDCCD /* CurrencyRateResponseMapper.swift */; };
+		D4FE43F729F9A004003FDCCD /* CurrencyResponseMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE43F629F9A004003FDCCD /* CurrencyResponseMapper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -113,6 +115,8 @@
 		D4FE43EA29F93F9C003FDCCD /* PeriodicTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodicTask.swift; sourceTree = "<group>"; };
 		D4FE43EC29F94B2B003FDCCD /* PeriodicTaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodicTaskManager.swift; sourceTree = "<group>"; };
 		D4FE43F029F998FF003FDCCD /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		D4FE43F429F99E4D003FDCCD /* CurrencyRateResponseMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyRateResponseMapper.swift; sourceTree = "<group>"; };
+		D4FE43F629F9A004003FDCCD /* CurrencyResponseMapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyResponseMapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +174,7 @@
 		862FC10B29897D91007A2A88 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				D4FE43F229F99DBC003FDCCD /* Mappers */,
 				D4FE43DB29F90906003FDCCD /* Providers */,
 				862FC11329899D3B007A2A88 /* Services */,
 				862FC10D29897DA9007A2A88 /* Repositories */,
@@ -516,6 +521,15 @@
 			path = Constants;
 			sourceTree = "<group>";
 		};
+		D4FE43F229F99DBC003FDCCD /* Mappers */ = {
+			isa = PBXGroup;
+			children = (
+				D4FE43F429F99E4D003FDCCD /* CurrencyRateResponseMapper.swift */,
+				D4FE43F629F9A004003FDCCD /* CurrencyResponseMapper.swift */,
+			);
+			path = Mappers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -615,6 +629,7 @@
 				862FC1202989E7CD007A2A88 /* CurrencyBalance + PersistableDomainModelProtocol.swift in Sources */,
 				D4FE43E929F93F6D003FDCCD /* RefreshCurrencyRatesTask.swift in Sources */,
 				D48A9B0C296C185E007F45F2 /* CurrencyBalance_DB.swift in Sources */,
+				D4FE43F529F99E4D003FDCCD /* CurrencyRateResponseMapper.swift in Sources */,
 				D4178449296C612200A92A80 /* Currency_DB.swift in Sources */,
 				D42845CB296C03FE00B97ADE /* AppDelegate.swift in Sources */,
 				D42845E1296C079B00B97ADE /* MyBalanceScreenView.swift in Sources */,
@@ -635,6 +650,7 @@
 				862FC130298BCF25007A2A88 /* APP_Errors.swift in Sources */,
 				D4FE43E029F909BE003FDCCD /* Dependencies.swift in Sources */,
 				861F1614298EF4F200C59DF5 /* CurrencyResponse.swift in Sources */,
+				D4FE43F729F9A004003FDCCD /* CurrencyResponseMapper.swift in Sources */,
 				862FC11B2989A1EF007A2A88 /* User_DB + PersistedModelProtocol.swift in Sources */,
 				86894F712988801A00A41E10 /* Currency_DB + PersistedModelProtocol.swift in Sources */,
 				862FC124298A66C5007A2A88 /* CurrencyBalanceRepository.swift in Sources */,
