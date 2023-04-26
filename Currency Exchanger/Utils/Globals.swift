@@ -23,7 +23,9 @@ class Globals {
         
         // Add initial balance
         let curBalanceRepo = container.resolve(CurrencyBalanceRepositoryProtocol.self)!
-        curBalanceRepo.setBalance([.init(id: "EUR", balance: 1000)])
+        Task {
+            await curBalanceRepo.setBalance([.init(id: "EUR", balance: 1000)])
+        }
     }
     
     static func printAppsState() {
@@ -37,8 +39,11 @@ class Globals {
             
             // Check balance
             let curBalanceRepo = container.resolve(CurrencyBalanceRepositoryProtocol.self)!
-            print("Balance:")
-            print(curBalanceRepo.getBalance())
+            Task {
+                print("Balance:")
+                let balance = await curBalanceRepo.getBalance()
+                print(balance)
+            }
             
             // Check currencies
             let currencyRepo = container.resolve(CurrencyRepositoryProtocol.self)!

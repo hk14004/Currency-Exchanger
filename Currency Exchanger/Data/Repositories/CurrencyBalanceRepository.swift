@@ -11,11 +11,11 @@ import RealmSwift
 import Combine
 
 protocol CurrencyBalanceRepositoryProtocol {
-    func setBalance(_ balance: [CurrencyBalance])
+    func setBalance(_ balance: [CurrencyBalance]) async
     func observeBalance() -> AnyPublisher<[CurrencyBalance], Never>
-    func getBalance() -> [CurrencyBalance]
-    func getBalance(forCurrency: Currency) -> CurrencyBalance?
-    func addOrUpdate(currencyBalance: [CurrencyBalance])
+    func getBalance() async -> [CurrencyBalance]
+    func getBalance(forCurrency: Currency) async -> CurrencyBalance?
+    func addOrUpdate(currencyBalance: [CurrencyBalance]) async
 }
 
 class CurrencyBalanceRepository {
@@ -33,12 +33,12 @@ class CurrencyBalanceRepository {
 }
 
 extension CurrencyBalanceRepository: CurrencyBalanceRepositoryProtocol {
-    func addOrUpdate(currencyBalance: [CurrencyBalance]) {
-        currencyBalanceStore.addOrUpdate(currencyBalance)
+    func addOrUpdate(currencyBalance: [CurrencyBalance]) async {
+        await currencyBalanceStore.addOrUpdate(currencyBalance)
     }
     
-    func getBalance(forCurrency: Currency) -> CurrencyBalance? {
-        guard let cBalance = currencyBalanceStore.getSingle(id: forCurrency.id) else {
+    func getBalance(forCurrency: Currency) async -> CurrencyBalance? {
+        guard let cBalance = await currencyBalanceStore.getSingle(id: forCurrency.id) else {
             return nil
         }
         guard cBalance.balance > 0 else {
@@ -47,12 +47,12 @@ extension CurrencyBalanceRepository: CurrencyBalanceRepositoryProtocol {
         return cBalance
     }
     
-    func getBalance() -> [CurrencyBalance] {
-        currencyBalanceStore.getList(predicate: .init(format: "balance > 0"))
+    func getBalance() async -> [CurrencyBalance] {
+        await currencyBalanceStore.getList(predicate: .init(format: "balance > 0"))
     }
     
-    func setBalance(_ balance: [CurrencyBalance]) {
-        currencyBalanceStore.replace(with: balance)
+    func setBalance(_ balance: [CurrencyBalance]) async {
+        await currencyBalanceStore.replace(with: balance)
     }
     
     func observeBalance() -> AnyPublisher<[CurrencyBalance], Never> {

@@ -65,6 +65,7 @@ class MyBalanceScreenVM: ObservableObject {
     @Published var sections: [Section] = []
     @Published var showAlert: Bool = false
     @Published var alertType: AlertType = .notEnoughMoney
+    @Published var exchangeInProgress: Bool = false
     
     // Input
     private let balanaceRepository: CurrencyBalanceRepositoryProtocol
@@ -78,13 +79,11 @@ class MyBalanceScreenVM: ObservableObject {
         sellVM.delegate = self
         return sellVM
     }()
-    
     private lazy var buyAmountCellVM: ExchangeCurrencyVM = {
         let buyVM = ExchangeCurrencyVM(option: .buy, amount: 0, currencyRepository: currencyRepository)
         buyVM.delegate = self
         return buyVM
     }()
-    
     private let bag = Bag()
 
     // MARK: Init
@@ -104,57 +103,54 @@ class MyBalanceScreenVM: ObservableObject {
 
 extension MyBalanceScreenVM {
     func onExchangeCurrencyTapped() {
+        guard !exchangeInProgress else {
+            return
+        }
+        exchangeInProgress = true
         Task {
-            
+            do {
+                // Check selected currencies
+                guard
+                    let sellCurrency = sellAmountCellVM.selectedCurrency,
+                    let buyCurrency = buyAmountCellVM.selectedCurrency
+                else {
+                    throw CurrencyExchangeServiceError.currencyNotFound
+                }
+                
+                // Make sure rates are fetched
+                guard let rates = cache.fetchedRates else {
+                    throw CurrencyExchangeServiceError.rateUnknown
+                }
+                
+                // Make sure balance can be found for selling currency
+                guard let balanceItem = await balanaceRepository.getBalance(forCurrency: sellCurrency) else {
+                    throw CurrencyExchangeServiceError.notEnough
+                }
+                
+                try await performExchangeOperation(fromCurrency: sellCurrency, toCurrency: buyCurrency,
+                                                   amount: sellAmountCellVM.amountInput, balance: balanceItem.balance, rates: rates)
+                
+                DispatchQueue.main.async {
+                    self.exchangeInProgress = false
+                }
+            } catch (let err) {
+                let error = err as! CurrencyExchangeServiceError
+                switch error {
+                case .notEnough:
+                    alertType = .notEnoughMoney
+                case .cannotExchangeSameCurrency:
+                    alertType = .cannotExchangeSameCurrency
+                case .rateUnknown, .currencyNotFound:
+                    alertType = .unknownRate
+                case .amountMustBePositive:
+                    alertType = .providePositiveNumber
+                }
+                DispatchQueue.main.async {
+                    self.showAlert = true
+                    self.exchangeInProgress = false
+                }
+            }
         }
-        
-        do {
-            let sellVM = sellAmountCellVM
-            let buyVM = buyAmountCellVM
-            
-            guard
-                let sellCurrency = sellVM.selectedCurrency,
-                let buyCurrency = buyVM.selectedCurrency
-            else {
-                throw CurrencyExchangeServiceError.currencyNotFound
-            }
-
-            guard let balance = balanaceRepository.getBalance(forCurrency: sellCurrency) else {
-                throw CurrencyExchangeServiceError.notEnough
-            }
-            guard let rates = cache.fetchedRates else {
-                throw CurrencyExchangeServiceError.rateUnknown
-            }
-            let result = try currencyExchangeService.convert(fromCurrency: sellCurrency, toCurrency: buyCurrency,
-                                                       amount: sellVM.amountInput, balance: balance.balance, rates: rates)
-            // Update db with new balance
-            if let previousBuyCurrency: CurrencyBalance = balanaceRepository.getBalance(forCurrency: buyCurrency) {
-                // Add new balance + previous
-                let newToBalance: CurrencyBalance = .init(id: result.to.id, balance: result.to.balance + previousBuyCurrency.balance)
-                balanaceRepository.addOrUpdate(currencyBalance: [result.from,  newToBalance])
-            } else {
-                // New balance
-                balanaceRepository.addOrUpdate(currencyBalance: [result.from, result.to])
-            }
-            let message = makeConversionMessage(fromAmount: sellVM.amountInput, fromCurrency: sellCurrency,
-                                                toAmount: buyVM.amountInput, toCurrency: buyCurrency)
-            alertType = .conversionSuccesful(message: message)
-            showAlert = true
-        } catch (let err) {
-            let error = err as! CurrencyExchangeServiceError
-            switch error {
-            case .notEnough:
-                alertType = .notEnoughMoney
-            case .cannotExchangeSameCurrency:
-                alertType = .cannotExchangeSameCurrency
-            case .rateUnknown, .currencyNotFound:
-                alertType = .unknownRate
-            case .amountMustBePositive:
-                alertType = .providePositiveNumber
-            }
-            showAlert = true
-        }
-        
     }
 }
 
@@ -274,6 +270,31 @@ extension MyBalanceScreenVM {
     private func makeConversionMessage(fromAmount: Money, fromCurrency: Currency,
                                        toAmount: Money, toCurrency: Currency) -> String {
         return "You have converted \(fromAmount) \(fromCurrency.id) to \(toAmount) \(toCurrency.id)"
+    }
+    
+    private func performExchangeOperation(fromCurrency: Currency, toCurrency: Currency,
+                                          amount: Money, balance: Money, rates: [CurrencyID: Decimal]) async throws {
+        
+        // Generate conversion result
+        let result = try currencyExchangeService.convert(fromCurrency: fromCurrency, toCurrency: toCurrency,
+                                                         amount: amount,
+                                                         balance: balance, rates: rates)
+        
+        // Update db with new balance
+        if let previousBuyCurrency: CurrencyBalance = await balanaceRepository.getBalance(forCurrency: toCurrency) {
+            // Add new balance + previous
+            let newToBalance: CurrencyBalance = .init(id: result.to.id, balance: result.to.balance + previousBuyCurrency.balance)
+            await balanaceRepository.addOrUpdate(currencyBalance: [result.from,  newToBalance])
+        } else {
+            // New balance
+            await balanaceRepository.addOrUpdate(currencyBalance: [result.from, result.to])
+        }
+        let message = makeConversionMessage(fromAmount: sellAmountCellVM.amountInput, fromCurrency: fromCurrency,
+                                            toAmount: buyAmountCellVM.amountInput, toCurrency: toCurrency)
+        DispatchQueue.main.async {
+            self.alertType = .conversionSuccesful(message: message)
+            self.showAlert = true
+        }
     }
 }
 
