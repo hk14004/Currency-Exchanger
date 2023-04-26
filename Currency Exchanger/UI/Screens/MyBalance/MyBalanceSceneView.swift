@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct ConverterSceneView: View {
+struct MyBalanceSceneView: View {
     
-    @ObservedObject var viewModel: ConverterSceneVM
+    @ObservedObject var viewModel: MyBalanceSceneVM
     
     var body: some View {
         VStack {
@@ -34,7 +34,7 @@ struct ConverterSceneView: View {
     
 }
 
-extension ConverterSceneView {
+extension MyBalanceSceneView {
     private func createMyBalancesView() -> some View {
         List(viewModel.sections, id: \.uuid) { section in
             Section {

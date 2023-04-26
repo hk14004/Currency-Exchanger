@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum CurrencyConversionError: Error {
+enum CurrencyExchangeServiceError: Error {
     case notEnough
     case cannotExchangeSameCurrency
     case rateUnknown
@@ -25,37 +25,37 @@ enum ConversionAction {
     case sell
 }
 
-protocol CurrencyCoverterProtocol {
+protocol CurrencyExchangeServiceProtocol {
     func convert(fromCurrency: Currency, toCurrency: Currency, amount: Double,
                  balance: Double, rates: [CurrencyRate]) throws -> CurrencyConversionResult
     func estimate(sellCurrency: Currency, buyCurrency: Currency, action: ConversionAction,
                   amount: Double, rates: [CurrencyRate]) throws -> CurrencyConversionResult
 }
 
-class CurrencyCoverter {
+class CurrencyExchangeService {
     
 }
 
-extension CurrencyCoverter: CurrencyCoverterProtocol {
+extension CurrencyExchangeService: CurrencyExchangeServiceProtocol {
     func convert(fromCurrency: Currency, toCurrency: Currency, amount: Double, balance: Double, rates: [CurrencyRate]) throws -> CurrencyConversionResult {
         guard amount > 0 else {
-            throw CurrencyConversionError.amountMustBePositive
+            throw CurrencyExchangeServiceError.amountMustBePositive
         }
         guard fromCurrency.id != toCurrency.id else {
-            throw CurrencyConversionError.cannotExchangeSameCurrency
+            throw CurrencyExchangeServiceError.cannotExchangeSameCurrency
         }
         
         let left = balance - amount
         guard left >= 0.0 else {
-            throw CurrencyConversionError.notEnough
+            throw CurrencyExchangeServiceError.notEnough
         }
         
         // TODO: Hash map find
         guard let exchangeRateFrom = rates.first(where: { $0.id == fromCurrency.id }) else {
-            throw CurrencyConversionError.rateUnknown
+            throw CurrencyExchangeServiceError.rateUnknown
         }
         guard let exchangeRateTo = rates.first(where: { $0.id == toCurrency.id }) else {
-            throw CurrencyConversionError.rateUnknown
+            throw CurrencyExchangeServiceError.rateUnknown
         }
         
         // TODO: Fix rounding
@@ -92,10 +92,10 @@ extension CurrencyCoverter: CurrencyCoverterProtocol {
         
         // TODO: Hash map find
         guard let exchangeRateFrom = rates.first(where: { $0.id == getFromCurrency().id }) else {
-            throw CurrencyConversionError.rateUnknown
+            throw CurrencyExchangeServiceError.rateUnknown
         }
         guard let exchangeRateTo = rates.first(where: { $0.id == getToCurrency().id }) else {
-            throw CurrencyConversionError.rateUnknown
+            throw CurrencyExchangeServiceError.rateUnknown
         }
         
         // TODO: Fix rounding

@@ -11,7 +11,7 @@ import DevToolsCore
 import Combine
 import DevToolsUI
 
-class ConverterSceneVM: ObservableObject {
+class MyBalanceSceneVM: ObservableObject {
     
     // MARK: Types
     
@@ -63,7 +63,7 @@ class ConverterSceneVM: ObservableObject {
     // Input
     private let balanaceRepository: CurrencyBalanceRepositoryProtocol
     private let currencyRepository: CurrencyRepositoryProtocol
-    private let currencyConverter: CurrencyCoverterProtocol
+    private let currencyExchangeService: CurrencyExchangeServiceProtocol
     
     // Other
     private var sellAmountCellVM: ExchangeCurrencyVM?
@@ -78,22 +78,18 @@ class ConverterSceneVM: ObservableObject {
     
     init(balanaceRepository: CurrencyBalanceRepositoryProtocol,
          currencyRepository: CurrencyRepositoryProtocol,
-         currencyConverter: CurrencyCoverterProtocol) {
+         currencyConverter: CurrencyExchangeServiceProtocol) {
         self.balanaceRepository = balanaceRepository
         self.currencyRepository = currencyRepository
-        self.currencyConverter = currencyConverter
+        self.currencyExchangeService = currencyConverter
         startup()
-    }
-
-    deinit {
-//        currencyRateRefreshTimer.invalidate()
     }
     
 }
 
 // MARK: Public
 
-extension ConverterSceneVM {
+extension MyBalanceSceneVM {
     func onExchangeCurrencyTapped() {
         do {
             guard
@@ -102,14 +98,14 @@ extension ConverterSceneVM {
                 let sellCurrency = sellVM.selectedCurrency,
                 let buyCurrency = buyVM.selectedCurrency
             else {
-                throw CurrencyConversionError.currencyNotFound
+                throw CurrencyExchangeServiceError.currencyNotFound
             }
 
             guard let balance = balanaceRepository.getBalance(forCurrency: sellCurrency) else {
-                throw CurrencyConversionError.notEnough
+                throw CurrencyExchangeServiceError.notEnough
             }
             let rates = currencyRepository.getRates()
-            let result = try currencyConverter.convert(fromCurrency: sellCurrency, toCurrency: buyCurrency,
+            let result = try currencyExchangeService.convert(fromCurrency: sellCurrency, toCurrency: buyCurrency,
                                                        amount: sellVM.amountInput, balance: balance.balance, rates: rates)
             // Update db with new balance
             if let previousBuyCurrency: CurrencyBalance = balanaceRepository.getBalance(forCurrency: buyCurrency) {
@@ -125,7 +121,7 @@ extension ConverterSceneVM {
             alertType = .conversionSuccesful(message: message)
             showAlert = true
         } catch (let err) {
-            let error = err as! CurrencyConversionError
+            let error = err as! CurrencyExchangeServiceError
             switch error {
             case .notEnough:
                 alertType = .notEnoughMoney
@@ -144,7 +140,7 @@ extension ConverterSceneVM {
 
 // MARK: Private
 
-extension ConverterSceneVM {
+extension MyBalanceSceneVM {
     
     private func startup() {
 //        currencyRateRefreshTimer = .scheduledTimer(withTimeInterval: currencyRateInterval, repeats: true, block: {_ in
@@ -252,10 +248,10 @@ extension ConverterSceneVM {
             let buyCurrency = buyVM.selectedCurrency,
             let rates = fetchedRates
         else {
-            throw CurrencyConversionError.rateUnknown
+            throw CurrencyExchangeServiceError.rateUnknown
         }
         
-        let result = try currencyConverter.estimate(sellCurrency: sellCurrency, buyCurrency: buyCurrency,
+        let result = try currencyExchangeService.estimate(sellCurrency: sellCurrency, buyCurrency: buyCurrency,
                                                      action: action, amount: inputAmount, rates: rates)
         return result
     }
@@ -266,7 +262,7 @@ extension ConverterSceneVM {
     }
 }
 
-extension ConverterSceneVM: ExchangeCurrencyVMDelegate {
+extension MyBalanceSceneVM: ExchangeCurrencyVMDelegate {
     func exchangeCurrencyVM(vm: ExchangeCurrencyVM, amountChanged amount: Double) {
         let action: ConversionAction = vm.option == .buy ? .buy : .sell
         let estimated = try? onEstimateConversion(action: action, inputAmount: amount)

@@ -19,10 +19,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         Globals.prepareTestUser()
         Globals.printAppsState()
         let container = DI
-        let vm = ConverterSceneVM(balanaceRepository:  container.resolve(CurrencyBalanceRepositoryProtocol.self)!,
+        let vm = MyBalanceSceneVM(balanaceRepository:  container.resolve(CurrencyBalanceRepositoryProtocol.self)!,
                                   currencyRepository: container.resolve(CurrencyRepositoryProtocol.self)!,
-                                  currencyConverter: container.resolve(CurrencyCoverterProtocol.self)!)
-        let view = ConverterSceneView(viewModel: vm)
+                                  currencyConverter: container.resolve(CurrencyExchangeServiceProtocol.self)!)
+        let view = MyBalanceSceneView(viewModel: vm)
         let vc = UIHostingController(rootView: view)
         window?.rootViewController = UINavigationController(rootViewController: vc)
         window?.makeKeyAndVisible()

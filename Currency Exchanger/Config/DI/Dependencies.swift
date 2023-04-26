@@ -55,8 +55,8 @@ let DI: Container = {
                            currencyAPIService: resolver.resolve(CurrencyProviderProtocol.self)!,
                            currencyRateStore: resolver.resolve(PersistentRealmStore<CurrencyRate>.self)!)
     }
-    container.register(CurrencyCoverterProtocol.self) { resolver in
-        CurrencyCoverter()
+    container.register(CurrencyExchangeServiceProtocol.self) { resolver in
+        CurrencyExchangeService()
     }
     
     return container
