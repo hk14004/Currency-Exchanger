@@ -9,9 +9,10 @@ import SwiftUI
 import Foundation
 import RealmSwift
 import Combine
+import DevToolsCore
 
 protocol ExchangeCurrencyVMDelegate: AnyObject {
-    func exchangeCurrencyVM(vm: ExchangeCurrencyVM, amountChanged amount: Double)
+    func exchangeCurrencyVM(vm: ExchangeCurrencyVM, amountChanged amount: Money)
 }
 
 class ExchangeCurrencyVM: ObservableObject {
@@ -33,7 +34,7 @@ class ExchangeCurrencyVM: ObservableObject {
     let uuid: String = UUID().uuidString
     let option: Option
     private let bag = Bag()
-    @Published var amountInput: Double {
+    @Published var amountInput: Money {
         didSet {
             onAmountInputChanged()
         }
@@ -52,7 +53,7 @@ class ExchangeCurrencyVM: ObservableObject {
     weak var delegate: ExchangeCurrencyVMDelegate?
     private var skip = false
     
-    init(option: Option, amount: Double, currencyRepository: CurrencyRepositoryProtocol) {
+    init(option: Option, amount: Money, currencyRepository: CurrencyRepositoryProtocol) {
         self.option = option
         self.amountInput = amount
         self.currencyRepository = currencyRepository
@@ -62,7 +63,7 @@ class ExchangeCurrencyVM: ObservableObject {
 
 
 extension ExchangeCurrencyVM {
-    func onReplaceInput(withPreCalculatedAmount amount: Double) {
+    func onReplaceInput(withPreCalculatedAmount amount: Money) {
         fieldType = .calculatedAmount
         skip = true
         amountInput = amount

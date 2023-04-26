@@ -6,6 +6,8 @@
 //
 
 import DevToolsCore
+import RealmSwift
+import Foundation
 
 extension CurrencyBalance_DB: PersistedModelProtocol {
         
@@ -14,11 +16,11 @@ extension CurrencyBalance_DB: PersistedModelProtocol {
     }
     
     func toDomain(fields: Set<PersistedField>) throws -> CurrencyBalance {
-        return .init(id: self.id, balance: self.balance)
+        return .init(id: self.id, balance: self.balance.decimalValue)
     }
     
     func update(with model: CurrencyBalance, fields: Set<PersistedField>) {
         self.id = model.id
-        self.balance = model.balance
+        self.balance = Decimal128(number: model.balance as NSNumber)
     }
 }

@@ -6,10 +6,11 @@
 //
 
 import Foundation
+import DevToolsCore
 
 struct CurrencyRate {
     let id: String
-    let rate: Double
+    let rate: Money
 }
 
 extension CurrencyRate: Equatable {}

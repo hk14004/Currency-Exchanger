@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import DevToolsCore
 
 enum CurrencyExchangeServiceError: Error {
     case notEnough
@@ -26,10 +27,10 @@ enum ConversionAction {
 }
 
 protocol CurrencyExchangeServiceProtocol {
-    func convert(fromCurrency: Currency, toCurrency: Currency, amount: Double,
-                 balance: Double, rates: [CurrencyRate]) throws -> CurrencyConversionResult
+    func convert(fromCurrency: Currency, toCurrency: Currency, amount: Money,
+                 balance: Money, rates: [CurrencyRate]) throws -> CurrencyConversionResult
     func estimate(sellCurrency: Currency, buyCurrency: Currency, action: ConversionAction,
-                  amount: Double, rates: [CurrencyRate]) throws -> CurrencyConversionResult
+                  amount: Money, rates: [CurrencyRate]) throws -> CurrencyConversionResult
 }
 
 class CurrencyExchangeService {
@@ -37,7 +38,7 @@ class CurrencyExchangeService {
 }
 
 extension CurrencyExchangeService: CurrencyExchangeServiceProtocol {
-    func convert(fromCurrency: Currency, toCurrency: Currency, amount: Double, balance: Double, rates: [CurrencyRate]) throws -> CurrencyConversionResult {
+    func convert(fromCurrency: Currency, toCurrency: Currency, amount: Money, balance: Money, rates: [CurrencyRate]) throws -> CurrencyConversionResult {
         guard amount > 0 else {
             throw CurrencyExchangeServiceError.amountMustBePositive
         }
@@ -60,13 +61,13 @@ extension CurrencyExchangeService: CurrencyExchangeServiceProtocol {
         
         // TODO: Fix rounding
         let fromCurrencyBalance: CurrencyBalance = .init(id: fromCurrency.id, balance: left)
-        let toCurrencyBalance: CurrencyBalance = .init(id: toCurrency.id, balance: ((amount / exchangeRateFrom.rate) * exchangeRateTo.rate).rounded(toPlaces: 2))
+        let toCurrencyBalance: CurrencyBalance = .init(id: toCurrency.id, balance: ((amount / exchangeRateFrom.rate) * exchangeRateTo.rate))
         
         return .init(from: fromCurrencyBalance, to: toCurrencyBalance)
     }
     
     
-    func estimate(sellCurrency: Currency, buyCurrency: Currency, action: ConversionAction, amount: Double, rates: [CurrencyRate]) throws -> CurrencyConversionResult {
+    func estimate(sellCurrency: Currency, buyCurrency: Currency, action: ConversionAction, amount: Money, rates: [CurrencyRate]) throws -> CurrencyConversionResult {
         func getFromCurrency() -> Currency {
             switch action {
             case .buy:
@@ -100,7 +101,7 @@ extension CurrencyExchangeService: CurrencyExchangeServiceProtocol {
         
         // TODO: Fix rounding
         let fromCurrencyBalance: CurrencyBalance = .init(id: getFromCurrency().id, balance: amount)
-        let toCurrencyBalance: CurrencyBalance = .init(id: getToCurrency().id, balance: ((amount / exchangeRateFrom.rate) * exchangeRateTo.rate).rounded(toPlaces: 2))
+        let toCurrencyBalance: CurrencyBalance = .init(id: getToCurrency().id, balance: ((amount / exchangeRateFrom.rate) * exchangeRateTo.rate))
         
         return .init(from: fromCurrencyBalance, to: toCurrencyBalance)
     }

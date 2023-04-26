@@ -75,14 +75,12 @@ class MyBalanceScreenVM: ObservableObject {
     private let cache = Cache()
     private lazy var sellAmountCellVM: ExchangeCurrencyVM = {
         let sellVM = ExchangeCurrencyVM(option: .sell, amount: 0, currencyRepository: currencyRepository)
-        self.sellAmountCellVM = sellVM
         sellVM.delegate = self
         return sellVM
     }()
     
     private lazy var buyAmountCellVM: ExchangeCurrencyVM = {
         let buyVM = ExchangeCurrencyVM(option: .buy, amount: 0, currencyRepository: currencyRepository)
-        self.buyAmountCellVM = buyVM
         buyVM.delegate = self
         return buyVM
     }()
@@ -251,7 +249,7 @@ extension MyBalanceScreenVM {
         return Section(uuid: SectionIdentifiers.currencyExchange.rawValue, title: "CURRENCY EXCHANGE", cells: cells)
     }
     
-    private func onEstimateConversion(action: ConversionAction, inputAmount: Double) throws -> CurrencyConversionResult {
+    private func onEstimateConversion(action: ConversionAction, inputAmount: Money) throws -> CurrencyConversionResult {
         let sellVM = sellAmountCellVM
         let buyVM = buyAmountCellVM
         guard
@@ -267,14 +265,14 @@ extension MyBalanceScreenVM {
         return result
     }
     
-    private func makeConversionMessage(fromAmount: Double, fromCurrency: Currency,
-                                       toAmount: Double, toCurrency: Currency) -> String {
+    private func makeConversionMessage(fromAmount: Money, fromCurrency: Currency,
+                                       toAmount: Money, toCurrency: Currency) -> String {
         return "You have converted \(fromAmount) \(fromCurrency.id) to \(toAmount) \(toCurrency.id)"
     }
 }
 
 extension MyBalanceScreenVM: ExchangeCurrencyVMDelegate {
-    func exchangeCurrencyVM(vm: ExchangeCurrencyVM, amountChanged amount: Double) {
+    func exchangeCurrencyVM(vm: ExchangeCurrencyVM, amountChanged amount: Money) {
         let action: ConversionAction = vm.option == .buy ? .buy : .sell
         let estimated = try? onEstimateConversion(action: action, inputAmount: amount)
         let targetVM: ExchangeCurrencyVM? = vm.option == .buy ? sellAmountCellVM : buyAmountCellVM

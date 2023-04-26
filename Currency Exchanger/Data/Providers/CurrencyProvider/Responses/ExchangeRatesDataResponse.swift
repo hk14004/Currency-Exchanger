@@ -8,6 +8,6 @@
 import Foundation
 
 struct ExchangeRatesDataResponse: Codable {
-    let rates: [String: Double]
+    let rates: [String: Decimal]
     let base: String
 }

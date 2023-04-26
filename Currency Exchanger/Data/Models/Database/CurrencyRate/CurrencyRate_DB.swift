@@ -8,10 +8,11 @@
 import Foundation
 import DevToolsRealm
 import RealmSwift
+import DevToolsCore
 
 class CurrencyRate_DB: Object {
     
     @Persisted(primaryKey: true) var id: String
-    @Persisted var rate: Double
+    @Persisted var rate: Decimal128
     
 }
