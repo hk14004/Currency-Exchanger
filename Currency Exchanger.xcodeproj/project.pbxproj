@@ -57,6 +57,9 @@
 		D4FE43E029F909BE003FDCCD /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE43DF29F909BE003FDCCD /* Dependencies.swift */; };
 		D4FE43E329F90A36003FDCCD /* Hosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE43E229F90A36003FDCCD /* Hosts.swift */; };
 		D4FE43E529F92801003FDCCD /* CurrencyExchangeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE43E429F92801003FDCCD /* CurrencyExchangeService.swift */; };
+		D4FE43E929F93F6D003FDCCD /* RefreshCurrencyRatesTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE43E829F93F6D003FDCCD /* RefreshCurrencyRatesTask.swift */; };
+		D4FE43EB29F93F9C003FDCCD /* PeriodicTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE43EA29F93F9C003FDCCD /* PeriodicTask.swift */; };
+		D4FE43ED29F94B2B003FDCCD /* PeriodicTaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE43EC29F94B2B003FDCCD /* PeriodicTaskManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -105,6 +108,9 @@
 		D4FE43DF29F909BE003FDCCD /* Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
 		D4FE43E229F90A36003FDCCD /* Hosts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hosts.swift; sourceTree = "<group>"; };
 		D4FE43E429F92801003FDCCD /* CurrencyExchangeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyExchangeService.swift; sourceTree = "<group>"; };
+		D4FE43E829F93F6D003FDCCD /* RefreshCurrencyRatesTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshCurrencyRatesTask.swift; sourceTree = "<group>"; };
+		D4FE43EA29F93F9C003FDCCD /* PeriodicTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodicTask.swift; sourceTree = "<group>"; };
+		D4FE43EC29F94B2B003FDCCD /* PeriodicTaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodicTaskManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +173,7 @@
 				862FC10D29897DA9007A2A88 /* Repositories */,
 				D42845E4296C083A00B97ADE /* Models */,
 				862FC12E298BCF19007A2A88 /* Errors */,
+				D4FE43E729F93F02003FDCCD /* PeriodicTasks */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -480,6 +487,24 @@
 			path = Hosts;
 			sourceTree = "<group>";
 		};
+		D4FE43E729F93F02003FDCCD /* PeriodicTasks */ = {
+			isa = PBXGroup;
+			children = (
+				D4FE43EA29F93F9C003FDCCD /* PeriodicTask.swift */,
+				D4FE43EC29F94B2B003FDCCD /* PeriodicTaskManager.swift */,
+				D4FE43EE29F95485003FDCCD /* Tasks */,
+			);
+			path = PeriodicTasks;
+			sourceTree = "<group>";
+		};
+		D4FE43EE29F95485003FDCCD /* Tasks */ = {
+			isa = PBXGroup;
+			children = (
+				D4FE43E829F93F6D003FDCCD /* RefreshCurrencyRatesTask.swift */,
+			);
+			path = Tasks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -569,6 +594,7 @@
 				D4178441296C4C6200A92A80 /* CurrencyBalanceItemVM.swift in Sources */,
 				D417843F296C4C4C00A92A80 /* CurrencyBalanceItemView.swift in Sources */,
 				D42845EF296C0C0600B97ADE /* BuySellIndicatorView.swift in Sources */,
+				D4FE43ED29F94B2B003FDCCD /* PeriodicTaskManager.swift in Sources */,
 				862FC13A298C6AA1007A2A88 /* CurrencyRate + PersistableDomainModelProtocol.swift in Sources */,
 				862FC133298C66FE007A2A88 /* CurrencyRate_DB.swift in Sources */,
 				D42845EB296C09C500B97ADE /* Colors.swift in Sources */,
@@ -576,6 +602,7 @@
 				862FC1222989E80D007A2A88 /* CurrencyBalance_DB + PersistedModelProtocol.swift in Sources */,
 				862FC12D298AD88F007A2A88 /* CurrencyAPITarget.swift in Sources */,
 				862FC1202989E7CD007A2A88 /* CurrencyBalance + PersistableDomainModelProtocol.swift in Sources */,
+				D4FE43E929F93F6D003FDCCD /* RefreshCurrencyRatesTask.swift in Sources */,
 				D48A9B0C296C185E007F45F2 /* CurrencyBalance_DB.swift in Sources */,
 				D4178449296C612200A92A80 /* Currency_DB.swift in Sources */,
 				D42845CB296C03FE00B97ADE /* AppDelegate.swift in Sources */,
@@ -584,6 +611,7 @@
 				D42845E3296C081400B97ADE /* MyBalanceSceneVM.swift in Sources */,
 				862FC138298C6A3E007A2A88 /* CurrencyRate.swift in Sources */,
 				862FC11D2989A4D5007A2A88 /* UserRepository.swift in Sources */,
+				D4FE43EB29F93F9C003FDCCD /* PeriodicTask.swift in Sources */,
 				D4178446296C5ABE00A92A80 /* ExchangeCurrencyVM.swift in Sources */,
 				862FC1192989A1BD007A2A88 /* User + PersistableDomainModelProtocol.swift in Sources */,
 				862FC10F29897DBF007A2A88 /* CurrencyRepository.swift in Sources */,
