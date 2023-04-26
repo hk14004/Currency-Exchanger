@@ -28,9 +28,12 @@ enum ConversionAction {
 
 protocol CurrencyExchangeServiceProtocol {
     func convert(fromCurrency: Currency, toCurrency: Currency, amount: Money,
-                 balance: Money, rates: [CurrencyRate]) throws -> CurrencyConversionResult
+                 balance: Money, rates: [CurrencyID: Decimal]) throws -> CurrencyConversionResult
+    
+    
+
     func estimate(sellCurrency: Currency, buyCurrency: Currency, action: ConversionAction,
-                  amount: Money, rates: [CurrencyRate]) throws -> CurrencyConversionResult
+                  amount: Money, rates: [CurrencyID: Decimal]) throws -> CurrencyConversionResult
 }
 
 class CurrencyExchangeService {
@@ -38,36 +41,31 @@ class CurrencyExchangeService {
 }
 
 extension CurrencyExchangeService: CurrencyExchangeServiceProtocol {
-    func convert(fromCurrency: Currency, toCurrency: Currency, amount: Money, balance: Money, rates: [CurrencyRate]) throws -> CurrencyConversionResult {
+    func convert(fromCurrency: Currency, toCurrency: Currency, amount: DevToolsCore.Money, balance: DevToolsCore.Money, rates: [CurrencyID : Decimal]) throws -> CurrencyConversionResult {
         guard amount > 0 else {
             throw CurrencyExchangeServiceError.amountMustBePositive
         }
         guard fromCurrency.id != toCurrency.id else {
             throw CurrencyExchangeServiceError.cannotExchangeSameCurrency
         }
-        
-        let left = balance - amount
+        let left: Money = (balance - amount).rounded()
         guard left >= 0.0 else {
             throw CurrencyExchangeServiceError.notEnough
         }
-        
-        // TODO: Hash map find
-        guard let exchangeRateFrom = rates.first(where: { $0.id == fromCurrency.id }) else {
+        guard
+            let fromRate = rates[fromCurrency.id],
+            let toRate = rates[toCurrency.id]
+        else {
             throw CurrencyExchangeServiceError.rateUnknown
         }
-        guard let exchangeRateTo = rates.first(where: { $0.id == toCurrency.id }) else {
-            throw CurrencyExchangeServiceError.rateUnknown
-        }
-        
-        // TODO: Fix rounding
         let fromCurrencyBalance: CurrencyBalance = .init(id: fromCurrency.id, balance: left)
-        let toCurrencyBalance: CurrencyBalance = .init(id: toCurrency.id, balance: ((amount / exchangeRateFrom.rate) * exchangeRateTo.rate))
+        let toBalance: Money = ((amount / fromRate) * toRate).rounded()
+        let toCurrencyBalance: CurrencyBalance = .init(id: toCurrency.id, balance: toBalance)
         
         return .init(from: fromCurrencyBalance, to: toCurrencyBalance)
     }
     
-    
-    func estimate(sellCurrency: Currency, buyCurrency: Currency, action: ConversionAction, amount: Money, rates: [CurrencyRate]) throws -> CurrencyConversionResult {
+    func estimate(sellCurrency: Currency, buyCurrency: Currency, action: ConversionAction, amount: Money, rates: [CurrencyID : Decimal]) throws -> CurrencyConversionResult {
         func getFromCurrency() -> Currency {
             switch action {
             case .buy:
@@ -84,25 +82,28 @@ extension CurrencyExchangeService: CurrencyExchangeServiceProtocol {
                 return buyCurrency
             }
         }
+        
+        let fromCurrency = getFromCurrency()
+        let toCurrency = getToCurrency()
+        
         guard amount >= 0 else {
-            return .init(from: .init(id: getFromCurrency().id, balance: 0), to: .init(id: getToCurrency().id, balance: 0))
+            return .init(from: .init(id: fromCurrency.id, balance: 0), to: .init(id: getToCurrency().id, balance: 0))
         }
         guard sellCurrency.id != buyCurrency.id else {
-            return .init(from: .init(id: getFromCurrency().id, balance: amount), to: .init(id: getToCurrency().id, balance: amount))
+            return .init(from: .init(id: fromCurrency.id, balance: amount), to: .init(id: toCurrency.id, balance: amount))
         }
         
-        // TODO: Hash map find
-        guard let exchangeRateFrom = rates.first(where: { $0.id == getFromCurrency().id }) else {
+        guard
+            let fromRate = rates[fromCurrency.id],
+            let toRate = rates[toCurrency.id]
+        else {
             throw CurrencyExchangeServiceError.rateUnknown
         }
-        guard let exchangeRateTo = rates.first(where: { $0.id == getToCurrency().id }) else {
-            throw CurrencyExchangeServiceError.rateUnknown
-        }
         
-        // TODO: Fix rounding
-        let fromCurrencyBalance: CurrencyBalance = .init(id: getFromCurrency().id, balance: amount)
-        let toCurrencyBalance: CurrencyBalance = .init(id: getToCurrency().id, balance: ((amount / exchangeRateFrom.rate) * exchangeRateTo.rate))
-        
+        let fromCurrencyBalance: CurrencyBalance = .init(id: fromCurrency.id, balance: amount)
+        let toBalance: Money = ((amount / fromRate) * toRate).rounded()
+        let toCurrencyBalance: CurrencyBalance = .init(id: toCurrency.id, balance: toBalance)
+
         return .init(from: fromCurrencyBalance, to: toCurrencyBalance)
     }
 }

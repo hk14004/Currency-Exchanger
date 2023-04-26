@@ -9,7 +9,7 @@ import Foundation
 import DevToolsCore
 
 struct CurrencyRate {
-    let id: String
+    let id: CurrencyID
     let rate: Money
 }
 

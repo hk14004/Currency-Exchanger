@@ -43,7 +43,7 @@ class MyBalanceScreenVM: ObservableObject {
     
     class Cache {
         var fetchedBalanace: [CurrencyBalance]?
-        var fetchedRates: [CurrencyRate]?
+        var fetchedRates: [CurrencyID: Decimal]?
     }
     
     struct Section: UISectionModelProtocol {
@@ -104,6 +104,10 @@ class MyBalanceScreenVM: ObservableObject {
 
 extension MyBalanceScreenVM {
     func onExchangeCurrencyTapped() {
+        Task {
+            
+        }
+        
         do {
             let sellVM = sellAmountCellVM
             let buyVM = buyAmountCellVM
@@ -118,7 +122,9 @@ extension MyBalanceScreenVM {
             guard let balance = balanaceRepository.getBalance(forCurrency: sellCurrency) else {
                 throw CurrencyExchangeServiceError.notEnough
             }
-            let rates = currencyRepository.getRates()
+            guard let rates = cache.fetchedRates else {
+                throw CurrencyExchangeServiceError.rateUnknown
+            }
             let result = try currencyExchangeService.convert(fromCurrency: sellCurrency, toCurrency: buyCurrency,
                                                        amount: sellVM.amountInput, balance: balance.balance, rates: rates)
             // Update db with new balance
@@ -191,7 +197,9 @@ extension MyBalanceScreenVM {
             updateMyBalanceSection()
         }
         bag.rateHandle = currencyRepository.observeRates().removeDuplicates().sink { [unowned self] rates in
-            cache.fetchedRates = rates
+            cache.fetchedRates = rates.reduce(into: [:]) { (result, object) in
+                result[object.id] = object.rate
+            }
             onRatesChanged()
         }
     }
@@ -250,16 +258,14 @@ extension MyBalanceScreenVM {
     }
     
     private func onEstimateConversion(action: ConversionAction, inputAmount: Money) throws -> CurrencyConversionResult {
-        let sellVM = sellAmountCellVM
-        let buyVM = buyAmountCellVM
         guard
-            let sellCurrency = sellVM.selectedCurrency,
-            let buyCurrency = buyVM.selectedCurrency,
+            let sellCurrency = sellAmountCellVM.selectedCurrency,
+            let buyCurrency = buyAmountCellVM.selectedCurrency,
             let rates = cache.fetchedRates
         else {
             throw CurrencyExchangeServiceError.rateUnknown
         }
-        
+
         let result = try currencyExchangeService.estimate(sellCurrency: sellCurrency, buyCurrency: buyCurrency,
                                                      action: action, amount: inputAmount, rates: rates)
         return result

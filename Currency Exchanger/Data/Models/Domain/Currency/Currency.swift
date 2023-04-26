@@ -7,8 +7,10 @@
 
 import Foundation
 
+typealias CurrencyID = String
+
 struct Currency {
-    let id: String
+    let id: CurrencyID
 }
 
 extension Currency: Codable {}
