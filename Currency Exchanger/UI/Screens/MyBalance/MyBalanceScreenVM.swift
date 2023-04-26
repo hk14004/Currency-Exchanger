@@ -88,9 +88,7 @@ class MyBalanceScreenVM: ObservableObject {
     }()
     
     private let bag = Bag()
-//    private var currencyRateRefreshTimer: Timer
-//    private let currencyRateInterval: TimeInterval = 60
-    
+
     // MARK: Init
     
     init(balanaceRepository: CurrencyBalanceRepositoryProtocol,
@@ -194,8 +192,9 @@ extension MyBalanceScreenVM {
             cache.fetchedBalanace = balance
             updateMyBalanceSection()
         }
-        bag.rateHandle = currencyRepository.observeRates().removeDuplicates().sink { [weak self] rates in
-            self?.onRatesChanged(rates: rates)
+        bag.rateHandle = currencyRepository.observeRates().removeDuplicates().sink { [unowned self] rates in
+            cache.fetchedRates = rates
+            onRatesChanged()
         }
     }
     
@@ -216,8 +215,7 @@ extension MyBalanceScreenVM {
         }
     }
     
-    private func onRatesChanged(rates: [CurrencyRate]) {
-        cache.fetchedRates = rates
+    private func onRatesChanged() {
         // Update input fields because rates changed
         // TODO: Implement specific methods to do so
         exchangeCurrencyVM(vm: buyAmountCellVM, amountChanged: buyAmountCellVM.amountInput)
