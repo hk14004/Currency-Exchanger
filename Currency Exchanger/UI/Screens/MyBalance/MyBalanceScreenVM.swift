@@ -85,7 +85,7 @@ class MyBalanceScreenVM: ObservableObject {
         return buyVM
     }()
     private let bag = Bag()
-
+    
     // MARK: Init
     
     init(balanaceRepository: CurrencyBalanceRepositoryProtocol,
@@ -137,18 +137,18 @@ extension MyBalanceScreenVM {
                     self.exchangeInProgress = false
                 }
             } catch (let err) {
-                let error = err as! CurrencyExchangeServiceError
-                switch error {
-                case .notEnough:
-                    alertType = .notEnoughMoney
-                case .cannotExchangeSameCurrency:
-                    alertType = .cannotExchangeSameCurrency
-                case .rateUnknown, .currencyNotFound:
-                    alertType = .unknownRate
-                case .amountMustBePositive:
-                    alertType = .providePositiveNumber
-                }
                 DispatchQueue.main.async {
+                    let error = err as! CurrencyExchangeServiceError
+                    switch error {
+                    case .notEnough:
+                        self.alertType = .notEnoughMoney
+                    case .cannotExchangeSameCurrency:
+                        self.alertType = .cannotExchangeSameCurrency
+                    case .rateUnknown, .currencyNotFound:
+                        self.alertType = .unknownRate
+                    case .amountMustBePositive:
+                        self.alertType = .providePositiveNumber
+                    }
                     self.showAlert = true
                     self.exchangeInProgress = false
                 }
@@ -264,9 +264,9 @@ extension MyBalanceScreenVM {
         else {
             throw CurrencyExchangeServiceError.rateUnknown
         }
-
+        
         let result = try currencyExchangeService.estimate(sellCurrency: sellCurrency, buyCurrency: buyCurrency,
-                                                     action: action, amount: inputAmount, rates: rates)
+                                                          action: action, amount: inputAmount, rates: rates)
         return result
     }
     
