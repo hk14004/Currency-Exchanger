@@ -129,8 +129,11 @@ extension MyBalanceScreenVM {
                 
                 try await performExchangeOperation(fromCurrency: sellCurrency, toCurrency: buyCurrency,
                                                    amount: sellAmountCellVM.amountInput, balance: balanceItem.balance, rates: rates)
-                
+                let message = makeConversionMessage(fromAmount: sellAmountCellVM.amountInput, fromCurrency: sellCurrency,
+                                                    toAmount: buyAmountCellVM.amountInput, toCurrency: buyCurrency)
                 DispatchQueue.main.async {
+                    self.alertType = .conversionSuccesful(message: message)
+                    self.showAlert = true
                     self.exchangeInProgress = false
                 }
             } catch (let err) {
@@ -288,12 +291,6 @@ extension MyBalanceScreenVM {
         } else {
             // New balance
             await balanaceRepository.addOrUpdate(currencyBalance: [result.from, result.to])
-        }
-        let message = makeConversionMessage(fromAmount: sellAmountCellVM.amountInput, fromCurrency: fromCurrency,
-                                            toAmount: buyAmountCellVM.amountInput, toCurrency: toCurrency)
-        DispatchQueue.main.async {
-            self.alertType = .conversionSuccesful(message: message)
-            self.showAlert = true
         }
     }
 }
