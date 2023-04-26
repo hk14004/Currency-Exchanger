@@ -245,16 +245,9 @@ extension MyBalanceSceneVM {
     }
     
     private func createCurrencyExchangeSection() -> Section {
-        let sellVM = ExchangeCurrencyVM(option: .sell, amount: 0, currencyRepository: currencyRepository)
-        self.sellAmountCellVM = sellVM
-        sellVM.delegate = self
-        let buyVM = ExchangeCurrencyVM(option: .buy, amount: 0, currencyRepository: currencyRepository)
-        self.buyAmountCellVM = buyVM
-        buyVM.delegate = self
-        
         let cells: [Cell] = [
-            .exchangeCurrency(sellVM),
-            .exchangeCurrency(buyVM),
+            .exchangeCurrency(sellAmountCellVM),
+            .exchangeCurrency(buyAmountCellVM),
             .performExchange
         ]
         return Section(uuid: SectionIdentifiers.currencyExchange.rawValue, title: "CURRENCY EXCHANGE", cells: cells)
