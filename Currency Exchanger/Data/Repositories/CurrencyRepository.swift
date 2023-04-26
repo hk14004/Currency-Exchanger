@@ -51,21 +51,15 @@ extension CurrencyRepository: CurrencyRepositoryProtocol {
     }
     
     func refreshCurrencyRate() async {
-        await withCheckedContinuation { continuation in
-            currencyAPIService.fetchExchangeRatesData { [weak self] result in
-                switch result {
-                case .success(let success):
-                    // TODO: Mapper
-                    let rates:[CurrencyRate] = success.rates.map { rateAPI in
-                            .init(id: rateAPI.key, rate: rateAPI.value)
-                    }
-                    self?.currencyRateStore.replace(with: rates)
-                    continuation.resume()
-                case .failure(let failure):
-                    printError(failure)
-                    continuation.resume()
-                }
+        do {
+            let response = try await currencyAPIService.fetchExchangeRatesData()
+            // TODO: Mapper
+            let rates:[CurrencyRate] = response.rates.map { rateAPI in
+                    .init(id: rateAPI.key, rate: rateAPI.value)
             }
+            await currencyRateStore.replace(with: rates)
+        } catch( let err) {
+            printError(err)
         }
     }
     
@@ -74,22 +68,15 @@ extension CurrencyRepository: CurrencyRepositoryProtocol {
     }
     
     func refreshCurrencies() async {
-        await withCheckedContinuation { continuation in
-            currencyAPIService.fetchCurrencies { [weak self] result in
-                switch result {
-                case .success(let success):
-                    print(success)
-                    // TODO: Add mappers
-                    let mapped: [Currency] = success.currencies.compactMap { responseCurrency in
-                            .init(id: responseCurrency.id)
-                    }
-                    self?.currencyStore.addOrUpdate(mapped)
-                    continuation.resume()
-                case .failure(let failure):
-                    printError(failure)
-                    continuation.resume()
-                }
+        do {
+            let response = try await currencyAPIService.fetchCurrencies()
+            // TODO: Mapper
+            let mapped: [Currency] = response.currencies.compactMap { responseCurrency in
+                    .init(id: responseCurrency.id)
             }
+            await currencyStore.addOrUpdate(mapped)
+        } catch( let err) {
+            printError(err)
         }
     }
     

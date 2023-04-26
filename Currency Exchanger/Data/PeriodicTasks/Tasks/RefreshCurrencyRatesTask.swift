@@ -32,9 +32,6 @@ class RefreshCurrencyRatesTask: PeriodicTaskBase<PeriodicTask> {
     
     @objc override func work() async {
         await currencyRepository.refreshCurrencyRate()
-        sanityCheck {
-            print("Periodic task finished")
-        }
     }
     
     deinit {

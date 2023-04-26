@@ -12,9 +12,16 @@ import DevToolsNetworking
 
 //http://api.apilayer.com/exchangerates_data/latest
 
+enum CurrencyProviderError: Swift.Error {
+    case alreadyRunning
+    case responseDecodeIssue
+    case fetchFailed(code: Int)
+    case userError(description: String)
+}
+
 protocol CurrencyProviderProtocol {
-    func fetchCurrencies(completion: @escaping (Result<CurrencyResponse, Error>)->())
-    func fetchExchangeRatesData(completion: @escaping (Result<ExchangeRatesDataResponse, Error>)->())
+    func fetchCurrencies() async throws -> CurrencyResponse
+    func fetchExchangeRatesData() async throws -> ExchangeRatesDataResponse
 }
 
 class CurrencyProvider {
@@ -31,35 +38,37 @@ class CurrencyProvider {
 }
 
 extension CurrencyProvider: CurrencyProviderProtocol {
-    func fetchExchangeRatesData(completion: @escaping (Result<ExchangeRatesDataResponse, Error>) -> ()) {
-        let target = CurrencyAPITarget(endpoint: .getRates, headers: ["apiKey":"Klj35WgKR2kP7rexFaHmVEig0ozzt2bv"])
-        let launched = requestManager.launchSingleUniqueRequest(requestID: target.defaultUUID, target: target,
-                                                                provider: provider, hookRunning: true,
-                                                                retryMethod: .default) { result in
-            switch result {
-            case .success(let success):
-                do {
-                    let response = try JSONDecoder().decode(ExchangeRatesDataResponse.self, from: success.data)
-                    completion(.success(response))
-                } catch (let decodeError) {
-                    completion(.failure(decodeError))
+    func fetchExchangeRatesData() async throws -> ExchangeRatesDataResponse {
+        try await withCheckedThrowingContinuation({ cont in
+            let target = CurrencyAPITarget(endpoint: .getRates, headers: ["apiKey":"Klj35WgKR2kP7rexFaHmVEig0ozzt2bv"])
+            let launched = requestManager.launchSingleUniqueRequest(requestID: target.defaultUUID, target: target,
+                                                                    provider: provider, hookRunning: true,
+                                                                    retryMethod: .default) { result in
+                switch result {
+                case .success(let success):
+                    do {
+                        let response = try JSONDecoder().decode(ExchangeRatesDataResponse.self, from: success.data)
+                        cont.resume(returning: response)
+                    } catch (let decodeError) {
+                        printError(decodeError)
+                        cont.resume(throwing: CurrencyProviderError.responseDecodeIssue)
+                    }
+                case .failure(let failure):
+                    cont.resume(throwing: CurrencyProviderError.fetchFailed(code: failure.errorCode))
                 }
-            case .failure(let failure):
-                completion(.failure(failure))
             }
-        }
-        
-        if !launched {
-            completion(.failure(APP_Errors.networkRequestAlreadyRunning))
-        }
+            
+            if !launched {
+                cont.resume(throwing: CurrencyProviderError.alreadyRunning)
+            }
+        })
     }
     
-    func fetchCurrencies(completion: @escaping (Result<CurrencyResponse, Error>) -> ()) {
+    func fetchCurrencies() async throws -> CurrencyResponse {
         guard let result = loadCurrenciesJson(fileName: "supported_currencies") else {
-            completion(.failure(APP_Errors.networkRequestDataIssue))
-            return
+            throw CurrencyProviderError.userError(description: "Missing JSON in bundle")
         }
-        completion(.success(result))
+        return result
     }
 }
 
