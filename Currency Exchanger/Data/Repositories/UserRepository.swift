@@ -11,7 +11,10 @@ import RealmSwift
 import Combine
 
 protocol UserRepositoryProtocol {
+    func getUser(id: String) async -> User?
     func getUser(id: String) -> User?
+    
+    func addOrUpdate(user: User) async
     func addOrUpdate(user: User)
 }
 
@@ -26,16 +29,25 @@ class UserRepository {
     init(userStore: PersistentRealmStore<User>) {
         self.userStore = userStore
     }
-
+    
 }
 
 extension UserRepository: UserRepositoryProtocol {
     func getUser(id: String) -> User? {
-        return nil
-//        return userStore.getSingle(id: id)
+        userStore.getSingle(id: id)
     }
     
     func addOrUpdate(user: User) {
-//        userStore.addOrUpdate([user])
+        userStore.addOrUpdate([user])
     }
+    
+    func getUser(id: String) async -> User? {
+        await userStore.getSingle(id: id)
+    }
+    
+    func addOrUpdate(user: User) async {
+        await userStore.addOrUpdate([user])
+    }
+    
+    
 }

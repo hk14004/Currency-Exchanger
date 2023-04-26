@@ -34,27 +34,25 @@ class CurrencyBalanceRepository {
 
 extension CurrencyBalanceRepository: CurrencyBalanceRepositoryProtocol {
     func addOrUpdate(currencyBalance: [CurrencyBalance]) {
-//        currencyBalanceStore.addOrUpdate(currencyBalance)
+        currencyBalanceStore.addOrUpdate(currencyBalance)
     }
     
     func getBalance(forCurrency: Currency) -> CurrencyBalance? {
-        return nil
-//        guard let cBalance = currencyBalanceStore.getSingle(id: forCurrency.id) else {
-//            return nil
-//        }
-//        guard cBalance.balance > 0 else {
-//            return nil
-//        }
-//        return cBalance
+        guard let cBalance = currencyBalanceStore.getSingle(id: forCurrency.id) else {
+            return nil
+        }
+        guard cBalance.balance > 0 else {
+            return nil
+        }
+        return cBalance
     }
     
     func getBalance() -> [CurrencyBalance] {
-        return []
-//        currencyBalanceStore.getList(predicate: .init(format: "balance > 0"))
+        currencyBalanceStore.getList(predicate: .init(format: "balance > 0"))
     }
     
     func setBalance(_ balance: [CurrencyBalance]) {
-//        currencyBalanceStore.replace(with: balance)
+        currencyBalanceStore.replace(with: balance)
     }
     
     func observeBalance() -> AnyPublisher<[CurrencyBalance], Never> {

@@ -71,7 +71,7 @@ class ConverterSceneVM: ObservableObject {
     private var fetchedBalanace: [CurrencyBalance]?
     private var fetchedRates: [CurrencyRate]?
     private let bag = Bag()
-    private var currencyRateRefreshTimer: Timer
+//    private var currencyRateRefreshTimer: Timer
     private let currencyRateInterval: TimeInterval = 60
     
     // MARK: Init
@@ -82,16 +82,11 @@ class ConverterSceneVM: ObservableObject {
         self.balanaceRepository = balanaceRepository
         self.currencyRepository = currencyRepository
         self.currencyConverter = currencyConverter
-        currencyRateRefreshTimer = .scheduledTimer(withTimeInterval: currencyRateInterval, repeats: true, block: {_ in
-            currencyRepository.refreshCurrencyRate {}
-        })
-        subscribeToNotifications()
-        refreshRemoteData()
-        sections = createSections()
+        startup()
     }
 
     deinit {
-        currencyRateRefreshTimer.invalidate()
+//        currencyRateRefreshTimer.invalidate()
     }
     
 }
@@ -150,6 +145,15 @@ extension ConverterSceneVM {
 // MARK: Private
 
 extension ConverterSceneVM {
+    
+    private func startup() {
+//        currencyRateRefreshTimer = .scheduledTimer(withTimeInterval: currencyRateInterval, repeats: true, block: {_ in
+//            currencyRepository.refreshCurrencyRate {}
+//        })
+        subscribeToNotifications()
+        refreshRemoteData()
+        sections = createSections()
+    }
     
     private func refreshRemoteData() {
         currencyRepository.refreshCurrencies {

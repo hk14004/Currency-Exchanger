@@ -20,7 +20,7 @@ let DI: Container = {
         User(id: "MAIN", name: "James", surname: "Bond")
     }
     container.register(Realm.Configuration.self) { resolver in
-        Realm.Configuration()
+        Realm.Configuration.defaultConfiguration
     }
     container.register(PersistentRealmStore<User>.self) { resolver in
         PersistentRealmStore(dbConfig: resolver.resolve(Realm.Configuration.self)!)
