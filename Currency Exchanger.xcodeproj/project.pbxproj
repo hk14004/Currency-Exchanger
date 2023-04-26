@@ -60,6 +60,7 @@
 		D4FE43E929F93F6D003FDCCD /* RefreshCurrencyRatesTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE43E829F93F6D003FDCCD /* RefreshCurrencyRatesTask.swift */; };
 		D4FE43EB29F93F9C003FDCCD /* PeriodicTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE43EA29F93F9C003FDCCD /* PeriodicTask.swift */; };
 		D4FE43ED29F94B2B003FDCCD /* PeriodicTaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE43EC29F94B2B003FDCCD /* PeriodicTaskManager.swift */; };
+		D4FE43F129F99900003FDCCD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE43F029F998FF003FDCCD /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -111,6 +112,7 @@
 		D4FE43E829F93F6D003FDCCD /* RefreshCurrencyRatesTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshCurrencyRatesTask.swift; sourceTree = "<group>"; };
 		D4FE43EA29F93F9C003FDCCD /* PeriodicTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodicTask.swift; sourceTree = "<group>"; };
 		D4FE43EC29F94B2B003FDCCD /* PeriodicTaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodicTaskManager.swift; sourceTree = "<group>"; };
+		D4FE43F029F998FF003FDCCD /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -465,8 +467,8 @@
 		D4FE43DD29F909A6003FDCCD /* Config */ = {
 			isa = PBXGroup;
 			children = (
+				D4FE43EF29F998F6003FDCCD /* Constants */,
 				D4FE43DE29F909AF003FDCCD /* DI */,
-				D4FE43E129F90A29003FDCCD /* Hosts */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -503,6 +505,15 @@
 				D4FE43E829F93F6D003FDCCD /* RefreshCurrencyRatesTask.swift */,
 			);
 			path = Tasks;
+			sourceTree = "<group>";
+		};
+		D4FE43EF29F998F6003FDCCD /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				D4FE43E129F90A29003FDCCD /* Hosts */,
+				D4FE43F029F998FF003FDCCD /* Constants.swift */,
+			);
+			path = Constants;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -612,6 +623,7 @@
 				862FC138298C6A3E007A2A88 /* CurrencyRate.swift in Sources */,
 				862FC11D2989A4D5007A2A88 /* UserRepository.swift in Sources */,
 				D4FE43EB29F93F9C003FDCCD /* PeriodicTask.swift in Sources */,
+				D4FE43F129F99900003FDCCD /* Constants.swift in Sources */,
 				D4178446296C5ABE00A92A80 /* ExchangeCurrencyVM.swift in Sources */,
 				862FC1192989A1BD007A2A88 /* User + PersistableDomainModelProtocol.swift in Sources */,
 				862FC10F29897DBF007A2A88 /* CurrencyRepository.swift in Sources */,

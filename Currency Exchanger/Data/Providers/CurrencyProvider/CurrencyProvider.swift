@@ -40,7 +40,7 @@ class CurrencyProvider {
 extension CurrencyProvider: CurrencyProviderProtocol {
     func fetchExchangeRatesData() async throws -> ExchangeRatesDataResponse {
         try await withCheckedThrowingContinuation({ cont in
-            let target = CurrencyAPITarget(endpoint: .getRates, headers: ["apiKey":"Klj35WgKR2kP7rexFaHmVEig0ozzt2bv"])
+            let target = CurrencyAPITarget(endpoint: .getRates, headers: ["apiKey": CURRENCY_API_KEY])
             let launched = requestManager.launchSingleUniqueRequest(requestID: target.defaultUUID, target: target,
                                                                     provider: provider, hookRunning: true,
                                                                     retryMethod: .default) { result in
