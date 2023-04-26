@@ -43,15 +43,7 @@ extension MyBalanceScreenView {
                     case .exchangeCurrency(let vm):
                         ExchangeCurrencyView(viewModel: vm)
                     case .performExchange:
-                        Button {
-                            viewModel.onExchangeCurrencyTapped()
-                        } label: {
-                            HStack() {
-                                Spacer()
-                                Text("SUBMIT")
-                                Spacer()
-                            }
-                        }.buttonStyle(MainButtonStyle())
+                        makeSubmitButtonView()
                     case .emptyWallet:
                         Text("Your wallet is empty")
                     case .walletPlacehoder:
@@ -62,5 +54,17 @@ extension MyBalanceScreenView {
                 Text(section.title)
             }
         }
+    }
+    
+    private func makeSubmitButtonView() -> some View {
+        Button {
+            viewModel.onExchangeCurrencyTapped()
+        } label: {
+            HStack() {
+                Spacer()
+                Text("SUBMIT")
+                Spacer()
+            }
+        }.buttonStyle(MainButtonStyle())
     }
 }
