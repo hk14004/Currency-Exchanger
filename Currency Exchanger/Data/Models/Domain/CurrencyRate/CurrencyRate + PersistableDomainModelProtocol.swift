@@ -2,7 +2,7 @@
 //  CurrencyRate.swift
 //  Currency Exchanger
 //
-//  Created by Cube on 03/02/2023.
+//  Created by Hardijs on 03/02/2023.
 //
 
 import DevToolsCore

@@ -2,7 +2,7 @@
 //  APP_Errors.swift
 //  Currency Exchanger
 //
-//  Created by Cube on 02/02/2023.
+//  Created by Hardijs on 02/02/2023.
 //
 
 import Foundation

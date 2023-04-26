@@ -2,7 +2,7 @@
 //  UserRepository.swift
 //  User Exchanger
 //
-//  Created by Cube on 31/01/2023.
+//  Created by Hardijs on 31/01/2023.
 //
 
 import DevToolsCore

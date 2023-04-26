@@ -2,7 +2,7 @@
 //  ExchangeRatesDataResponse.swift
 //  Currency Exchanger
 //
-//  Created by Cube on 04/02/2023.
+//  Created by Hardijs on 04/02/2023.
 //
 
 import Foundation

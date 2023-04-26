@@ -2,7 +2,7 @@
 //  CurrencyConverter.swift
 //  Currency Exchanger
 //
-//  Created by Cube on 01/02/2023.
+//  Created by Hardijs on 01/02/2023.
 //
 
 import Foundation

@@ -2,7 +2,7 @@
 //  Globals.swift
 //  Currency Exchanger
 //
-//  Created by Cube on 11/03/2023.
+//  Created by Hardijs on 11/03/2023.
 //
 
 import Foundation
