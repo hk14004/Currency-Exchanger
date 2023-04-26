@@ -1,5 +1,5 @@
 //
-//  CurrencyService.swift
+//  CurrencyProvider.swift
 //  Currency Exchanger
 //
 //  Created by Cube on 31/01/2023.
@@ -12,12 +12,12 @@ import DevToolsNetworking
 
 //http://api.apilayer.com/exchangerates_data/latest
 
-protocol CurrencyServiceProtocol {
+protocol CurrencyProviderProtocol {
     func fetchCurrencies(completion: @escaping (Result<CurrencyResponse, Error>)->())
     func fetchExchangeRatesData(completion: @escaping (Result<ExchangeRatesDataResponse, Error>)->())
 }
 
-class CurrencyService {
+class CurrencyProvider {
     
     private let provider: MoyaProvider<CurrencyAPITarget>
     private let requestManager: RequestManager<CurrencyAPITarget>
@@ -30,7 +30,7 @@ class CurrencyService {
     }
 }
 
-extension CurrencyService: CurrencyServiceProtocol {
+extension CurrencyProvider: CurrencyProviderProtocol {
     func fetchExchangeRatesData(completion: @escaping (Result<ExchangeRatesDataResponse, Error>) -> ()) {
         let target = CurrencyAPITarget(endpoint: .getRates, headers: ["apiKey":"Klj35WgKR2kP7rexFaHmVEig0ozzt2bv"])
         let launched = requestManager.launchSingleUniqueRequest(requestID: target.defaultUUID, target: target,
@@ -65,7 +65,7 @@ extension CurrencyService: CurrencyServiceProtocol {
 
 // MARK: Private
 
-extension CurrencyService {
+extension CurrencyProvider {
     private func loadCurrenciesJson(fileName: String) -> CurrencyResponse? {
         let decoder = JSONDecoder()
         guard let url = Bundle.main.url(forResource: fileName, withExtension: "json") else {

@@ -27,12 +27,12 @@ class CurrencyRepository {
     // MARK: Properties
     
     private var currencyStore: PersistentRealmStore<Currency>
-    private var currencyAPIService: CurrencyServiceProtocol
+    private var currencyAPIService: CurrencyProviderProtocol
     private var currencyRateStore: PersistentRealmStore<CurrencyRate>
     
     // MARK: Init
     
-    init(currencyStore: PersistentRealmStore<Currency>, currencyAPIService: CurrencyServiceProtocol,
+    init(currencyStore: PersistentRealmStore<Currency>, currencyAPIService: CurrencyProviderProtocol,
          currencyRateStore: PersistentRealmStore<CurrencyRate>) {
         self.currencyStore = currencyStore
         self.currencyAPIService = currencyAPIService

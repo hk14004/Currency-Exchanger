@@ -31,7 +31,7 @@ struct CurrencyAPITarget: RequestManagerTarget {
     var headerParameter: [String : String]?
     
     var baseURL: URL {
-        return URL(string: "https://api.apilayer.com")!
+        return URL(string: Hosts.CURRENCY_API_HOST)!
     }
     
     var path: String {

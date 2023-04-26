@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = UIWindow(windowScene: wScene)
         Globals.prepareTestUser()
         Globals.printAppsState()
-        let container = DependencyManager.mainContainer
+        let container = DI
         let vm = ConverterSceneVM(balanaceRepository:  container.resolve(CurrencyBalanceRepositoryProtocol.self)!,
                                   currencyRepository: container.resolve(CurrencyRepositoryProtocol.self)!,
                                   currencyConverter: container.resolve(CurrencyCoverterProtocol.self)!)

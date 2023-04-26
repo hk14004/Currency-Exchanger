@@ -11,7 +11,7 @@ import DevToolsCore
 class Globals {
     
     static func prepareTestUser() {
-        let container = DependencyManager.mainContainer
+        let container = DI
         let user = container.resolve(User.self)!
         let userRepo = container.resolve(UserRepositoryProtocol.self)!
         guard userRepo.getUser(id: user.id) == nil else {
@@ -27,7 +27,7 @@ class Globals {
     }
     
     static func printAppsState() {
-        let container = DependencyManager.mainContainer
+        let container = DI
         sanityCheck {
             // Check user
             let user = container.resolve(User.self)!
