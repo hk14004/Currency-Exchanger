@@ -40,6 +40,11 @@ class MyBalanceSceneVM: ObservableObject {
         var rateHandle: AnyCancellable?
     }
     
+    class Cache {
+        var fetchedBalanace: [CurrencyBalance]?
+        var fetchedRates: [CurrencyRate]?
+    }
+    
     struct Section: UISectionModelProtocol {
         
         let uuid: String
@@ -66,13 +71,24 @@ class MyBalanceSceneVM: ObservableObject {
     private let currencyExchangeService: CurrencyExchangeServiceProtocol
     
     // Other
-    private var sellAmountCellVM: ExchangeCurrencyVM?
-    private var buyAmountCellVM: ExchangeCurrencyVM?
-    private var fetchedBalanace: [CurrencyBalance]?
-    private var fetchedRates: [CurrencyRate]?
+    private let cache = Cache()
+    private lazy var sellAmountCellVM: ExchangeCurrencyVM = {
+        let sellVM = ExchangeCurrencyVM(option: .sell, amount: 0, currencyRepository: currencyRepository)
+        self.sellAmountCellVM = sellVM
+        sellVM.delegate = self
+        return sellVM
+    }()
+    
+    private lazy var buyAmountCellVM: ExchangeCurrencyVM = {
+        let buyVM = ExchangeCurrencyVM(option: .buy, amount: 0, currencyRepository: currencyRepository)
+        self.buyAmountCellVM = buyVM
+        buyVM.delegate = self
+        return buyVM
+    }()
+    
     private let bag = Bag()
 //    private var currencyRateRefreshTimer: Timer
-    private let currencyRateInterval: TimeInterval = 60
+//    private let currencyRateInterval: TimeInterval = 60
     
     // MARK: Init
     
@@ -92,9 +108,10 @@ class MyBalanceSceneVM: ObservableObject {
 extension MyBalanceSceneVM {
     func onExchangeCurrencyTapped() {
         do {
+            let sellVM = sellAmountCellVM
+            let buyVM = buyAmountCellVM
+            
             guard
-                let sellVM = sellAmountCellVM,
-                let buyVM = buyAmountCellVM,
                 let sellCurrency = sellVM.selectedCurrency,
                 let buyCurrency = buyVM.selectedCurrency
             else {
@@ -175,8 +192,8 @@ extension MyBalanceSceneVM {
             sections.update(section: updatedSection)
         }
         
-        let animate: Bool = fetchedBalanace != nil
-        fetchedBalanace = balance
+        let animate: Bool = cache.fetchedBalanace != nil
+        cache.fetchedBalanace = balance
         
         // Update UI
         
@@ -190,21 +207,17 @@ extension MyBalanceSceneVM {
     }
     
     private func onRatesChanged(rates: [CurrencyRate]) {
-        fetchedRates = rates
+        cache.fetchedRates = rates
         // Update input fields because rates changed
         // TODO: Implement specific methods to do so
-        if let buyAmountCellVM = buyAmountCellVM {
-            exchangeCurrencyVM(vm: buyAmountCellVM, amountChanged: buyAmountCellVM.amountInput)
-        }
-        if let sellAmountCellVM = sellAmountCellVM {
-            exchangeCurrencyVM(vm: sellAmountCellVM, amountChanged: sellAmountCellVM.amountInput)
-        }
+        exchangeCurrencyVM(vm: buyAmountCellVM, amountChanged: buyAmountCellVM.amountInput)
+        exchangeCurrencyVM(vm: sellAmountCellVM, amountChanged: sellAmountCellVM.amountInput)
     }
     
     private func createSections() -> [Section] {
         var sections: [Section] = []
         sections.append(createCurrencyExchangeSection())
-        sections.append(createMyBalanceSection(items: fetchedBalanace ?? []))
+        sections.append(createMyBalanceSection(items: cache.fetchedBalanace ?? []))
         return sections
     }
     
@@ -241,12 +254,12 @@ extension MyBalanceSceneVM {
     }
     
     private func onEstimateConversion(action: ConversionAction, inputAmount: Double) throws -> CurrencyConversionResult {
+        let sellVM = sellAmountCellVM
+        let buyVM = buyAmountCellVM
         guard
-            let sellVM = sellAmountCellVM,
-            let buyVM = buyAmountCellVM,
             let sellCurrency = sellVM.selectedCurrency,
             let buyCurrency = buyVM.selectedCurrency,
-            let rates = fetchedRates
+            let rates = cache.fetchedRates
         else {
             throw CurrencyExchangeServiceError.rateUnknown
         }
