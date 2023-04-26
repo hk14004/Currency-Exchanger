@@ -166,6 +166,7 @@
 		861F1619298EF6C400C59DF5 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				D4FE43E729F93F02003FDCCD /* PeriodicTasks */,
 				86A961F429BCB4890043A010 /* Globals.swift */,
 			);
 			path = Utils;
@@ -180,7 +181,6 @@
 				862FC10D29897DA9007A2A88 /* Repositories */,
 				D42845E4296C083A00B97ADE /* Models */,
 				862FC12E298BCF19007A2A88 /* Errors */,
-				D4FE43E729F93F02003FDCCD /* PeriodicTasks */,
 			);
 			path = Data;
 			sourceTree = "<group>";
