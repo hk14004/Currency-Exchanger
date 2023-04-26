@@ -30,11 +30,6 @@
 		8656EDAB298878980055722A /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8656EDAA298878980055722A /* Currency.swift */; };
 		8656EDAD29887B5B0055722A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8656EDAC29887B5B0055722A /* User.swift */; };
 		8656EDAF29887DA20055722A /* CurrencyBalance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8656EDAE29887DA20055722A /* CurrencyBalance.swift */; };
-		86615788298882CB00AAC56A /* DevTools in Frameworks */ = {isa = PBXBuildFile; productRef = 86615787298882CB00AAC56A /* DevTools */; };
-		8661578A298882CB00AAC56A /* DevToolsNavigation in Frameworks */ = {isa = PBXBuildFile; productRef = 86615789298882CB00AAC56A /* DevToolsNavigation */; };
-		8661578C298882CB00AAC56A /* DevToolsNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = 8661578B298882CB00AAC56A /* DevToolsNetworking */; };
-		8661578E298882CB00AAC56A /* DevToolsRealm in Frameworks */ = {isa = PBXBuildFile; productRef = 8661578D298882CB00AAC56A /* DevToolsRealm */; };
-		86615790298882CB00AAC56A /* DevToolsUI in Frameworks */ = {isa = PBXBuildFile; productRef = 8661578F298882CB00AAC56A /* DevToolsUI */; };
 		86894F6F29887F7C00A41E10 /* Currency + PersistableDomainModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86894F6E29887F7C00A41E10 /* Currency + PersistableDomainModelProtocol.swift */; };
 		86894F712988801A00A41E10 /* Currency_DB + PersistedModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86894F702988801A00A41E10 /* Currency_DB + PersistedModelProtocol.swift */; };
 		86A961F529BCB4890043A010 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A961F429BCB4890043A010 /* Globals.swift */; };
@@ -55,6 +50,12 @@
 		D48A9B08296C1382007F45F2 /* CurrencyPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48A9B07296C1382007F45F2 /* CurrencyPickerView.swift */; };
 		D48A9B0C296C185E007F45F2 /* CurrencyBalance_DB.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48A9B0B296C185E007F45F2 /* CurrencyBalance_DB.swift */; };
 		D48A9B12296C240F007F45F2 /* User_DB.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48A9B11296C240F007F45F2 /* User_DB.swift */; };
+		D4FE43D029F90775003FDCCD /* DevToolsCore in Frameworks */ = {isa = PBXBuildFile; productRef = D4FE43CF29F90775003FDCCD /* DevToolsCore */; };
+		D4FE43D229F90775003FDCCD /* DevToolsCoreData in Frameworks */ = {isa = PBXBuildFile; productRef = D4FE43D129F90775003FDCCD /* DevToolsCoreData */; };
+		D4FE43D429F90775003FDCCD /* DevToolsNavigation in Frameworks */ = {isa = PBXBuildFile; productRef = D4FE43D329F90775003FDCCD /* DevToolsNavigation */; };
+		D4FE43D629F90775003FDCCD /* DevToolsNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = D4FE43D529F90775003FDCCD /* DevToolsNetworking */; };
+		D4FE43D829F90775003FDCCD /* DevToolsRealm in Frameworks */ = {isa = PBXBuildFile; productRef = D4FE43D729F90775003FDCCD /* DevToolsRealm */; };
+		D4FE43DA29F90775003FDCCD /* DevToolsUI in Frameworks */ = {isa = PBXBuildFile; productRef = D4FE43D929F90775003FDCCD /* DevToolsUI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -109,12 +110,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8661578A298882CB00AAC56A /* DevToolsNavigation in Frameworks */,
-				86615790298882CB00AAC56A /* DevToolsUI in Frameworks */,
-				8661578C298882CB00AAC56A /* DevToolsNetworking in Frameworks */,
-				8661578E298882CB00AAC56A /* DevToolsRealm in Frameworks */,
-				86615788298882CB00AAC56A /* DevTools in Frameworks */,
+				D4FE43DA29F90775003FDCCD /* DevToolsUI in Frameworks */,
 				862FC10A298978C9007A2A88 /* Swinject in Frameworks */,
+				D4FE43D029F90775003FDCCD /* DevToolsCore in Frameworks */,
+				D4FE43D829F90775003FDCCD /* DevToolsRealm in Frameworks */,
+				D4FE43D429F90775003FDCCD /* DevToolsNavigation in Frameworks */,
+				D4FE43D229F90775003FDCCD /* DevToolsCoreData in Frameworks */,
+				D4FE43D629F90775003FDCCD /* DevToolsNetworking in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -460,12 +462,13 @@
 			);
 			name = "Currency Exchanger";
 			packageProductDependencies = (
-				86615787298882CB00AAC56A /* DevTools */,
-				86615789298882CB00AAC56A /* DevToolsNavigation */,
-				8661578B298882CB00AAC56A /* DevToolsNetworking */,
-				8661578D298882CB00AAC56A /* DevToolsRealm */,
-				8661578F298882CB00AAC56A /* DevToolsUI */,
 				862FC109298978C9007A2A88 /* Swinject */,
+				D4FE43CF29F90775003FDCCD /* DevToolsCore */,
+				D4FE43D129F90775003FDCCD /* DevToolsCoreData */,
+				D4FE43D329F90775003FDCCD /* DevToolsNavigation */,
+				D4FE43D529F90775003FDCCD /* DevToolsNetworking */,
+				D4FE43D729F90775003FDCCD /* DevToolsRealm */,
+				D4FE43D929F90775003FDCCD /* DevToolsUI */,
 			);
 			productName = "Currency Exchanger";
 			productReference = D42845C7296C03FE00B97ADE /* Currency Exchanger.app */;
@@ -496,8 +499,8 @@
 			);
 			mainGroup = D42845BE296C03FE00B97ADE;
 			packageReferences = (
-				86615786298882CB00AAC56A /* XCRemoteSwiftPackageReference "DevTools-Swift" */,
 				862FC108298978C9007A2A88 /* XCRemoteSwiftPackageReference "Swinject" */,
+				D4FE43CE29F90775003FDCCD /* XCRemoteSwiftPackageReference "DevTools-Swift" */,
 			);
 			productRefGroup = D42845C8296C03FE00B97ADE /* Products */;
 			projectDirPath = "";
@@ -782,11 +785,11 @@
 				minimumVersion = 2.0.0;
 			};
 		};
-		86615786298882CB00AAC56A /* XCRemoteSwiftPackageReference "DevTools-Swift" */ = {
+		D4FE43CE29F90775003FDCCD /* XCRemoteSwiftPackageReference "DevTools-Swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hk14004/DevTools-Swift";
 			requirement = {
-				branch = main;
+				branch = development;
 				kind = branch;
 			};
 		};
@@ -798,29 +801,34 @@
 			package = 862FC108298978C9007A2A88 /* XCRemoteSwiftPackageReference "Swinject" */;
 			productName = Swinject;
 		};
-		86615787298882CB00AAC56A /* DevTools */ = {
+		D4FE43CF29F90775003FDCCD /* DevToolsCore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 86615786298882CB00AAC56A /* XCRemoteSwiftPackageReference "DevTools-Swift" */;
-			productName = DevTools;
+			package = D4FE43CE29F90775003FDCCD /* XCRemoteSwiftPackageReference "DevTools-Swift" */;
+			productName = DevToolsCore;
 		};
-		86615789298882CB00AAC56A /* DevToolsNavigation */ = {
+		D4FE43D129F90775003FDCCD /* DevToolsCoreData */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 86615786298882CB00AAC56A /* XCRemoteSwiftPackageReference "DevTools-Swift" */;
+			package = D4FE43CE29F90775003FDCCD /* XCRemoteSwiftPackageReference "DevTools-Swift" */;
+			productName = DevToolsCoreData;
+		};
+		D4FE43D329F90775003FDCCD /* DevToolsNavigation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D4FE43CE29F90775003FDCCD /* XCRemoteSwiftPackageReference "DevTools-Swift" */;
 			productName = DevToolsNavigation;
 		};
-		8661578B298882CB00AAC56A /* DevToolsNetworking */ = {
+		D4FE43D529F90775003FDCCD /* DevToolsNetworking */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 86615786298882CB00AAC56A /* XCRemoteSwiftPackageReference "DevTools-Swift" */;
+			package = D4FE43CE29F90775003FDCCD /* XCRemoteSwiftPackageReference "DevTools-Swift" */;
 			productName = DevToolsNetworking;
 		};
-		8661578D298882CB00AAC56A /* DevToolsRealm */ = {
+		D4FE43D729F90775003FDCCD /* DevToolsRealm */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 86615786298882CB00AAC56A /* XCRemoteSwiftPackageReference "DevTools-Swift" */;
+			package = D4FE43CE29F90775003FDCCD /* XCRemoteSwiftPackageReference "DevTools-Swift" */;
 			productName = DevToolsRealm;
 		};
-		8661578F298882CB00AAC56A /* DevToolsUI */ = {
+		D4FE43D929F90775003FDCCD /* DevToolsUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 86615786298882CB00AAC56A /* XCRemoteSwiftPackageReference "DevTools-Swift" */;
+			package = D4FE43CE29F90775003FDCCD /* XCRemoteSwiftPackageReference "DevTools-Swift" */;
 			productName = DevToolsUI;
 		};
 /* End XCSwiftPackageProductDependency section */

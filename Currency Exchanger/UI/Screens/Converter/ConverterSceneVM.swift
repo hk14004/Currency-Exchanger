@@ -7,7 +7,7 @@
 
 import SwiftUI
 import RealmSwift
-import DevTools
+import DevToolsCore
 import Combine
 import DevToolsUI
 

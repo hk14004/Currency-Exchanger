@@ -59,7 +59,7 @@ extension ConverterSceneView {
                     }
                 }
             } header: {
-                Text(section.title ?? "")
+                Text(section.title)
             }
         }
     }

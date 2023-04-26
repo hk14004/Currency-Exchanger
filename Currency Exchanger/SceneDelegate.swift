@@ -8,7 +8,7 @@
 import UIKit
 import SwiftUI
 import RealmSwift
-import DevTools
+import DevToolsCore
 import Swinject
 import DevToolsRealm
 import Moya

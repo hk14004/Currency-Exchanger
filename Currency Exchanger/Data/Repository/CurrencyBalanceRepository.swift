@@ -5,7 +5,7 @@
 //  Created by Cube on 31/01/2023.
 //
 
-import DevTools
+import DevToolsCore
 import DevToolsRealm
 import RealmSwift
 import Combine
@@ -34,25 +34,27 @@ class CurrencyBalanceRepository {
 
 extension CurrencyBalanceRepository: CurrencyBalanceRepositoryProtocol {
     func addOrUpdate(currencyBalance: [CurrencyBalance]) {
-        currencyBalanceStore.addOrUpdate(currencyBalance)
+//        currencyBalanceStore.addOrUpdate(currencyBalance)
     }
     
     func getBalance(forCurrency: Currency) -> CurrencyBalance? {
-        guard let cBalance = currencyBalanceStore.getSingle(id: forCurrency.id) else {
-            return nil
-        }
-        guard cBalance.balance > 0 else {
-            return nil
-        }
-        return cBalance
+        return nil
+//        guard let cBalance = currencyBalanceStore.getSingle(id: forCurrency.id) else {
+//            return nil
+//        }
+//        guard cBalance.balance > 0 else {
+//            return nil
+//        }
+//        return cBalance
     }
     
     func getBalance() -> [CurrencyBalance] {
-        currencyBalanceStore.getList(predicate: .init(format: "balance > 0"))
+        return []
+//        currencyBalanceStore.getList(predicate: .init(format: "balance > 0"))
     }
     
     func setBalance(_ balance: [CurrencyBalance]) {
-        currencyBalanceStore.replace(with: balance)
+//        currencyBalanceStore.replace(with: balance)
     }
     
     func observeBalance() -> AnyPublisher<[CurrencyBalance], Never> {

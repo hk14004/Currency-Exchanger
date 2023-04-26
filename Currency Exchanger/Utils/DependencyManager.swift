@@ -8,7 +8,7 @@
 import Foundation
 import Swinject
 import RealmSwift
-import DevTools
+import DevToolsCore
 import DevToolsNetworking
 import DevToolsRealm
 import Moya
@@ -21,23 +21,26 @@ class DependencyManager {
         container.register(User.self) { _ in
             User(id: "MAIN", name: "James", surname: "Bond")
         }
+        container.register(Realm.Configuration.self) { resolver in
+            Realm.Configuration()
+        }
         container.register(PersistentRealmStore<User>.self) { resolver in
-            PersistentRealmStore(realm: resolver.resolve(Realm.self)!)
+            PersistentRealmStore(dbConfig: resolver.resolve(Realm.Configuration.self)!)
         }
         container.register(UserRepositoryProtocol.self) { resolver in
             UserRepository(userStore: resolver.resolve(PersistentRealmStore<User>.self)!)
         }
         container.register(PersistentRealmStore<CurrencyBalance>.self) { resolver in
-            PersistentRealmStore(realm: resolver.resolve(Realm.self)!)
+            PersistentRealmStore(dbConfig: resolver.resolve(Realm.Configuration.self)!)
         }
         container.register(CurrencyBalanceRepositoryProtocol.self) { resolver in
             CurrencyBalanceRepository(currencyBalanceStore: resolver.resolve(PersistentRealmStore<CurrencyBalance>.self)!)
         }
         container.register(PersistentRealmStore<CurrencyRate>.self) { resolver in
-            PersistentRealmStore(realm: resolver.resolve(Realm.self)!)
+            PersistentRealmStore(dbConfig: resolver.resolve(Realm.Configuration.self)!)
         }
         container.register(PersistentRealmStore<Currency>.self) { resolver in
-            PersistentRealmStore(realm: resolver.resolve(Realm.self)!)
+            PersistentRealmStore(dbConfig: resolver.resolve(Realm.Configuration.self)!)
         }
         container.register(MoyaProvider<CurrencyAPITarget>.self) { resolver in
             MoyaProvider<CurrencyAPITarget>()

@@ -5,7 +5,7 @@
 //  Created by Cube on 01/02/2023.
 //
 
-import DevTools
+import DevToolsCore
 
 extension CurrencyBalance: PersistableDomainModelProtocol {
     typealias StoreType = CurrencyBalance_DB

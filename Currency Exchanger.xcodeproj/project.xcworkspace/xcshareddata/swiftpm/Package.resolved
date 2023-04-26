@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/hk14004/DevTools-Swift",
       "state" : {
-        "branch" : "main",
-        "revision" : "ba8deece48f990347741c1b9616c10478fd4e724"
+        "branch" : "development",
+        "revision" : "de5314b90e705fee7801077b4c5863850fdca640"
       }
     },
     {
@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-cocoa",
       "state" : {
-        "revision" : "b1072f3ef733108dfcc62c2001781e5d65605fbf",
-        "version" : "10.34.1"
+        "revision" : "933294d98787d1b85d6a9d6b3e8a4b8eecc83f08",
+        "version" : "10.38.2"
       }
     },
     {
@@ -50,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-core.git",
       "state" : {
-        "revision" : "b77443ca7fa25407869ca537bf3ae912b1427bff",
-        "version" : "12.13.0"
+        "revision" : "27cc7f4a1d60299e69a08221d807a3563d0ecc8c",
+        "version" : "13.9.3"
       }
     },
     {

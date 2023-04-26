@@ -6,10 +6,9 @@
 //
 
 import Foundation
-import DevTools
+import DevToolsCore
 import RealmSwift
 import DevToolsRealm
-import DevTools
 
 class User_DB: Object {
     

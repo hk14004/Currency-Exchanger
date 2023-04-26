@@ -5,7 +5,7 @@
 //  Created by Cube on 02/02/2023.
 //
 
-import DevTools
+import DevToolsCore
 
 extension CurrencyRate_DB: PersistedModelProtocol {
         

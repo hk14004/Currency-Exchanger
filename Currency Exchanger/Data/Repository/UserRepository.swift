@@ -5,7 +5,7 @@
 //  Created by Cube on 31/01/2023.
 //
 
-import DevTools
+import DevToolsCore
 import DevToolsRealm
 import RealmSwift
 import Combine
@@ -31,10 +31,11 @@ class UserRepository {
 
 extension UserRepository: UserRepositoryProtocol {
     func getUser(id: String) -> User? {
-        return userStore.getSingle(id: id)
+        return nil
+//        return userStore.getSingle(id: id)
     }
     
     func addOrUpdate(user: User) {
-        userStore.addOrUpdate([user])
+//        userStore.addOrUpdate([user])
     }
 }

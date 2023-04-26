@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import DevTools
+import DevToolsCore
 import DevToolsNetworking
 import Moya
 

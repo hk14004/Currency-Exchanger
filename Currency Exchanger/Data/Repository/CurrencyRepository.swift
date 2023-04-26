@@ -5,7 +5,7 @@
 //  Created by Cube on 31/01/2023.
 //
 
-import DevTools
+import DevToolsCore
 import DevToolsRealm
 import RealmSwift
 import Combine
@@ -43,7 +43,8 @@ class CurrencyRepository {
 
 extension CurrencyRepository: CurrencyRepositoryProtocol {
     func getRates() -> [CurrencyRate] {
-        currencyRateStore.getList()
+        return []
+//        currencyRateStore.getList()
     }
     
     func observeRates() ->  AnyPublisher<[CurrencyRate], Never> {
@@ -51,42 +52,43 @@ extension CurrencyRepository: CurrencyRepositoryProtocol {
     }
     
     func refreshCurrencyRate(completion: @escaping () -> ()) {
-        currencyAPIService.fetchExchangeRatesData { [weak self] result in
-            switch result {
-            case .success(let success):
-                // TODO: Mapper
-                let rates:[CurrencyRate] = success.rates.map { rateAPI in
-                    .init(id: rateAPI.key, rate: rateAPI.value)
-                }
-                self?.currencyRateStore.replace(with: rates)
-                completion()
-            case .failure(let failure):
-                printError(failure)
-                completion()
-            }
-        }
+//        currencyAPIService.fetchExchangeRatesData { [weak self] result in
+//            switch result {
+//            case .success(let success):
+//                // TODO: Mapper
+//                let rates:[CurrencyRate] = success.rates.map { rateAPI in
+//                    .init(id: rateAPI.key, rate: rateAPI.value)
+//                }
+//                self?.currencyRateStore.replace(with: rates)
+//                completion()
+//            case .failure(let failure):
+//                printError(failure)
+//                completion()
+//            }
+//        }
     }
     
     func getCurrencies() -> [Currency] {
-        currencyStore.getList()
+        return []
+//        currencyStore.getList()
     }
     
     func refreshCurrencies(completion: @escaping () -> ()) {
-        currencyAPIService.fetchCurrencies { [weak self] result in
-            switch result {
-            case .success(let success):
-                print(success)
-                // TODO: Add mappers
-                let mapped: [Currency] = success.currencies.compactMap { responseCurrency in
-                        .init(id: responseCurrency.id)
-                }
-                self?.currencyStore.addOrUpdate(mapped)
-                completion()
-            case .failure(let failure):
-                printError(failure)
-                completion()
-            }
-        }
+//        currencyAPIService.fetchCurrencies { [weak self] result in
+//            switch result {
+//            case .success(let success):
+//                print(success)
+//                // TODO: Add mappers
+//                let mapped: [Currency] = success.currencies.compactMap { responseCurrency in
+//                        .init(id: responseCurrency.id)
+//                }
+//                self?.currencyStore.addOrUpdate(mapped)
+//                completion()
+//            case .failure(let failure):
+//                printError(failure)
+//                completion()
+//            }
+//        }
     }
     
     func observeCurrencies() -> AnyPublisher<[Currency], Never> {
