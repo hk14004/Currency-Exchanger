@@ -40,8 +40,8 @@
 		D42845CD296C03FE00B97ADE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42845CC296C03FE00B97ADE /* SceneDelegate.swift */; };
 		D42845D4296C03FF00B97ADE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D42845D3296C03FF00B97ADE /* Assets.xcassets */; };
 		D42845D7296C03FF00B97ADE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D42845D5296C03FF00B97ADE /* LaunchScreen.storyboard */; };
-		D42845E1296C079B00B97ADE /* MyBalanceSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42845E0296C079B00B97ADE /* MyBalanceSceneView.swift */; };
-		D42845E3296C081400B97ADE /* MyBalanceSceneVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42845E2296C081400B97ADE /* MyBalanceSceneVM.swift */; };
+		D42845E1296C079B00B97ADE /* MyBalanceScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42845E0296C079B00B97ADE /* MyBalanceScreenView.swift */; };
+		D42845E3296C081400B97ADE /* MyBalanceScreenVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42845E2296C081400B97ADE /* MyBalanceScreenVM.swift */; };
 		D42845E8296C08A600B97ADE /* MainButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42845E7296C08A600B97ADE /* MainButtonStyle.swift */; };
 		D42845EB296C09C500B97ADE /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42845EA296C09C500B97ADE /* Colors.swift */; };
 		D42845EF296C0C0600B97ADE /* BuySellIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42845EE296C0C0600B97ADE /* BuySellIndicatorView.swift */; };
@@ -97,8 +97,8 @@
 		D42845D3296C03FF00B97ADE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D42845D6296C03FF00B97ADE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D42845D8296C03FF00B97ADE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D42845E0296C079B00B97ADE /* MyBalanceSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBalanceSceneView.swift; sourceTree = "<group>"; };
-		D42845E2296C081400B97ADE /* MyBalanceSceneVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBalanceSceneVM.swift; sourceTree = "<group>"; };
+		D42845E0296C079B00B97ADE /* MyBalanceScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBalanceScreenView.swift; sourceTree = "<group>"; };
+		D42845E2296C081400B97ADE /* MyBalanceScreenVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBalanceScreenVM.swift; sourceTree = "<group>"; };
 		D42845E7296C08A600B97ADE /* MainButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainButtonStyle.swift; sourceTree = "<group>"; };
 		D42845EA296C09C500B97ADE /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		D42845EE296C0C0600B97ADE /* BuySellIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuySellIndicatorView.swift; sourceTree = "<group>"; };
@@ -349,8 +349,8 @@
 		D42845DF296C075900B97ADE /* MyBalance */ = {
 			isa = PBXGroup;
 			children = (
-				D42845E0296C079B00B97ADE /* MyBalanceSceneView.swift */,
-				D42845E2296C081400B97ADE /* MyBalanceSceneVM.swift */,
+				D42845E0296C079B00B97ADE /* MyBalanceScreenView.swift */,
+				D42845E2296C081400B97ADE /* MyBalanceScreenVM.swift */,
 			);
 			path = MyBalance;
 			sourceTree = "<group>";
@@ -606,9 +606,9 @@
 				D48A9B0C296C185E007F45F2 /* CurrencyBalance_DB.swift in Sources */,
 				D4178449296C612200A92A80 /* Currency_DB.swift in Sources */,
 				D42845CB296C03FE00B97ADE /* AppDelegate.swift in Sources */,
-				D42845E1296C079B00B97ADE /* MyBalanceSceneView.swift in Sources */,
+				D42845E1296C079B00B97ADE /* MyBalanceScreenView.swift in Sources */,
 				861F1616298EF50200C59DF5 /* ExchangeRatesDataResponse.swift in Sources */,
-				D42845E3296C081400B97ADE /* MyBalanceSceneVM.swift in Sources */,
+				D42845E3296C081400B97ADE /* MyBalanceScreenVM.swift in Sources */,
 				862FC138298C6A3E007A2A88 /* CurrencyRate.swift in Sources */,
 				862FC11D2989A4D5007A2A88 /* UserRepository.swift in Sources */,
 				D4FE43EB29F93F9C003FDCCD /* PeriodicTask.swift in Sources */,

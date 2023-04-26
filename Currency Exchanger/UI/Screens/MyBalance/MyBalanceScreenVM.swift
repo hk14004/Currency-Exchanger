@@ -11,7 +11,7 @@ import DevToolsCore
 import Combine
 import DevToolsUI
 
-class MyBalanceSceneVM: ObservableObject {
+class MyBalanceScreenVM: ObservableObject {
     
     // MARK: Types
     
@@ -106,7 +106,7 @@ class MyBalanceSceneVM: ObservableObject {
 
 // MARK: Public
 
-extension MyBalanceSceneVM {
+extension MyBalanceScreenVM {
     func onExchangeCurrencyTapped() {
         do {
             let sellVM = sellAmountCellVM
@@ -158,7 +158,7 @@ extension MyBalanceSceneVM {
 
 // MARK: Private
 
-extension MyBalanceSceneVM {
+extension MyBalanceScreenVM {
     
     private func startup() {
         Task {
@@ -275,7 +275,7 @@ extension MyBalanceSceneVM {
     }
 }
 
-extension MyBalanceSceneVM: ExchangeCurrencyVMDelegate {
+extension MyBalanceScreenVM: ExchangeCurrencyVMDelegate {
     func exchangeCurrencyVM(vm: ExchangeCurrencyVM, amountChanged amount: Double) {
         let action: ConversionAction = vm.option == .buy ? .buy : .sell
         let estimated = try? onEstimateConversion(action: action, inputAmount: amount)

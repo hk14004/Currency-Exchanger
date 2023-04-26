@@ -1,5 +1,5 @@
 //
-//  ConverterSceneView.swift
+//  MyBalanceScreenView.swift
 //  Currency Exchanger
 //
 //  Created by Hardijs Ķirsis on 09/01/2023.
@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct MyBalanceSceneView: View {
+struct MyBalanceScreenView: View {
     
-    @ObservedObject var viewModel: MyBalanceSceneVM
+    @ObservedObject var viewModel: MyBalanceScreenVM
     
     var body: some View {
         createMyBalancesView()
@@ -32,7 +32,7 @@ struct MyBalanceSceneView: View {
     
 }
 
-extension MyBalanceSceneView {
+extension MyBalanceScreenView {
     private func createMyBalancesView() -> some View {
         List(viewModel.sections, id: \.uuid) { section in
             Section {

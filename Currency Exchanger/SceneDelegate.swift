@@ -18,10 +18,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = UIWindow(windowScene: wScene)
         Globals.prepareTestUser()
         Globals.printAppsState()
-        let vm = MyBalanceSceneVM(balanaceRepository: DI.resolve(CurrencyBalanceRepositoryProtocol.self)!,
+        let vm = MyBalanceScreenVM(balanaceRepository: DI.resolve(CurrencyBalanceRepositoryProtocol.self)!,
                                   currencyRepository: DI.resolve(CurrencyRepositoryProtocol.self)!,
                                   currencyConverter: DI.resolve(CurrencyExchangeServiceProtocol.self)!)
-        let view = MyBalanceSceneView(viewModel: vm)
+        let view = MyBalanceScreenView(viewModel: vm)
         let vc = UIHostingController(rootView: view)
         window?.rootViewController = UINavigationController(rootViewController: vc)
         window?.makeKeyAndVisible()
