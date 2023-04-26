@@ -283,15 +283,20 @@ extension MyBalanceScreenVM {
                                                          amount: amount,
                                                          balance: balance, rates: rates)
         
+        let newToBalance: CurrencyBalance = await {
+            if let previousBuyCurrency = await balanaceRepository.getBalance(forCurrency: toCurrency) {
+                // Add new balance + previous
+                let newToBalance = CurrencyBalance(id: result.to.id,
+                                                   balance: result.to.balance + previousBuyCurrency.balance)
+                return newToBalance
+            } else {
+                // No previous balance, this conversion is new to balance
+                return result.to
+            }
+        }()
+        
         // Update db with new balance
-        if let previousBuyCurrency: CurrencyBalance = await balanaceRepository.getBalance(forCurrency: toCurrency) {
-            // Add new balance + previous
-            let newToBalance: CurrencyBalance = .init(id: result.to.id, balance: result.to.balance + previousBuyCurrency.balance)
-            await balanaceRepository.addOrUpdate(currencyBalance: [result.from,  newToBalance])
-        } else {
-            // New balance
-            await balanaceRepository.addOrUpdate(currencyBalance: [result.from, result.to])
-        }
+        await balanaceRepository.addOrUpdate(currencyBalance: [result.from,  newToBalance])
     }
 }
 
