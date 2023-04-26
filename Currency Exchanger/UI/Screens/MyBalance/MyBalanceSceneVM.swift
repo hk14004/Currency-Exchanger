@@ -17,7 +17,7 @@ class MyBalanceSceneVM: ObservableObject {
     
     enum SectionIdentifiers: String {
         case currencyExchange
-        case myBallances
+        case myBalances
     }
     
     enum AlertType {
@@ -241,7 +241,7 @@ extension MyBalanceSceneVM {
             
             return balanceCells
         }()
-        return Section(uuid: SectionIdentifiers.myBallances.rawValue, title: "MY BALANCES", cells: cells)
+        return Section(uuid: SectionIdentifiers.myBalances.rawValue, title: "MY BALANCES", cells: cells)
     }
     
     private func createCurrencyExchangeSection() -> Section {
