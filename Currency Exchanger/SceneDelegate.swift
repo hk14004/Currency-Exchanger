@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         Globals.printAppsState()
         let vm = MyBalanceScreenVM(balanaceRepository: DI.container.resolve(CurrencyBalanceRepository.self)!,
                                    currencyRepository: DI.container.resolve(CurrencyRepository.self)!,
-                                   currencyConverter: DI.container.resolve(CurrencyExchangeService.self)!)
+                                   currencyConverter: DI.container.resolve(CurrencyExchanger.self)!)
         let view = MyBalanceScreenView(viewModel: vm)
         let vc = UIHostingController(rootView: view)
         window?.rootViewController = UINavigationController(rootViewController: vc)
