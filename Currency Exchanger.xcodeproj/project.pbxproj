@@ -869,7 +869,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hk14004/DevTools-Swift";
 			requirement = {
-				branch = development;
+				branch = master;
 				kind = branch;
 			};
 		};

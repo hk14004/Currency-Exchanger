@@ -13,7 +13,7 @@ import DevToolsNetworking
 //http://api.apilayer.com/exchangerates_data/latest
 
 enum CurrencyProviderError: Swift.Error {
-    case alreadyRunning
+    case requestAlreadyRunning
     case responseDecodeIssue
     case fetchFailed(code: Int)
     case userError(description: String)
@@ -59,7 +59,7 @@ extension CurrencyProvider: CurrencyProviderProtocol {
             }
             
             if !launched {
-                cont.resume(throwing: CurrencyProviderError.alreadyRunning)
+                cont.resume(throwing: CurrencyProviderError.requestAlreadyRunning)
             }
         })
     }
