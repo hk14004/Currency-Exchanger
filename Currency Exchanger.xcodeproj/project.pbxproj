@@ -483,9 +483,9 @@
 		D42845C9296C03FE00B97ADE /* Currency Exchanger */ = {
 			isa = PBXGroup;
 			children = (
-				D423B2332A0FDA26002A57BE /* Config */,
 				D42845CA296C03FE00B97ADE /* AppDelegate.swift */,
 				D42845CC296C03FE00B97ADE /* SceneDelegate.swift */,
+				D423B2332A0FDA26002A57BE /* Config */,
 				861F1618298EF57600C59DF5 /* Presentation */,
 				D423F1052A0FB85F00AB33C8 /* Domain */,
 				D423F1072A0FB97E00AB33C8 /* Infrastructure */,
