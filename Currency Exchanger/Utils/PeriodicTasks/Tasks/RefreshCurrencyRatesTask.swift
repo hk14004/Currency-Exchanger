@@ -13,11 +13,11 @@ class RefreshCurrencyRatesTask: PeriodicTaskBase<PeriodicTask> {
     // MARK: Properties
     
     private var timer: Timer?
-    private let currencyRepository: CurrencyRepositoryProtocol
+    private let currencyRepository: CurrencyRepository
     
     // MARK: Init
     
-    init(currencyRepository: CurrencyRepositoryProtocol) {
+    init(currencyRepository: CurrencyRepository) {
         self.currencyRepository = currencyRepository
         super.init(taskType: .refreshCurrencyRates)
     }

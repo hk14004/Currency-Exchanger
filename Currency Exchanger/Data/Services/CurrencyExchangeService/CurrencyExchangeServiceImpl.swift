@@ -26,7 +26,7 @@ enum ConversionAction {
     case sell
 }
 
-protocol CurrencyExchangeServiceProtocol {
+protocol CurrencyExchangeService {
     func convert(fromCurrency: Currency, toCurrency: Currency, amount: Money,
                  balance: Money, rates: [CurrencyID: Decimal]) throws -> CurrencyConversionResult
     
@@ -36,11 +36,11 @@ protocol CurrencyExchangeServiceProtocol {
                   amount: Money, rates: [CurrencyID: Decimal]) throws -> CurrencyConversionResult
 }
 
-class CurrencyExchangeService {
+class CurrencyExchangeServiceImpl {
     
 }
 
-extension CurrencyExchangeService: CurrencyExchangeServiceProtocol {
+extension CurrencyExchangeServiceImpl: CurrencyExchangeService {
     func convert(fromCurrency: Currency, toCurrency: Currency, amount: DevToolsCore.Money, balance: DevToolsCore.Money, rates: [CurrencyID : Decimal]) throws -> CurrencyConversionResult {
         guard amount > 0 else {
             throw CurrencyExchangeServiceError.amountMustBePositive

@@ -7,15 +7,15 @@
 
 import Foundation
 
-protocol CurrencyRateResponseMapperProtocol {
+protocol CurrencyRateResponseMapper {
     func map(response: ExchangeRatesDataResponse) -> [CurrencyRate]
 }
 
-class CurrencyRateResponseMapper {
+class CurrencyRateResponseMapperImpl {
     
 }
 
-extension CurrencyRateResponseMapper: CurrencyRateResponseMapperProtocol {
+extension CurrencyRateResponseMapperImpl: CurrencyRateResponseMapper {
     func map(response: ExchangeRatesDataResponse) -> [CurrencyRate] {
         response.rates.map { rateAPI in
                 .init(id: rateAPI.key, rate: rateAPI.value)

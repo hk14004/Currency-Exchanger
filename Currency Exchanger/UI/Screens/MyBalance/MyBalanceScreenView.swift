@@ -34,7 +34,7 @@ struct MyBalanceScreenView: View {
 
 extension MyBalanceScreenView {
     private func createMyBalancesView() -> some View {
-        List(viewModel.sections, id: \.uuid) { section in
+        List(viewModel.sections, id: \.identifier) { section in
             Section {
                 ForEach(section.cells, id: \.self) { cell in
                     switch cell {

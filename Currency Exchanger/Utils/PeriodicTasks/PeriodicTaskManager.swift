@@ -30,7 +30,7 @@ extension AppPeriodicTaskManager {
     }
 
     private func registerRefreshCurrencyRatesTask() {
-        let task = RefreshCurrencyRatesTask(currencyRepository: DI.resolve(CurrencyRepositoryProtocol.self)!)
+        let task = RefreshCurrencyRatesTask(currencyRepository: DI.container.resolve(CurrencyRepository.self)!)
         registerTask(task: task)
     }
 }

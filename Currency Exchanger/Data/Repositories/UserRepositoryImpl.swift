@@ -10,7 +10,7 @@ import DevToolsRealm
 import RealmSwift
 import Combine
 
-protocol UserRepositoryProtocol {
+protocol UserRepository {
     func getUser(id: String) async -> User?
     func getUser(id: String) -> User?
     
@@ -18,21 +18,21 @@ protocol UserRepositoryProtocol {
     func addOrUpdate(user: User)
 }
 
-class UserRepository {
+class UserRepositoryImpl {
     
     // MARK: Properties
     
-    private var userStore: PersistentRealmStore<User>
+    private var userStore: BasePersistedLayerInterface<User>
     
     // MARK: Init
     
-    init(userStore: PersistentRealmStore<User>) {
+    init(userStore: BasePersistedLayerInterface<User>) {
         self.userStore = userStore
     }
     
 }
 
-extension UserRepository: UserRepositoryProtocol {
+extension UserRepositoryImpl: UserRepository {
     func getUser(id: String) -> User? {
         userStore.getSingle(id: id)
     }

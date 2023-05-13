@@ -19,12 +19,12 @@ enum CurrencyProviderError: Swift.Error {
     case userError(description: String)
 }
 
-protocol CurrencyProviderProtocol {
+protocol CurrencyProvider {
     func fetchCurrencies() async throws -> CurrencyResponse
     func fetchExchangeRatesData() async throws -> ExchangeRatesDataResponse
 }
 
-class CurrencyProvider {
+class CurrencyProviderImpl {
     
     private let provider: MoyaProvider<CurrencyAPITarget>
     private let requestManager: RequestManager<CurrencyAPITarget>
@@ -37,7 +37,7 @@ class CurrencyProvider {
     }
 }
 
-extension CurrencyProvider: CurrencyProviderProtocol {
+extension CurrencyProviderImpl: CurrencyProvider {
     func fetchExchangeRatesData() async throws -> ExchangeRatesDataResponse {
         try await withCheckedThrowingContinuation({ cont in
             let target = CurrencyAPITarget(endpoint: .getRates, headers: ["apiKey": CURRENCY_API_KEY])
@@ -74,7 +74,7 @@ extension CurrencyProvider: CurrencyProviderProtocol {
 
 // MARK: Private
 
-extension CurrencyProvider {
+extension CurrencyProviderImpl {
     private func loadCurrenciesJson(fileName: String) -> CurrencyResponse? {
         let decoder = JSONDecoder()
         guard let url = Bundle.main.url(forResource: fileName, withExtension: "json") else {

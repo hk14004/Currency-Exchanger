@@ -10,7 +10,7 @@ import DevToolsRealm
 import RealmSwift
 import Combine
 
-protocol CurrencyRepositoryProtocol {
+protocol CurrencyRepository {
     // Remote data
     func refreshCurrencies() async
     func refreshCurrencyRate() async
@@ -22,22 +22,22 @@ protocol CurrencyRepositoryProtocol {
     func observeRates() -> AnyPublisher<[CurrencyRate], Never>
 }
 
-class CurrencyRepository {
+class CurrencyRepositoryImpl {
     
     // MARK: Properties
     
-    private var currencyStore: PersistentRealmStore<Currency>
-    private var currencyAPIService: CurrencyProviderProtocol
-    private var currencyRateStore: PersistentRealmStore<CurrencyRate>
-    private var currencyRateResponseMapper: CurrencyRateResponseMapperProtocol
-    private var currencyResponseMapper: CurrencyResponseMapperProtocol
+    private var currencyStore: BasePersistedLayerInterface<Currency>
+    private var currencyAPIService: CurrencyProvider
+    private var currencyRateStore: BasePersistedLayerInterface<CurrencyRate>
+    private var currencyRateResponseMapper: CurrencyRateResponseMapper
+    private var currencyResponseMapper: CurrencyResponseMapper
     
     // MARK: Init
     
-    init(currencyStore: PersistentRealmStore<Currency>, currencyAPIService: CurrencyProviderProtocol,
-         currencyRateStore: PersistentRealmStore<CurrencyRate>,
-         currencyRateResponseMapper: CurrencyRateResponseMapperProtocol,
-         currencyResponseMapper: CurrencyResponseMapperProtocol) {
+    init(currencyStore: BasePersistedLayerInterface<Currency>, currencyAPIService: CurrencyProvider,
+         currencyRateStore: BasePersistedLayerInterface<CurrencyRate>,
+         currencyRateResponseMapper: CurrencyRateResponseMapper,
+         currencyResponseMapper: CurrencyResponseMapper) {
         self.currencyStore = currencyStore
         self.currencyAPIService = currencyAPIService
         self.currencyRateStore = currencyRateStore
@@ -47,7 +47,7 @@ class CurrencyRepository {
     
 }
 
-extension CurrencyRepository: CurrencyRepositoryProtocol {
+extension CurrencyRepositoryImpl: CurrencyRepository {
     func getRates() async -> [CurrencyRate] {
         await currencyRateStore.getList()
     }

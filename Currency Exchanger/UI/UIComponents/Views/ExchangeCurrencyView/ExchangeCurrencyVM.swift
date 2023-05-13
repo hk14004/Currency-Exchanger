@@ -48,12 +48,12 @@ class ExchangeCurrencyVM: ObservableObject {
     @Published var fieldType: FieldType = .inputAmount
     
     private var fetchedCurrencies: [Currency]?
-    private let currencyRepository: CurrencyRepositoryProtocol
+    private let currencyRepository: CurrencyRepository
     private(set) var amountChangedDate: Date?
     weak var delegate: ExchangeCurrencyVMDelegate?
     private var skip = false
     
-    init(option: Option, amount: Money, currencyRepository: CurrencyRepositoryProtocol) {
+    init(option: Option, amount: Money, currencyRepository: CurrencyRepository) {
         self.option = option
         self.amountInput = amount
         self.currencyRepository = currencyRepository

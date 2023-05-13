@@ -15,25 +15,12 @@ class MyBalanceScreenVM: ObservableObject {
     
     // MARK: Types
     
-    enum SectionIdentifiers: String {
-        case currencyExchange
-        case myBalances
-    }
-    
     enum AlertType {
         case notEnoughMoney
         case cannotExchangeSameCurrency
         case unknownRate
         case providePositiveNumber
         case conversionSuccesful(message: String)
-    }
-    
-    enum Cell: Hashable {
-        case walletPlacehoder
-        case emptyWallet
-        case currencyAmount(CurrencyBalance)
-        case exchangeCurrency(ExchangeCurrencyVM)
-        case performExchange
     }
     
     class Bag {
@@ -48,12 +35,26 @@ class MyBalanceScreenVM: ObservableObject {
     
     struct Section: UISectionModelProtocol {
         
-        let uuid: String
+        enum Identifier: String, CaseIterable {
+            case currencyExchange
+            case myBalances
+        }
+        
+        
+        enum Cell: Hashable {
+            case walletPlacehoder
+            case emptyWallet
+            case currencyAmount(CurrencyBalance)
+            case exchangeCurrency(ExchangeCurrencyVM)
+            case performExchange
+        }
+        
+        let identifier: Identifier
         var title: String
         var cells: [Cell]
         
-        init(uuid: String, title: String, cells: [Cell]) {
-            self.uuid = uuid
+        init(identifier: Identifier, title: String, cells: [Cell]) {
+            self.identifier = identifier
             self.title = title
             self.cells = cells
         }
@@ -68,9 +69,9 @@ class MyBalanceScreenVM: ObservableObject {
     @Published var exchangeInProgress: Bool = false
     
     // Input
-    private let balanaceRepository: CurrencyBalanceRepositoryProtocol
-    private let currencyRepository: CurrencyRepositoryProtocol
-    private let currencyExchangeService: CurrencyExchangeServiceProtocol
+    private let balanaceRepository: CurrencyBalanceRepository
+    private let currencyRepository: CurrencyRepository
+    private let currencyExchangeService: CurrencyExchangeService
     
     // Other
     private let cache = Cache()
@@ -88,9 +89,9 @@ class MyBalanceScreenVM: ObservableObject {
     
     // MARK: Init
     
-    init(balanaceRepository: CurrencyBalanceRepositoryProtocol,
-         currencyRepository: CurrencyRepositoryProtocol,
-         currencyConverter: CurrencyExchangeServiceProtocol) {
+    init(balanaceRepository: CurrencyBalanceRepository,
+         currencyRepository: CurrencyRepository,
+         currencyConverter: CurrencyExchangeService) {
         self.balanaceRepository = balanaceRepository
         self.currencyRepository = currencyRepository
         self.currencyExchangeService = currencyConverter
@@ -220,15 +221,15 @@ extension MyBalanceScreenVM {
     }
     
     private func createMyBalanceSection(items: [CurrencyBalance]?) -> Section {
-        let cells: [Cell] = {
+        let cells: [Section.Cell] = {
             if items == nil {
                 return [.walletPlacehoder]
             }
-            var balanceCells: [Cell] = items?.compactMap { balance -> Cell? in
+            var balanceCells: [Section.Cell] = items?.compactMap { balance -> Section.Cell? in
                 if balance.balance <= 0 {
                     return nil
                 }
-                return Cell.currencyAmount(balance)
+                return Section.Cell.currencyAmount(balance)
             } ?? []
             if balanceCells.isEmpty {
                 balanceCells.append(.emptyWallet)
@@ -236,16 +237,16 @@ extension MyBalanceScreenVM {
             
             return balanceCells
         }()
-        return Section(uuid: SectionIdentifiers.myBalances.rawValue, title: "MY BALANCES", cells: cells)
+        return Section(identifier: Section.Identifier.myBalances, title: "MY BALANCES", cells: cells)
     }
     
     private func createCurrencyExchangeSection() -> Section {
-        let cells: [Cell] = [
+        let cells: [Section.Cell] = [
             .exchangeCurrency(sellAmountCellVM),
             .exchangeCurrency(buyAmountCellVM),
             .performExchange
         ]
-        return Section(uuid: SectionIdentifiers.currencyExchange.rawValue, title: "CURRENCY EXCHANGE", cells: cells)
+        return Section(identifier: Section.Identifier.currencyExchange, title: "CURRENCY EXCHANGE", cells: cells)
     }
     
     private func onEstimateConversion(action: ConversionAction, inputAmount: Money) throws -> CurrencyConversionResult {

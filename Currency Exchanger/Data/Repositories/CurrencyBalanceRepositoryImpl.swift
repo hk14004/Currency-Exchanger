@@ -10,7 +10,7 @@ import DevToolsRealm
 import RealmSwift
 import Combine
 
-protocol CurrencyBalanceRepositoryProtocol {
+protocol CurrencyBalanceRepository {
     func setBalance(_ balance: [CurrencyBalance]) async
     func observeBalance() -> AnyPublisher<[CurrencyBalance], Never>
     func getBalance() async -> [CurrencyBalance]
@@ -18,21 +18,21 @@ protocol CurrencyBalanceRepositoryProtocol {
     func addOrUpdate(currencyBalance: [CurrencyBalance]) async
 }
 
-class CurrencyBalanceRepository {
+class CurrencyBalanceRepositoryImpl {
     
     // MARK: Properties
     
-    private var currencyBalanceStore: PersistentRealmStore<CurrencyBalance>
+    private var currencyBalanceStore: BasePersistedLayerInterface<CurrencyBalance>
     
     // MARK: Init
     
-    init(currencyBalanceStore: PersistentRealmStore<CurrencyBalance>) {
+    init(currencyBalanceStore: BasePersistedLayerInterface<CurrencyBalance>) {
         self.currencyBalanceStore = currencyBalanceStore
     }
 
 }
 
-extension CurrencyBalanceRepository: CurrencyBalanceRepositoryProtocol {
+extension CurrencyBalanceRepositoryImpl: CurrencyBalanceRepository {
     func addOrUpdate(currencyBalance: [CurrencyBalance]) async {
         await currencyBalanceStore.addOrUpdate(currencyBalance)
     }

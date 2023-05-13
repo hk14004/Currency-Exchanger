@@ -7,15 +7,15 @@
 
 import Foundation
 
-protocol CurrencyResponseMapperProtocol {
+protocol CurrencyResponseMapper {
     func map(response: CurrencyResponse) -> [Currency]
 }
 
-class CurrencyResponseMapper {
+class CurrencyResponseMapperImpl {
     
 }
 
-extension CurrencyResponseMapper: CurrencyResponseMapperProtocol {
+extension CurrencyResponseMapperImpl: CurrencyResponseMapper {
     func map(response: CurrencyResponse) -> [Currency] {
         response.currencies.compactMap { apiCurrency in
             Currency(id: apiCurrency.id)

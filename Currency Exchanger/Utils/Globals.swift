@@ -11,9 +11,8 @@ import DevToolsCore
 class Globals {
     
     static func prepareTestUser() {
-        let container = DI
-        let user = container.resolve(User.self)!
-        let userRepo = container.resolve(UserRepositoryProtocol.self)!
+        let user = DI.container.resolve(User.self)!
+        let userRepo = DI.container.resolve(UserRepository.self)!
         guard userRepo.getUser(id: user.id) == nil else {
             // User already created
             return
@@ -22,29 +21,28 @@ class Globals {
         userRepo.addOrUpdate(user: user)
         
         // Add initial balance
-        let curBalanceRepo = container.resolve(CurrencyBalanceRepositoryProtocol.self)!
+        let curBalanceRepo = DI.container.resolve(CurrencyBalanceRepository.self)!
         Task {
             await curBalanceRepo.setBalance([.init(id: "EUR", balance: 1000)])
         }
     }
     
     static func printAppsState() {
-        let container = DI
         sanityCheck {
             // Check user
-            let user = container.resolve(User.self)!
-            let userRepo = container.resolve(UserRepositoryProtocol.self)!
+            let user = DI.container.resolve(User.self)!
+            let userRepo = DI.container.resolve(UserRepository.self)!
             print("User:")
             print(userRepo.getUser(id: user.id)!)
             
             // Check balance
-            let curBalanceRepo = container.resolve(CurrencyBalanceRepositoryProtocol.self)!
+            let curBalanceRepo = DI.container.resolve(CurrencyBalanceRepository.self)!
             Task {
                 print("Balance:")
                 print(await curBalanceRepo.getBalance())
                 
                 // Check currencies
-                let currencyRepo = container.resolve(CurrencyRepositoryProtocol.self)!
+                let currencyRepo = DI.container.resolve(CurrencyRepository.self)!
                 print("Currencies:")
                 print(await currencyRepo.getCurrencies())
                 
