@@ -31,12 +31,6 @@
 		D4178444296C5AB400A92A80 /* ExchangeCurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4178443296C5AB400A92A80 /* ExchangeCurrencyView.swift */; };
 		D4178446296C5ABE00A92A80 /* ExchangeCurrencyVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4178445296C5ABE00A92A80 /* ExchangeCurrencyVM.swift */; };
 		D4178449296C612200A92A80 /* Currency_DB.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4178448296C612200A92A80 /* Currency_DB.swift */; };
-		D423F0F72A0FA51F00AB33C8 /* DependencyProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D423F0F62A0FA51F00AB33C8 /* DependencyProvider.swift */; };
-		D423F0FA2A0FA61A00AB33C8 /* DataMapperAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D423F0F92A0FA61A00AB33C8 /* DataMapperAssembly.swift */; };
-		D423F0FC2A0FA8F400AB33C8 /* DataProviderAssambly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D423F0FB2A0FA8F400AB33C8 /* DataProviderAssambly.swift */; };
-		D423F1002A0FA9F800AB33C8 /* PersistentRealmStoreAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D423F0FF2A0FA9F800AB33C8 /* PersistentRealmStoreAssembly.swift */; };
-		D423F1022A0FAB7300AB33C8 /* RepositoryAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D423F1012A0FAB7300AB33C8 /* RepositoryAssembly.swift */; };
-		D423F1042A0FB37E00AB33C8 /* DomainAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D423F1032A0FB37E00AB33C8 /* DomainAssembly.swift */; };
 		D423F1102A0FBE8F00AB33C8 /* CurrencyRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D423F10F2A0FBE8F00AB33C8 /* CurrencyRepository.swift */; };
 		D423F1172A0FBF3300AB33C8 /* CurrencyBalanceRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D423F1162A0FBF3300AB33C8 /* CurrencyBalanceRepository.swift */; };
 		D423F11B2A0FBFBF00AB33C8 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D423F11A2A0FBFBF00AB33C8 /* UserRepository.swift */; };
@@ -60,12 +54,10 @@
 		D4FE43D629F90775003FDCCD /* DevToolsNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = D4FE43D529F90775003FDCCD /* DevToolsNetworking */; };
 		D4FE43D829F90775003FDCCD /* DevToolsRealm in Frameworks */ = {isa = PBXBuildFile; productRef = D4FE43D729F90775003FDCCD /* DevToolsRealm */; };
 		D4FE43DA29F90775003FDCCD /* DevToolsUI in Frameworks */ = {isa = PBXBuildFile; productRef = D4FE43D929F90775003FDCCD /* DevToolsUI */; };
-		D4FE43E329F90A36003FDCCD /* Hosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE43E229F90A36003FDCCD /* Hosts.swift */; };
 		D4FE43E529F92801003FDCCD /* CurrencyExchanger.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE43E429F92801003FDCCD /* CurrencyExchanger.swift */; };
 		D4FE43E929F93F6D003FDCCD /* RefreshCurrencyRatesTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE43E829F93F6D003FDCCD /* RefreshCurrencyRatesTask.swift */; };
 		D4FE43EB29F93F9C003FDCCD /* PeriodicTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE43EA29F93F9C003FDCCD /* PeriodicTask.swift */; };
 		D4FE43ED29F94B2B003FDCCD /* PeriodicTaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE43EC29F94B2B003FDCCD /* PeriodicTaskManager.swift */; };
-		D4FE43F129F99900003FDCCD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE43F029F998FF003FDCCD /* Constants.swift */; };
 		D4FE43F529F99E4D003FDCCD /* CurrencyRateResponseMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE43F429F99E4D003FDCCD /* CurrencyRateResponseMapper.swift */; };
 		D4FE43F729F9A004003FDCCD /* CurrencyResponseMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE43F629F9A004003FDCCD /* CurrencyResponseMapper.swift */; };
 /* End PBXBuildFile section */
@@ -94,12 +86,6 @@
 		D4178443296C5AB400A92A80 /* ExchangeCurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeCurrencyView.swift; sourceTree = "<group>"; };
 		D4178445296C5ABE00A92A80 /* ExchangeCurrencyVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeCurrencyVM.swift; sourceTree = "<group>"; };
 		D4178448296C612200A92A80 /* Currency_DB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency_DB.swift; sourceTree = "<group>"; };
-		D423F0F62A0FA51F00AB33C8 /* DependencyProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyProvider.swift; sourceTree = "<group>"; };
-		D423F0F92A0FA61A00AB33C8 /* DataMapperAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataMapperAssembly.swift; sourceTree = "<group>"; };
-		D423F0FB2A0FA8F400AB33C8 /* DataProviderAssambly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProviderAssambly.swift; sourceTree = "<group>"; };
-		D423F0FF2A0FA9F800AB33C8 /* PersistentRealmStoreAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentRealmStoreAssembly.swift; sourceTree = "<group>"; };
-		D423F1012A0FAB7300AB33C8 /* RepositoryAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryAssembly.swift; sourceTree = "<group>"; };
-		D423F1032A0FB37E00AB33C8 /* DomainAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainAssembly.swift; sourceTree = "<group>"; };
 		D423F10F2A0FBE8F00AB33C8 /* CurrencyRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyRepository.swift; sourceTree = "<group>"; };
 		D423F1162A0FBF3300AB33C8 /* CurrencyBalanceRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyBalanceRepository.swift; sourceTree = "<group>"; };
 		D423F11A2A0FBFBF00AB33C8 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
@@ -119,12 +105,10 @@
 		D48A9B07296C1382007F45F2 /* CurrencyPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPickerView.swift; sourceTree = "<group>"; };
 		D48A9B0B296C185E007F45F2 /* CurrencyBalance_DB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyBalance_DB.swift; sourceTree = "<group>"; };
 		D48A9B11296C240F007F45F2 /* User_DB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User_DB.swift; sourceTree = "<group>"; };
-		D4FE43E229F90A36003FDCCD /* Hosts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hosts.swift; sourceTree = "<group>"; };
 		D4FE43E429F92801003FDCCD /* CurrencyExchanger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyExchanger.swift; sourceTree = "<group>"; };
 		D4FE43E829F93F6D003FDCCD /* RefreshCurrencyRatesTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshCurrencyRatesTask.swift; sourceTree = "<group>"; };
 		D4FE43EA29F93F9C003FDCCD /* PeriodicTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodicTask.swift; sourceTree = "<group>"; };
 		D4FE43EC29F94B2B003FDCCD /* PeriodicTaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodicTaskManager.swift; sourceTree = "<group>"; };
-		D4FE43F029F998FF003FDCCD /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		D4FE43F429F99E4D003FDCCD /* CurrencyRateResponseMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyRateResponseMapper.swift; sourceTree = "<group>"; };
 		D4FE43F629F9A004003FDCCD /* CurrencyResponseMapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyResponseMapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -265,18 +249,6 @@
 				86894F702988801A00A41E10 /* Currency_DB + PersistedModelProtocol.swift */,
 			);
 			path = Currency;
-			sourceTree = "<group>";
-		};
-		D423F0F82A0FA52F00AB33C8 /* Assemblies */ = {
-			isa = PBXGroup;
-			children = (
-				D423F1032A0FB37E00AB33C8 /* DomainAssembly.swift */,
-				D423F0F92A0FA61A00AB33C8 /* DataMapperAssembly.swift */,
-				D423F0FB2A0FA8F400AB33C8 /* DataProviderAssambly.swift */,
-				D423F0FF2A0FA9F800AB33C8 /* PersistentRealmStoreAssembly.swift */,
-				D423F1012A0FAB7300AB33C8 /* RepositoryAssembly.swift */,
-			);
-			path = Assemblies;
 			sourceTree = "<group>";
 		};
 		D423F1052A0FB85F00AB33C8 /* Domain */ = {
@@ -450,7 +422,6 @@
 			children = (
 				D42845CA296C03FE00B97ADE /* AppDelegate.swift */,
 				D42845CC296C03FE00B97ADE /* SceneDelegate.swift */,
-				D4FE43DD29F909A6003FDCCD /* Config */,
 				861F1618298EF57600C59DF5 /* Presentation */,
 				D423F1052A0FB85F00AB33C8 /* Domain */,
 				D423F1072A0FB97E00AB33C8 /* Infrastructure */,
@@ -587,32 +558,6 @@
 			path = CurrencyExchanger;
 			sourceTree = "<group>";
 		};
-		D4FE43DD29F909A6003FDCCD /* Config */ = {
-			isa = PBXGroup;
-			children = (
-				D4FE43DE29F909AF003FDCCD /* Dependencies */,
-				D4FE43EF29F998F6003FDCCD /* Constants */,
-			);
-			path = Config;
-			sourceTree = "<group>";
-		};
-		D4FE43DE29F909AF003FDCCD /* Dependencies */ = {
-			isa = PBXGroup;
-			children = (
-				D423F0F62A0FA51F00AB33C8 /* DependencyProvider.swift */,
-				D423F0F82A0FA52F00AB33C8 /* Assemblies */,
-			);
-			path = Dependencies;
-			sourceTree = "<group>";
-		};
-		D4FE43E129F90A29003FDCCD /* Hosts */ = {
-			isa = PBXGroup;
-			children = (
-				D4FE43E229F90A36003FDCCD /* Hosts.swift */,
-			);
-			path = Hosts;
-			sourceTree = "<group>";
-		};
 		D4FE43E729F93F02003FDCCD /* PeriodicTasks */ = {
 			isa = PBXGroup;
 			children = (
@@ -629,15 +574,6 @@
 				D4FE43E829F93F6D003FDCCD /* RefreshCurrencyRatesTask.swift */,
 			);
 			path = Tasks;
-			sourceTree = "<group>";
-		};
-		D4FE43EF29F998F6003FDCCD /* Constants */ = {
-			isa = PBXGroup;
-			children = (
-				D4FE43E129F90A29003FDCCD /* Hosts */,
-				D4FE43F029F998FF003FDCCD /* Constants.swift */,
-			);
-			path = Constants;
 			sourceTree = "<group>";
 		};
 		D4FE43F229F99DBC003FDCCD /* Mappers */ = {
@@ -739,16 +675,12 @@
 				D4178441296C4C6200A92A80 /* CurrencyBalanceItemVM.swift in Sources */,
 				D417843F296C4C4C00A92A80 /* CurrencyBalanceItemView.swift in Sources */,
 				D42845EF296C0C0600B97ADE /* BuySellIndicatorView.swift in Sources */,
-				D423F0F72A0FA51F00AB33C8 /* DependencyProvider.swift in Sources */,
 				D4FE43ED29F94B2B003FDCCD /* PeriodicTaskManager.swift in Sources */,
 				862FC133298C66FE007A2A88 /* CurrencyRate_DB.swift in Sources */,
 				D42845EB296C09C500B97ADE /* Colors.swift in Sources */,
-				D4FE43E329F90A36003FDCCD /* Hosts.swift in Sources */,
 				862FC1222989E80D007A2A88 /* CurrencyBalance_DB + PersistedModelProtocol.swift in Sources */,
 				862FC12D298AD88F007A2A88 /* CurrencyAPITarget.swift in Sources */,
-				D423F1042A0FB37E00AB33C8 /* DomainAssembly.swift in Sources */,
 				D4FE43E929F93F6D003FDCCD /* RefreshCurrencyRatesTask.swift in Sources */,
-				D423F0FA2A0FA61A00AB33C8 /* DataMapperAssembly.swift in Sources */,
 				D48A9B0C296C185E007F45F2 /* CurrencyBalance_DB.swift in Sources */,
 				D4FE43F529F99E4D003FDCCD /* CurrencyRateResponseMapper.swift in Sources */,
 				D4178449296C612200A92A80 /* Currency_DB.swift in Sources */,
@@ -757,21 +689,17 @@
 				D423F1102A0FBE8F00AB33C8 /* CurrencyRepository.swift in Sources */,
 				861F1616298EF50200C59DF5 /* ExchangeRatesDataResponse.swift in Sources */,
 				D423F1232A0FC1AC00AB33C8 /* CurrencyProviderImpl.swift in Sources */,
-				D423F0FC2A0FA8F400AB33C8 /* DataProviderAssambly.swift in Sources */,
 				D42845E3296C081400B97ADE /* MyBalanceScreenVM.swift in Sources */,
 				862FC138298C6A3E007A2A88 /* CurrencyRate.swift in Sources */,
 				862FC11D2989A4D5007A2A88 /* UserRepositoryImpl.swift in Sources */,
 				D4FE43EB29F93F9C003FDCCD /* PeriodicTask.swift in Sources */,
-				D4FE43F129F99900003FDCCD /* Constants.swift in Sources */,
 				D4178446296C5ABE00A92A80 /* ExchangeCurrencyVM.swift in Sources */,
-				D423F1022A0FAB7300AB33C8 /* RepositoryAssembly.swift in Sources */,
 				862FC10F29897DBF007A2A88 /* CurrencyRepositoryImpl.swift in Sources */,
 				D423F11B2A0FBFBF00AB33C8 /* UserRepository.swift in Sources */,
 				D42845CD296C03FE00B97ADE /* SceneDelegate.swift in Sources */,
 				8656EDAB298878980055722A /* Currency.swift in Sources */,
 				8656EDAD29887B5B0055722A /* User.swift in Sources */,
 				D4178444296C5AB400A92A80 /* ExchangeCurrencyView.swift in Sources */,
-				D423F1002A0FA9F800AB33C8 /* PersistentRealmStoreAssembly.swift in Sources */,
 				861F1614298EF4F200C59DF5 /* CurrencyResponse.swift in Sources */,
 				D4FE43F729F9A004003FDCCD /* CurrencyResponseMapper.swift in Sources */,
 				862FC11B2989A1EF007A2A88 /* User_DB + PersistedModelProtocol.swift in Sources */,
